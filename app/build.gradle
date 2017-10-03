@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -19,6 +20,10 @@ android {
     }
 }
 
+ext {
+    supportLibVersion = '25.3.1'  // variable that can be referenced to keep support libs consistent
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -26,4 +31,12 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:25.3.1"
+    compile "com.android.support:design:25.3.1"
+    compile "com.android.support:recyclerview-v7:25.3.1"
+    compile "com.android.support:percent:25.3.1"
+    compile "com.android.support:support-vector-drawable:25.3.1" // VectorDrawableCompat
+    compile "com.android.support:animated-vector-drawable:25.3.1" // AnimatedVectorDrawableCompat
+    compile "com.android.support:transition:25.3.1"
+    compile "com.android.support:support-annotations:25.3.1"
 }
