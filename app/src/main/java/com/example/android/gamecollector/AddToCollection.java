@@ -32,6 +32,6 @@ public class AddToCollection extends AppCompatActivity {
     }
 
     private void addToDatabase(ArrayList<ArrayList<List<String>>> collectables) {
-        
+
     }
 }

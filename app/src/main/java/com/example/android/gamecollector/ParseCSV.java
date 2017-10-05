@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 /**
  * Created by shalom on 2017-10-04.
- * This class will parse .csv files into JSON files using JSONBuilder.java that are exported from the spreadsheats which contain data about
+ * This class will parse .csv files that were exported from the spreadsheats and contain data about
  * collectible items.
- * Takes into account the .csv file will have values with " and , inside
+ * Takes into account the .csv file can have values with " and , inside
  */
 
 public class ParseCSV {
@@ -22,10 +22,15 @@ public class ParseCSV {
     private static final char DEFAULT_QUOTE = '"';
     private static Context context;
 
+    public ParseCSV(Context context) {
+        this.context = context;
+    }
+
     /**
      * @return A list of arrays containing an array for every line in each csv file
      */
-    protected static ArrayList<List<String>> parseFiles() {
+    protected ArrayList<List<String>> parseFiles() {
+
         ArrayList<List<String>> everyParsedLine = new ArrayList<>();
         ArrayList<InputStream> csvArray = new ArrayList<>();
 
@@ -48,9 +53,12 @@ public class ParseCSV {
 
             while (scanner.hasNext()) {
                 List<String> line = parseLine(scanner.nextLine());
-                Log.e(LOG_TAG, "console: " + line.get(0) + ", title: " + line.get(1)
+                Log.i(LOG_TAG, "console: " + line.get(0) + ", title: " + line.get(1)
                         + ", licensee: " + line.get(2) + ", release date: " + line.get(3));
-                everyParsedLine.add(line);
+
+                if(line.get(0) != "Console") {
+                    everyParsedLine.add(line);
+                }
             }
             scanner.close();
         }
