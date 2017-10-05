@@ -1,17 +1,18 @@
 package com.example.android.gamecollector;
 
+import android.content.Context;
 import android.util.Log;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
  * Created by shalom on 2017-10-04.
- * This class will parse .csv files that are exported from the spreadsheats which contain data about
+ * This class will parse .csv files into JSON files using JSONBuilder.java that are exported from the spreadsheats which contain data about
  * collectible items.
+ * Takes into account the .csv file will have values with " and , inside
  */
 
 public class ParseCSV {
@@ -19,47 +20,57 @@ public class ParseCSV {
     public static final String LOG_TAG = ParseCSV.class.getSimpleName();
     private static final char DEFAULT_SEPARATOR = ',';
     private static final char DEFAULT_QUOTE = '"';
+    private static Context context;
 
-    public ParseCSV() {
-        //CSV files for each console
-        String nesCsv = ""; //NES
-        String snesCsv = ""; //SNES
-        String n64Csv = ""; //N64
-        String gbCsv = ""; //Original Gameboy
-        String gbcCsv = ""; //Gameboy Color
+    /**
+     * @return A list of arrays containing an array for every line in each csv file
+     */
+    protected static ArrayList<List<String>> parseFiles() {
+        ArrayList<List<String>> everyParsedLine = new ArrayList<>();
+        ArrayList<InputStream> csvArray = new ArrayList<>();
 
+        InputStream nesCsv = context.getResources().openRawResource(R.raw.nintendo_entertainment_system); //NES
+        InputStream snesCsv = context.getResources().openRawResource(R.raw.super_nintendo_entertainment_system); //SNES
+        InputStream n64Csv = context.getResources().openRawResource(R.raw.nintendo64); //N64
+        InputStream gbCsv = context.getResources().openRawResource(R.raw.original_gameboy); //Original Gameboy
+        InputStream gbcCsv = context.getResources().openRawResource(R.raw.gameboy_color); //Gameboy Color
 
+        csvArray.add(nesCsv);
+        csvArray.add(snesCsv);
+        csvArray.add(n64Csv);
+        csvArray.add(gbCsv);
+        csvArray.add(gbcCsv);
 
         Scanner scanner = null;
-        try {
-            scanner = new Scanner(new File(csvFile));
+
+        for(InputStream csv : csvArray) {
+            scanner = new Scanner(csv);
 
             while (scanner.hasNext()) {
                 List<String> line = parseLine(scanner.nextLine());
                 Log.e(LOG_TAG, "console: " + line.get(0) + ", title: " + line.get(1)
                         + ", licensee: " + line.get(2) + ", release date: " + line.get(3));
+                everyParsedLine.add(line);
             }
             scanner.close();
-        } catch (FileNotFoundException e) {
-            Log.e(LOG_TAG, "FileNotFoundException invoked");
-            e.printStackTrace();
         }
+        return everyParsedLine;
     }
 
-    public static List<String> parseLine(String cvsLine) {
-        return parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+    private static List<String> parseLine(String csvLine) {
+        return parseLine(csvLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
     }
 
-    public static List<String> parseLine(String cvsLine, char separators) {
-        return parseLine(cvsLine, separators, DEFAULT_QUOTE);
+    private static List<String> parseLine(String csvLine, char separators) {
+        return parseLine(csvLine, separators, DEFAULT_QUOTE);
     }
 
-    public static List<String> parseLine(String cvsLine, char separators, char customQuote) {
+    private static List<String> parseLine(String csvLine, char separators, char customQuote) {
 
         List<String> result = new ArrayList<>();
 
         //if empty, return!
-        if (cvsLine == null && cvsLine.isEmpty()) {
+        if (csvLine == null && csvLine.isEmpty()) {
             return result;
         }
 
@@ -76,7 +87,7 @@ public class ParseCSV {
         boolean startCollectChar = false;
         boolean doubleQuotesInColumn = false;
 
-        char[] chars = cvsLine.toCharArray();
+        char[] chars = csvLine.toCharArray();
 
         for (char ch : chars) {
 
@@ -138,5 +149,4 @@ public class ParseCSV {
         return result;
     }
 
-}
 }
