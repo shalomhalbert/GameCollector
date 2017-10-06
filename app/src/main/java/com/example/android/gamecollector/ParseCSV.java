@@ -49,15 +49,19 @@ public class ParseCSV {
         Scanner scanner = null;
 
         for(InputStream csv : csvArray) {
+            boolean firstLineTracker = true; //False when scanner is not on first line
             scanner = new Scanner(csv);
 
             while (scanner.hasNext()) {
+
                 List<String> line = parseLine(scanner.nextLine());
                 Log.i(LOG_TAG, "console: " + line.get(0) + ", title: " + line.get(1)
                         + ", licensee: " + line.get(2) + ", release date: " + line.get(3));
 
-                if(line.get(0) != "Console") {
+                if(firstLineTracker == false) {
                     everyParsedLine.add(line);
+                } else {
+                    firstLineTracker = false;
                 }
             }
             scanner.close();
