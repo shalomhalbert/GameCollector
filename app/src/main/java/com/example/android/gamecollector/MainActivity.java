@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity{
         database = FirebaseDatabase.getInstance();
         personalCollection = database.getReference().child("personal_collection");
 
-        personalCollection.setValue("Hello collection");
     }
 
     /*
