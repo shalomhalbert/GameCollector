@@ -29,7 +29,7 @@ public class ParseCSV {
     /**
      * @return A list of arrays containing an array for every line in each csv file
      */
-    protected ArrayList<List<String>> parseFiles() {
+    public ArrayList<List<String>> parseFiles() {
 
         ArrayList<List<String>> everyParsedLine = new ArrayList<>();
         ArrayList<InputStream> csvArray = new ArrayList<>();
