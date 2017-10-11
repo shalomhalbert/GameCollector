@@ -1,5 +1,6 @@
 package com.example.android.gamecollector.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -40,6 +41,12 @@ public final class CollectablesContract {
          * Table constraints: DEFAULT unknown */
         public static final String COLUMN_RELEASED = "released";
 
-        //Add MIME type Strings
+        /*MIME type for a list of video games*/
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/"
+                + CONTENT_AUTHORITY + "/" + PATH_VIDEO_GAMES;
+
+        /*MIME type for an individual video game*/
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/"
+                + CONTENT_AUTHORITY + "/" + PATH_VIDEO_GAMES;
     }
 }
