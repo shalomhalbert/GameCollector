@@ -18,10 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AddToCollection"
-            android:label="Add to Collection">
-        </activity>
         <provider
             android:name=".data.CollectablesProvider"
             android:authorities="com.example.android.gamecollector"
