@@ -1,6 +1,5 @@
 package com.example.android.gamecollector;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity{
      * Directs onClick attribute defined for the FloatingActionButton in activity_main.xml
      */
     public void collectionAddition(View target) {
-        Intent intent = new Intent(MainActivity.this, AddToCollection.class);
-        startActivity(intent);
+//        Intent intent = new Intent(MainActivity.this, /*Add intent if used*/);
+//        startActivity(intent);
     }
 }
