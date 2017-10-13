@@ -6,4 +6,7 @@
 
     <!--Relates to res/menu/options_menu.xml-->
     <string name="add_collectable_menu_title">Add collectable</string>
+
+    <!--Empty search activity filler text-->
+    <string name="type_to_search">Type what you want to search</string>
 </resources>

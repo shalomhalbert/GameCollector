@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/display_collectables_listview"
+        android:id="@+id/main_activity_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
