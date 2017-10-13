@@ -7,10 +7,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.ListView;
 
 import com.example.android.gamecollector.data.CollectablesContract.FtsVideoGamesEntry;
 import com.example.android.gamecollector.data.CollectablesContract.VideoGamesEntry;
 import com.example.android.gamecollector.data.CollectablesDbHelper;
+import com.example.android.gamecollector.data.VideoGameCursorAdaptor;
 
 /**
  * Created by shalom on 2017-10-11.
@@ -23,8 +25,13 @@ public class AddCollectableSearchResultsActivity extends ListActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        handleIntent(getIntent());
+        Cursor queryResults = handleIntent(getIntent());
+
+        ListView listView = (ListView) findViewById(R.id.display_collectables_listview);
+        VideoGameCursorAdaptor videoGameCursorAdaptor = new VideoGameCursorAdaptor(this, queryResults);
+        listView.setAdapter(videoGameCursorAdaptor);
     }
 
     @Override
@@ -33,7 +40,7 @@ public class AddCollectableSearchResultsActivity extends ListActivity {
         handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
+    private Cursor handleIntent(Intent intent) {
         if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
             sqLiteDatabase = collectablesDbHelper.getReadableDatabase();
 
@@ -48,6 +55,8 @@ public class AddCollectableSearchResultsActivity extends ListActivity {
                     + " MATCH ? );";
 
             Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery, selectionArgs);
+            return cursor;
         }
+        return null;
     }
 }
