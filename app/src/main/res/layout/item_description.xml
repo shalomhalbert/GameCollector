@@ -9,20 +9,31 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/list_item_imageview"
+        android:id="@+id/collectable_image"
         android:layout_width="60dp"
         android:layout_height="match_parent"
         tools:src="@drawable/goldeneye" />
 
     <TextView
+        android:id="@+id/collectable_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/list_item_imageview"
+        android:layout_toRightOf="@id/collectable_image"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
         tools:text="007 Goldeneye"/>
 
     <TextView
+        android:id="@+id/collectable_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/collectable_title"
+        android:layout_toRightOf="@id/collectable_image"
+        android:layout_marginLeft="16dp"
+        tools:text="Nintento 64"/>
+
+    <TextView
+        android:id="@+id/collectable_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
