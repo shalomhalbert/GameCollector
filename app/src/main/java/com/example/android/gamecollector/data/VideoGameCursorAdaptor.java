@@ -2,6 +2,7 @@ package com.example.android.gamecollector.data;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.example.android.gamecollector.data.CollectablesContract.*;
  */
 
 public class VideoGameCursorAdaptor extends CursorAdapter {
+    public static final String LOG_TAG = CursorAdapter.class.getSimpleName();
 
     /**
      * @param context   The context
@@ -50,6 +52,8 @@ public class VideoGameCursorAdaptor extends CursorAdapter {
         /*Extract properties from cursor*/
         String title = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_TITLE));
         String brand = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_CONSOLE));
+
+        Log.e(LOG_TAG,"Title: " + title + ", Brand: " + brand);
 
         /*Set Cursor properties to views*/
         titleTextView.setText(title);
