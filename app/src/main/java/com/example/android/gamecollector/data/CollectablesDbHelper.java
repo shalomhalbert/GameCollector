@@ -5,7 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.gamecollector.ParseCSV;
-import com.example.android.gamecollector.data.CollectablesContract.*;
+import com.example.android.gamecollector.data.CollectablesContract.FtsVideoGamesEntry;
+import com.example.android.gamecollector.data.CollectablesContract.VideoGamesEntry;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 public class CollectablesDbHelper extends SQLiteOpenHelper {
+    public static final String LOG_TAG = CollectablesDbHelper.class.getSimpleName();
     /*Database will contain all constant data about collectable items*/
     public static final String DATABASE_NAME = "collector_opportunities.db";
     /*Database version as of 2017-10-07*/
@@ -52,6 +54,7 @@ public class CollectablesDbHelper extends SQLiteOpenHelper {
 
     public CollectablesDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERION);
+        this.context = context;
     }
 
     @Override
@@ -83,11 +86,16 @@ public class CollectablesDbHelper extends SQLiteOpenHelper {
             String licensee = game.get(2);
             String released = game.get(3);
 
+            /*Handles titles that contain an apostrophe, which must be escaped before use in a SQL statement*/
+            if(title.contains("'")) {
+                title = title.replace("'", "''");
+            }
+
             /*SQL script used for inserting each video game into the VideoGames table*/
             String SQL_INSERT_VIDEO_GAMES = "INSERT INTO " + VideoGamesEntry.TABLE_NAME
                     + " (" + VideoGamesEntry.COLUMN_CONSOLE + ", " + VideoGamesEntry.COLUMN_TITLE
                     + ", " + VideoGamesEntry.COLUMN_LICENSEE + ", " + VideoGamesEntry.COLUMN_RELEASED
-                    + ") VALUES (" + console + ", " + title + ", " + licensee + ", " + released + ");";
+                    + ") VALUES ('" + console + "', '" + title + "', '" + licensee + "', '" + released + "');";
 
             db.execSQL(SQL_INSERT_VIDEO_GAMES);
         }
