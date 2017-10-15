@@ -1,5 +1,6 @@
 package com.example.android.gamecollector;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Intent intent = new Intent(getApplicationContext(),AddCollectableSearchResultsActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(),AddCollectableSearchResultsActivity.class);
+        startActivity(intent);
 
         //Use for writing to the database
 //        database = FirebaseDatabase.getInstance();
