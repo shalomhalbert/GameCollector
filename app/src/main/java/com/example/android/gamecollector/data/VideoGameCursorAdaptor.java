@@ -10,7 +10,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.data.CollectablesContract.*;
+import com.example.android.gamecollector.data.CollectablesContract.VideoGamesEntry;
 
 /**
  * Created by shalom on 2017-10-12.
@@ -40,7 +40,7 @@ public class VideoGameCursorAdaptor extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         /*Layout that will be inflated*/
-        return LayoutInflater.from(context).inflate(R.layout.item_description, parent);
+        return LayoutInflater.from(context).inflate(R.layout.item_description, parent, false);
     }
 
     @Override
@@ -52,8 +52,6 @@ public class VideoGameCursorAdaptor extends CursorAdapter {
         /*Extract properties from cursor*/
         String title = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_TITLE));
         String brand = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_CONSOLE));
-
-        Log.e(LOG_TAG,"Title: " + title + ", Brand: " + brand);
 
         /*Set Cursor properties to views*/
         titleTextView.setText(title);
