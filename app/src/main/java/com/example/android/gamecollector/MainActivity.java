@@ -3,7 +3,9 @@ package com.example.android.gamecollector;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 /**
  * Created by shalom on 2017-10-05.
@@ -21,8 +23,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(getApplicationContext(),AddCollectableSearchResultsActivity.class);
-        startActivity(intent);
+        floatingActionButtonListner();
 
         //Use for writing to the database
 //        database = FirebaseDatabase.getInstance();
@@ -30,6 +31,18 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-//    Add floatingactionbutton onClick method
+    /*Handles tapping the FloatingActionButton by starting AddCollectableSearchResultsActivity*/
+    private void floatingActionButtonListner() {
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                findViewById(R.id.add_collectable_floating_action_button);
 
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startAddCollectableSearchResultsActivity = new Intent(getApplicationContext(),
+                        AddCollectableSearchResultsActivity.class);
+                startActivity(startAddCollectableSearchResultsActivity);
+            }
+        });
+    }
 }
