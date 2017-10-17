@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/confirm_collectable_addition_window"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/holo_blue_light">
+
+    <TextView
+        android:id="@+id/confirmation_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Would you like to add this item\nto your personal collection?"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/no_response_to_confirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No"
+        android:layout_below="@id/confirmation_question"
+        android:layout_marginLeft="100dp"/>
+
+    <Button
+        android:id="@+id/yes_response_to_confirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yes"
+        android:layout_below="@id/confirmation_question"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="100dp"/>
+
+</RelativeLayout>
