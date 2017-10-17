@@ -3,18 +3,21 @@ package com.example.android.gamecollector;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.ListView;
 
-import com.example.android.gamecollector.data.CollectablesContract.FtsVideoGamesEntry;
-import com.example.android.gamecollector.data.CollectablesContract.VideoGamesEntry;
+import com.example.android.gamecollector.data.CollectablesContract.*;
+import com.example.android.gamecollector.data.VideoGameCursorAdaptor;
 
 /**
  * Created by shalom on 2017-10-11.
+ * Handles searching for and adding new collectibles to user's personal collection.
+ * Uses search widget.
  */
 
 public class AddCollectableSearchResultsActivity extends AppCompatActivity {
@@ -23,20 +26,26 @@ public class AddCollectableSearchResultsActivity extends AppCompatActivity {
     /*Constant for intent.putExtra() in SearchView.OnQueryTextListener*/
     private static final String SEARCH_QUERY= "query";
 
+    /*Instaniated to help manage VideoGameCursorAdaptor*/
+    VideoGameCursorAdaptor videoGameCursorAdaptor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_collectable_search_results);
 
-        Log.e(LOG_TAG, "getIntent().getAction(): " + getIntent().getAction());
+        /*Ensures only necessary columns are given to Cursor Adaptor*/
+        String[] projection = {VideoGamesEntry.COLUMN_ID, VideoGamesEntry.COLUMN_CONSOLE, VideoGamesEntry.COLUMN_TITLE};
+        /*Requests all data in the video_games table and is displayed in an identical order to their row number's*/
+        Cursor queryForWholeTable = getContentResolver().query(VideoGamesEntry.CONTENT_URI, projection, null, null, null, null);
 
-        handleIntent(getIntent());
-
-//        ListView listView = (ListView) findViewById(R.id.add_collectable_search_list_view);
-//        VideoGameCursorAdaptor videoGameCursorAdaptor = new VideoGameCursorAdaptor(this, queryResults);
-//        listView.setAdapter(videoGameCursorAdaptor);
+        /*Sets up ListView and attaches Cursor Adaptor to it, and tells Adator which Cursor it'll interpret*/
+        ListView listView = (ListView) findViewById(R.id.add_collectable_search_list_view);
+        videoGameCursorAdaptor = new VideoGameCursorAdaptor(this, queryForWholeTable);
+        listView.setAdapter(videoGameCursorAdaptor);
     }
 
+    /*Sets up Options Menu and extracts query from search widget*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /*Inflates res/menu/options_menu.xml which adds the search widget to the action bar*/
@@ -72,22 +81,23 @@ public class AddCollectableSearchResultsActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        handleIntent(intent);
+        /*Should update listView instantiated in onCreate()*/
+        Cursor queryResults = handleIntent(intent);
+        videoGameCursorAdaptor.changeCursor(queryResults);
     }
 
-    private void handleIntent(Intent intent) {
+    /*Handles query*/
+    private Cursor handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             /*Get String from search widget via ACTION_SEARCH Intent*/
-        String[] selectionArgs = {intent.getStringExtra(SEARCH_QUERY)};
+            String[] selectionArgs = {intent.getStringExtra(SEARCH_QUERY)};
 
-            /*SQLite statement for searching the video_games table by matching its 'title' column with
-            * the resulting row's 'docid' that is in the indexed fts_video_games table*/
-        String sqlQuery = "SELECT * FROM " + VideoGamesEntry.TABLE_NAME + " WHERE "
-                + VideoGamesEntry.COLUMN_ID + " IN (SELECT " + FtsVideoGamesEntry.COLUMN_DOC_ID
-                + " FROM " + FtsVideoGamesEntry.TABLE_NAME + " WHERE " + FtsVideoGamesEntry.TABLE_NAME
-                + " MATCH ? );";
-
-//        Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery, selectionArgs);
+            /*Every argument except uri and selectionArgs are provided in the contentProvider*/
+            Cursor queryResponseCursor = getContentResolver()
+                    .query(FtsVideoGamesEntry.CONTENT_URI, null, null, selectionArgs, null);
+            return queryResponseCursor;
+        } else {
+            return null;
         }
     }
 }
