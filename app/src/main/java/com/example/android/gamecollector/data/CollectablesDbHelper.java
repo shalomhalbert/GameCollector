@@ -57,6 +57,7 @@ public class CollectablesDbHelper extends SQLiteOpenHelper {
         this.context = context;
     }
 
+    /*Only runs when there is no database. Once database is setup this won't be called anymore*/
     @Override
     public void onCreate(SQLiteDatabase db) {
         /*Create and populate video_games table*/
