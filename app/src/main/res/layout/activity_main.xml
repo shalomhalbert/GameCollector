@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/relative_layout_activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/main_activity_listview"
+        android:id="@+id/list_view_activity_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_collectable_floating_action_button"
+        android:id="@+id/add_floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_white_24dp"
