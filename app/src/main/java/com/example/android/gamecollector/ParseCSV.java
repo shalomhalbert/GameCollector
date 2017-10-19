@@ -87,7 +87,7 @@ public class ParseCSV {
 
         List<String> result = new ArrayList<>();
 
-        //if empty, return!
+        /*If empty, return!*/
         if (csvLine == null && csvLine.isEmpty()) {
             return result;
         }
@@ -116,7 +116,7 @@ public class ParseCSV {
                     doubleQuotesInColumn = false;
                 } else {
 
-                    //Fixed : allow "" in custom quote enclosed
+                    /*Fixed : allow "" in custom quote enclosed*/
                     if (ch == '\"') {
                         if (!doubleQuotesInColumn) {
                             curVal.append(ch);
@@ -132,12 +132,12 @@ public class ParseCSV {
 
                     inQuotes = true;
 
-                    //Fixed : allow "" in empty quote enclosed
+                    /*Fixed : allow "" in empty quote enclosed*/
                     if (chars[0] != '"' && customQuote == '\"') {
                         curVal.append('"');
                     }
 
-                    //double quotes in column will hit this!
+                    /*Double quotes in column will hit this!*/
                     if (startCollectChar) {
                         curVal.append('"');
                     }
@@ -150,10 +150,10 @@ public class ParseCSV {
                     startCollectChar = false;
 
                 } else if (ch == '\r') {
-                    //ignore LF characters
+                    /*Ignore LF characters*/
                     continue;
                 } else if (ch == '\n') {
-                    //the end, break!
+                    /*The end, break!*/
                     break;
                 } else {
                     curVal.append(ch);
