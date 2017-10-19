@@ -9,4 +9,9 @@
 
     <!--Empty search activity filler text-->
     <string name="type_to_search">Type what you want to search</string>
+
+    <!--add_collectable_popup Strings-->
+    <string name="popup_question">Would you like to add this item\nto your personal collection?</string>
+    <string name="decline_addition">No</string>
+    <string name="confirm_addition">Yes</string>
 </resources>
