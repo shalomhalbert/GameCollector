@@ -185,7 +185,7 @@ public class CollectablesCursorAdaptor extends CursorAdapter {
         });
     }
 
-    /*Teturns the selected collectable's data as a Map */
+    /*Returns the selected collectable's data as a Map */
     private Map<String, String> getItemData(final Context context, final Cursor cursor) {
         /*Map will contain item data*/
         Map<String, String> map = new HashMap<>();
