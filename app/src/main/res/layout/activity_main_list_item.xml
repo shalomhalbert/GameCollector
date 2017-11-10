@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--List item layout for activity_main.xml's ListView-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginRight="24dp"
+    android:layout_marginLeft="16dp"
+    android:background="@color/colorDarkBackground">
+
+    <!--Displays collectable's console's logo-->
+    <ImageView
+        android:id="@+id/activity_main_image_console_logo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        tools:src="@drawable/nintendo_64_logo"/>
+
+    <!--Displays collectable's title-->
+    <com.example.android.gamecollector.customviews.CustomTextView
+        xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
+        android:id="@+id/activity_main_text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/activity_main_image_console_logo"
+        android:layout_marginLeft="24dp"
+        android:textSize="16sp"
+        tools:text="Super Mario 64"
+        roboto:typeface="roboto_bold.ttf"/>
+    
+</RelativeLayout>
