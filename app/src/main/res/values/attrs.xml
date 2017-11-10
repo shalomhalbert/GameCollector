@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TextView that can implement Roboto typeface-->
+    <declare-styleable name="RobotoTextView">
+        <attr name="typeface" format="string"/>
+    </declare-styleable>
+</resources>
