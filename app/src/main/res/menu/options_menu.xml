@@ -6,7 +6,7 @@
     <item
         android:id="@+id/search_add_collectable"
         android:title="@string/add_collectable_menu_title"
-        android:icon="@drawable/ic_add_black_24dp"
+        android:icon="@drawable/ic_search_black_24dp"
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 </menu>
