@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--Primary colors-->
+    <color name="colorPrimary">#222231</color>
+    <color name="colorPrimaryDark">#151525</color>
+    <color name="colorAccent">#1FBAD6</color>
+
+    <!--Colors for handling dark colored text on relevant background color-->
+    <color name="colorDarkPrimaryText">#212121</color>
+    <color name="colorDarkSecondaryText">#757575</color>
+    <color name="colorDarkHintText">#9E9E9E</color>
+    <color name="colorDarkDividers">#E0E0E0</color>
+    <color name="colorDarkBackground">#F2F2F4</color>
+
+    <!--Colors for handling light colored text on relevant background color-->
+    <color name="colorLightPrimaryText">#FFFFFF</color>
+    <color name="colorLightSecondaryText">#BDBDC1</color>
+    <color name="colorLightHintText">#909098</color>
+    <color name="colorLightDividers">#3C3C4A</color>
+    <color name="colorLightBackground">@color/colorPrimary</color>
+
+    <!--Colors for black and white icons. Informative icon color is used on static icons meant to
+    informs the user of something's existance-->
+    <color name="colorActiveIcon">#FFFFFF</color>
+    <color name="colorInactiveIcon">#787879</color>
+    <color name="colorInformativeIcon">#6F6F6F</color>
 </resources>
