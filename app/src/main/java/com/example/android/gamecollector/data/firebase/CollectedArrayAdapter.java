@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.gamecollector.R;
 
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Created by shalom on 2017-10-18.
+ * ArrayAdapter for CollectablesActivity that binds values to list items
  */
 
 public class CollectedArrayAdapter extends ArrayAdapter<CollectedVideoGame>{
@@ -35,21 +34,23 @@ public class CollectedArrayAdapter extends ArrayAdapter<CollectedVideoGame>{
 
         /*Handles a null convertView*/
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.collectable_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_main_list_item, parent, false);
         }
 
-        /*Initialize views*/
-        ImageView gameImage = (ImageView) convertView.findViewById(R.id.collectable_image);
-        TextView gameConsole = (TextView) convertView.findViewById(R.id.collectable_brand);
-        TextView gameTitle = (TextView) convertView.findViewById(R.id.collectable_title);
-        TextView gameValue = (TextView) convertView.findViewById(R.id.collectable_value);
-        /*Set text in views for which there is data*/
-        gameConsole.setText(videoGame.getConsole());
-        gameTitle.setText(videoGame.getTitle());
+//       Display information according to Sketch wireframe
 
-//        Make invisible or gone (depending on UI decision) until relevant data is available
-        gameImage.setVisibility(View.INVISIBLE);
-        gameValue.setVisibility(View.INVISIBLE);
+//        /*Initialize views*/
+//        ImageView gameImage = (ImageView) convertView.findViewById(R.id.collectable_image);
+//        TextView gameConsole = (TextView) convertView.findViewById(R.id.collectable_brand);
+//        TextView gameTitle = (TextView) convertView.findViewById(R.id.collectable_title);
+//        TextView gameValue = (TextView) convertView.findViewById(R.id.collectable_value);
+//        /*Set text in views for which there is data*/
+//        gameConsole.setText(videoGame.getConsole());
+//        gameTitle.setText(videoGame.getTitle());
+//
+////        Make invisible or gone (depending on UI decision) until relevant data is available
+//        gameImage.setVisibility(View.INVISIBLE);
+//        gameValue.setVisibility(View.INVISIBLE);
 
         return convertView;
     }
