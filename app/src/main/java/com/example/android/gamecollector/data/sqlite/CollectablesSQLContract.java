@@ -27,19 +27,27 @@ public final class CollectablesSQLContract {
 
         /* Storage class: INTEGER
          * Table constraints: PRIMARY KEY, AUTOINCREMENT */
-        public static final String COLUMN_ID = BaseColumns._ID;
+        public static final String COLUMN_ROW_ID = BaseColumns._ID;
         /* Storage class: TEXT
          * Table constraints: NOT NULL */
-        public static final String COLUMN_CONSOLE = "console";
+        public static final String COLUMN_CONSOLE = "Console";
         /* Storage class: TEXT
          * Table constraints: NOT NULL */
-        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_TITLE = "Title";
         /* Storage class: TEXT
          * Table constraints: DEFAULT unknown */
-        public static final String COLUMN_LICENSEE = "licensee";
+        public static final String COLUMN_LICENSEE = "Licensee";
         /* Storage class: TEXT
          * Table constraints: DEFAULT unknown */
-        public static final String COLUMN_RELEASED = "released";
+        public static final String COLUMN_RELEASED = "Released";
+        /* Storage class: INTEGER
+         * Table constraints: DEFAULT 0 */
+        public static final String COLUMN_COPIES_OWNED = "Copies";
+        /* ID constructed from concatenating console and title text after removing JSON's special
+         * characters. Used to match with Firebase Realtime Database nodes.
+         * Storage class: TEXT
+         * Table constraints: NOT NULL*/
+        public static final String COLUMN_UNIQUE_ID = "Unique_ID";
 
         /*MIME type for a list of video games*/
         public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/"
