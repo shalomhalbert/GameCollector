@@ -4,7 +4,7 @@
     <!--Relates to res/xml/searchable.xml android:hint-->
     <string name="add_collectable_search_hint">Search items</string>
 
-    <!--Relates to res/menu/options_menu.xml-->
+    <!--Relates to res/mactivity_main_menun_menu.xml.xml-->
     <string name="add_collectable_menu_title">Add collectable</string>
 
     <!--Empty search activity filler text-->
@@ -15,4 +15,11 @@
     <string name="decline_addition">No</string>
     <string name="confirm_addition">Yes</string>
     <string name="previously_added">The selected item is already in your collection.</string>
+
+    <!--Text used in add and edit collectable dialogs-->
+    <string name="region_lock">Region lock</string>
+    <string name="components_owned">Components owned</string>
+    <string name="notes">Notes</string>
+    <string name="notes_hint">More information...</string>
+    <string name="action_save">SAVE</string>
 </resources>
