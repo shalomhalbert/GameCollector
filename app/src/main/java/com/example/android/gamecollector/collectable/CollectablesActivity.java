@@ -61,9 +61,9 @@ public class CollectablesActivity extends AppCompatActivity implements LoaderMan
     /*Sets up Options Menu and extracts query from search widget*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*Inflates res/menu/activity_main_menu.xmlnu.xml which adds the search widget to the action bar*/
+        /*Inflates res/menu/activity_collectable_menu.xmlnu.xml which adds the search widget to the action bar*/
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_main_menu, menu);
+        inflater.inflate(R.menu.activity_collectable_menu, menu);
 
         /*Associate 'searchable configuration' with the SearchView*/
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
