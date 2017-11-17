@@ -1,4 +1,4 @@
-package com.example.android.gamecollector.collectable;
+package com.example.android.gamecollector.collectable.videoGames;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.data.sqlite.CollectablesSQLContract;
+import com.example.android.gamecollector.data.sqlite.CollectableSQLContract;
 import com.example.android.gamecollector.collected.videoGames.PersonalCollectionActivity;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -70,12 +70,12 @@ public class CollectableDialogFragment extends DialogFragment {
     /*Head method for handling the dialog's buttons*/
     private void handleButtons(ViewGroup container, View view) {
         /*Initialization of every ImageView on activty_add_collectable_dialog.xml for programmatic use*/
-        ImageView usaFlag = (ImageView) view.findViewById(R.id.activity_add_collectable_image_usa);
-        ImageView japanFlag = (ImageView) view.findViewById(R.id.activity_add_collectable_image_japan);
-        ImageView euFlag = (ImageView) view.findViewById(R.id.activity_add_collectable_image_european_union);
-        ImageView game = (ImageView) view.findViewById(R.id.activity_add_collectable_image_game);
-        ImageView manual = (ImageView) view.findViewById(R.id.activity_add_collectable_image_manual);
-        ImageView box = (ImageView) view.findViewById(R.id.activity_add_collectable_image_box);
+        ImageView usaFlag = (ImageView) view.findViewById(R.id.activity_collectable_image_usa);
+        ImageView japanFlag = (ImageView) view.findViewById(R.id.activity_collectable_image_japan);
+        ImageView euFlag = (ImageView) view.findViewById(R.id.activity_collectable_image_european_union);
+        ImageView game = (ImageView) view.findViewById(R.id.activity_collectable_image_game);
+        ImageView manual = (ImageView) view.findViewById(R.id.activity_collectable_image_manual);
+        ImageView box = (ImageView) view.findViewById(R.id.activity_collectable_image_box);
 
         /*ArrayList of all icons*/
         ArrayList<ImageView> imageViews = new ArrayList<>();
@@ -238,11 +238,11 @@ public class CollectableDialogFragment extends DialogFragment {
                 Map<String, String> cursorData = getItemData(context, cursor);
 
                 /*Initialize individual variables for each datapoint in cursor*/
-                String collectableUniqueId = cursorData.get(CollectablesSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID);
-                String collectableConsole = cursorData.get(CollectablesSQLContract.VideoGamesEntry.COLUMN_CONSOLE);
-                String collectableTitle = cursorData.get(CollectablesSQLContract.VideoGamesEntry.COLUMN_TITLE);
-                String collectableLicensee = cursorData.get(CollectablesSQLContract.VideoGamesEntry.COLUMN_LICENSEE);
-                String collectableReleased = cursorData.get(CollectablesSQLContract.VideoGamesEntry.COLUMN_RELEASED);
+                String collectableUniqueId = cursorData.get(CollectableSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID);
+                String collectableConsole = cursorData.get(CollectableSQLContract.VideoGamesEntry.COLUMN_CONSOLE);
+                String collectableTitle = cursorData.get(CollectableSQLContract.VideoGamesEntry.COLUMN_TITLE);
+                String collectableLicensee = cursorData.get(CollectableSQLContract.VideoGamesEntry.COLUMN_LICENSEE);
+                String collectableReleased = cursorData.get(CollectableSQLContract.VideoGamesEntry.COLUMN_RELEASED);
 
                 /*Create a unique ID that names a node for an individual video game when it's added*/
                 String uniqueNodeId = UUID.randomUUID().toString();
@@ -258,11 +258,11 @@ public class CollectableDialogFragment extends DialogFragment {
                         .child("video_games")
                         .child(uniqueNodeId);
 
-                databaseReference.child(CollectablesSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID).setValue(collectableUniqueId);
-                databaseReference.child(CollectablesSQLContract.VideoGamesEntry.COLUMN_CONSOLE).setValue(collectableConsole);
-                databaseReference.child(CollectablesSQLContract.VideoGamesEntry.COLUMN_TITLE).setValue(collectableTitle);
-                databaseReference.child(CollectablesSQLContract.VideoGamesEntry.COLUMN_LICENSEE).setValue(collectableLicensee);
-                databaseReference.child(CollectablesSQLContract.VideoGamesEntry.COLUMN_RELEASED).setValue(collectableReleased);
+                databaseReference.child(CollectableSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID).setValue(collectableUniqueId);
+                databaseReference.child(CollectableSQLContract.VideoGamesEntry.COLUMN_CONSOLE).setValue(collectableConsole);
+                databaseReference.child(CollectableSQLContract.VideoGamesEntry.COLUMN_TITLE).setValue(collectableTitle);
+                databaseReference.child(CollectableSQLContract.VideoGamesEntry.COLUMN_LICENSEE).setValue(collectableLicensee);
+                databaseReference.child(CollectableSQLContract.VideoGamesEntry.COLUMN_RELEASED).setValue(collectableReleased);
 
                 returnToMainActivity(context);
             }
@@ -283,10 +283,10 @@ public class CollectableDialogFragment extends DialogFragment {
         Map<String, String> map = new HashMap<>();
 
         /*Get row ID for tapped collectable item*/
-        long rowId = cursor.getInt(cursor.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_ROW_ID));
+        long rowId = cursor.getInt(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID));
         String[] selectionArgs = {String.valueOf(rowId)};
         /*Create Uri for the tapped collectable item*/
-        Uri individualItemUri = ContentUris.withAppendedId(CollectablesSQLContract.VideoGamesEntry.CONTENT_URI, rowId);
+        Uri individualItemUri = ContentUris.withAppendedId(CollectableSQLContract.VideoGamesEntry.CONTENT_URI, rowId);
 
         /*Get cursor with data belonging to the tapped collectable item*/
         Cursor newCollectable = context.getContentResolver().query(individualItemUri, null, null, selectionArgs, null);
@@ -294,11 +294,11 @@ public class CollectableDialogFragment extends DialogFragment {
         if (newCollectable != null && newCollectable.moveToFirst()) {
             /*Get every value from cursor*/
             //Reformat code to centralize this action
-            String collectableId = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_ROW_ID));
-            String collectableConsole = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_CONSOLE));
-            String collectableTitle = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_TITLE));
-            String collectableLicensee = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_LICENSEE));
-            String collectableReleased = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_RELEASED));
+            String collectableId = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID));
+            String collectableConsole = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_CONSOLE));
+            String collectableTitle = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_TITLE));
+            String collectableLicensee = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_LICENSEE));
+            String collectableReleased = newCollectable.getString(newCollectable.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_RELEASED));
 
             /*Add values to Map*/
             map.put(_ID, collectableId);
