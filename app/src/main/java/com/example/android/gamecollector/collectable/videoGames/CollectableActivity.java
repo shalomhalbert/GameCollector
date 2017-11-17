@@ -17,9 +17,9 @@ import android.view.MenuInflater;
 import android.widget.ListView;
 
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.data.sqlite.CollectablesCursorAdaptor;
-import com.example.android.gamecollector.data.sqlite.CollectablesSQLContract.FtsVideoGamesEntry;
-import com.example.android.gamecollector.data.sqlite.CollectablesSQLContract.VideoGamesEntry;
+import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
+import com.example.android.gamecollector.data.sqlite.CollectableSQLContract.FtsVideoGamesEntry;
+import com.example.android.gamecollector.data.sqlite.CollectableSQLContract.VideoGamesEntry;
 
 /**
  * Created by shalom on 2017-10-11.
@@ -27,35 +27,30 @@ import com.example.android.gamecollector.data.sqlite.CollectablesSQLContract.Vid
  * Uses search widget.
  */
 
-public class CollectablesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class CollectableActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     /*Use in Log statements*/
-    public static final String LOG_TAG = CollectablesActivity.class.getSimpleName();
+    public static final String LOG_TAG = CollectableActivity.class.getSimpleName();
     /*Constant for intent.putExtra() in SearchView.OnQueryTextListener*/
     private static final String SEARCH_QUERY= "query";
 
-    /*Instaniated to help manage CollectablesCursorAdaptor*/
-    CollectablesCursorAdaptor collectablesCursorAdaptor;
+    /*Instaniated to help manage CollectableCursorAdaptor*/
+    CollectableCursorAdaptor collectableCursorAdaptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_collectable);
+        setContentView(R.layout.activity_collectable);
 
-        /*Set toolbar as activities action bar*/
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_add_collectable_toolbar);
+        /*Set toolbar as activity's action bar*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_collectable_toolbar);
         setSupportActionBar(toolbar);
-
         /*Get a support ActionBar corresponding to this Toolbar*/
         ActionBar actionBar = getSupportActionBar();
-
         /*Enable the Up button*/
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-        // Get a support ActionBar corresponding to this toolbar
+        /*Get a support ActionBar correspinding to this toolbar*/
         ActionBar ab = getSupportActionBar();
-
-        // Enable the Up button
+        /*Enable up button*/
         ab.setDisplayHomeAsUpEnabled(true);
 
         /*Ensures only necessary columns are given to Cursor Adaptor*/
@@ -66,8 +61,8 @@ public class CollectablesActivity extends AppCompatActivity implements LoaderMan
 
         /*Sets up ListView and attaches Cursor Adaptor to it, and tells Adaptor which Cursor it'll interpret*/
         ListView listView = (ListView) findViewById(R.id.collectables_list_view);
-        collectablesCursorAdaptor = new CollectablesCursorAdaptor(this, getTable);
-        listView.setAdapter(collectablesCursorAdaptor);
+        collectableCursorAdaptor = new CollectableCursorAdaptor(this, getTable);
+        listView.setAdapter(collectableCursorAdaptor);
 
         getSupportLoaderManager().initLoader(0, null, this);
     }
@@ -87,7 +82,7 @@ public class CollectablesActivity extends AppCompatActivity implements LoaderMan
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent intent = new Intent(getApplicationContext(), CollectablesActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CollectableActivity.class);
                 intent.putExtra(SEARCH_QUERY, query);
                 intent.setAction(Intent.ACTION_SEARCH);
                 startActivity(intent);
@@ -110,7 +105,7 @@ public class CollectablesActivity extends AppCompatActivity implements LoaderMan
         setIntent(intent);
         /*Should update listView instantiated in onCreate()*/
         Cursor queryResults = handleIntent(intent);
-        collectablesCursorAdaptor.changeCursor(queryResults);
+        collectableCursorAdaptor.changeCursor(queryResults);
     }
 
     /*Handles query*/
@@ -136,11 +131,11 @@ public class CollectablesActivity extends AppCompatActivity implements LoaderMan
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        collectablesCursorAdaptor.swapCursor(data);
+        collectableCursorAdaptor.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        collectablesCursorAdaptor.swapCursor(null);
+        collectableCursorAdaptor.swapCursor(null);
     }
 }
