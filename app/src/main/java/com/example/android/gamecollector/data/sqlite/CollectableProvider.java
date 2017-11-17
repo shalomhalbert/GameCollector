@@ -15,8 +15,8 @@ import android.support.annotation.Nullable;
  * Relating to CRUD: Users can query, but not insert, delete, or update the database.
  */
 
-public class CollectablesProvider extends ContentProvider {
-    public static final String LOG_TAG = CollectablesProvider.class.getSimpleName();
+public class CollectableProvider extends ContentProvider {
+    public static final String LOG_TAG = CollectableProvider.class.getSimpleName();
     /*URI integer codes that will be matched to Uri's by UriMatcher*/
     private static final int VIDEO_GAMES = 100;
     private static final int VIDEO_GAME_ID = 101;
@@ -24,53 +24,53 @@ public class CollectablesProvider extends ContentProvider {
     private static final int FTS_VIDEO_GAMES_ID = 201;
     /*Initialize UriMatcher*/
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-    /*Instantiate CollectablesDbHelper (SQLiteOpenHelper)*/
-    CollectablesDbHelper collectablesDbHelper;
+    /*Instantiate CollectableDbHelper (SQLiteOpenHelper)*/
+    CollectableDbHelper collectableDbHelper;
     /*Exposes methods for managing database*/
     SQLiteDatabase sqLiteDatabase;
 
     /*SQLite statement for searching the video_games table by matching its 'title' column with
      * the resulting row's 'docid' that is in the indexed fts_video_games table*/
     private static final String SQL_QUERY_ADD_COLLECTABLE_SEARCH_RESULTS_ACTIVITY = "SELECT * FROM "
-            + CollectablesSQLContract.VideoGamesEntry.TABLE_NAME + " WHERE "
-            + CollectablesSQLContract.VideoGamesEntry.COLUMN_ROW_ID
-            + " IN (SELECT docid FROM " + CollectablesSQLContract.FtsVideoGamesEntry.TABLE_NAME
-            + " WHERE " + CollectablesSQLContract.FtsVideoGamesEntry.TABLE_NAME
+            + CollectableSQLContract.VideoGamesEntry.TABLE_NAME + " WHERE "
+            + CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID
+            + " IN (SELECT docid FROM " + CollectableSQLContract.FtsVideoGamesEntry.TABLE_NAME
+            + " WHERE " + CollectableSQLContract.FtsVideoGamesEntry.TABLE_NAME
             + " MATCH ?)";
 
     static {
-        URI_MATCHER.addURI(CollectablesSQLContract.CONTENT_AUTHORITY,
-                CollectablesSQLContract.PATH_VIDEO_GAMES, VIDEO_GAMES);
-        URI_MATCHER.addURI(CollectablesSQLContract.CONTENT_AUTHORITY,
-                CollectablesSQLContract.PATH_VIDEO_GAMES + "/#", VIDEO_GAME_ID);
-        URI_MATCHER.addURI(CollectablesSQLContract.CONTENT_AUTHORITY,
-                CollectablesSQLContract.PATH_FTS_VIDEO_GAMES, FTS_VIDEO_GAMES);
-        URI_MATCHER.addURI(CollectablesSQLContract.CONTENT_AUTHORITY,
-                CollectablesSQLContract.PATH_FTS_VIDEO_GAMES + "/#", FTS_VIDEO_GAMES_ID);
+        URI_MATCHER.addURI(CollectableSQLContract.CONTENT_AUTHORITY,
+                CollectableSQLContract.PATH_VIDEO_GAMES, VIDEO_GAMES);
+        URI_MATCHER.addURI(CollectableSQLContract.CONTENT_AUTHORITY,
+                CollectableSQLContract.PATH_VIDEO_GAMES + "/#", VIDEO_GAME_ID);
+        URI_MATCHER.addURI(CollectableSQLContract.CONTENT_AUTHORITY,
+                CollectableSQLContract.PATH_FTS_VIDEO_GAMES, FTS_VIDEO_GAMES);
+        URI_MATCHER.addURI(CollectableSQLContract.CONTENT_AUTHORITY,
+                CollectableSQLContract.PATH_FTS_VIDEO_GAMES + "/#", FTS_VIDEO_GAMES_ID);
     }
 
     @Override
     public boolean onCreate() {
-        collectablesDbHelper = new CollectablesDbHelper(getContext());
+        collectableDbHelper = new CollectableDbHelper(getContext());
         return true;
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
-        sqLiteDatabase = collectablesDbHelper.getReadableDatabase();
+        sqLiteDatabase = collectableDbHelper.getReadableDatabase();
         Cursor cursor;
 
         switch (URI_MATCHER.match(uri)) {
             case VIDEO_GAMES:
-                cursor = sqLiteDatabase.query(CollectablesSQLContract.VideoGamesEntry.TABLE_NAME,
+                cursor = sqLiteDatabase.query(CollectableSQLContract.VideoGamesEntry.TABLE_NAME,
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case VIDEO_GAME_ID:
                 /*SQL statement for extracting a single row from the video_games table using row ID*/
                 String sqlString = "SELECT * FROM "
-                        + CollectablesSQLContract.VideoGamesEntry.TABLE_NAME
-                        + " WHERE " + CollectablesSQLContract.VideoGamesEntry.COLUMN_ROW_ID + "=?";
+                        + CollectableSQLContract.VideoGamesEntry.TABLE_NAME
+                        + " WHERE " + CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID + "=?";
                 /*Cursor containing all data for the selected row*/
                 cursor = sqLiteDatabase.rawQuery(sqlString, selectionArgs);
                 break;
@@ -97,9 +97,9 @@ public class CollectablesProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (URI_MATCHER.match(uri)) {
             case VIDEO_GAMES:
-                return CollectablesSQLContract.VideoGamesEntry.CONTENT_TYPE;
+                return CollectableSQLContract.VideoGamesEntry.CONTENT_TYPE;
             case VIDEO_GAME_ID:
-                return CollectablesSQLContract.VideoGamesEntry.CONTENT_ITEM_TYPE;
+                return CollectableSQLContract.VideoGamesEntry.CONTENT_ITEM_TYPE;
             default:
                 return null;
         }
@@ -121,9 +121,9 @@ public class CollectablesProvider extends ContentProvider {
                 break;
             case VIDEO_GAME_ID:
                 /*Updates a row based on a given Unique_ID*/
-                rowsUpdated = sqLiteDatabase.update(CollectablesSQLContract.VideoGamesEntry.TABLE_NAME,
+                rowsUpdated = sqLiteDatabase.update(CollectableSQLContract.VideoGamesEntry.TABLE_NAME,
                         values,
-                        CollectablesSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID + "=?",
+                        CollectableSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID + "=?",
                         selectionArgs);
                 break;
             default:

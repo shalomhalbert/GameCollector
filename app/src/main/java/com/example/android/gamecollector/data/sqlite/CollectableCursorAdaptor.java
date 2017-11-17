@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * Helps create list items for each row of data.
  */
 
-public class CollectablesCursorAdaptor extends CursorAdapter {
+public class CollectableCursorAdaptor extends CursorAdapter {
     /*Used for tracking Log statments*/
     public static final String LOG_TAG = CursorAdapter.class.getSimpleName();
 
@@ -34,7 +34,7 @@ public class CollectablesCursorAdaptor extends CursorAdapter {
      * @param context The context
      * @param c       Cursor from which data is extracted
      */
-    public CollectablesCursorAdaptor(Context context, Cursor c) {
+    public CollectableCursorAdaptor(Context context, Cursor c) {
         /*Set flags to 0*/
         super(context, c, 0);
     }
@@ -52,21 +52,21 @@ public class CollectablesCursorAdaptor extends CursorAdapter {
         ListView listView = (ListView) parent.findViewById(R.id.collectables_list_view);
         listItemListener(listView, context, cursor);
         /*Layout that will be inflated*/
-        return LayoutInflater.from(context).inflate(R.layout.activity_add_collectable_list_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.activity_collectable_list_item, parent, false);
     }
 
     /*Binds modifications to a list item*/
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         /*Initailly this will display a video game's console's logo*/
-        ImageView displayImage = (ImageView) view.findViewById(R.id.activity_add_collectable_image_console_logo);
-        TextView titleTextView = (TextView) view.findViewById(R.id.activity_add_collectable_text_title);
-        TextView copiesTextView = (TextView) view.findViewById(R.id.activity_add_collectable_text_copies_owned);
+        ImageView displayImage = (ImageView) view.findViewById(R.id.activity_collectable_image_console_logo);
+        TextView titleTextView = (TextView) view.findViewById(R.id.activity_collectable_text_title);
+        TextView copiesTextView = (TextView) view.findViewById(R.id.activity_collectable_text_copies_owned);
 
         /*Extract properties from cursor*/
-        String console = cursor.getString(cursor.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_CONSOLE));
-        String title = cursor.getString(cursor.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_TITLE));
-        String copiesOwned = cursor.getString(cursor.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_COPIES_OWNED));
+        String console = cursor.getString(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_CONSOLE));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_TITLE));
+        String copiesOwned = cursor.getString(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_COPIES_OWNED));
 
         /*Set appropriate image to display*/
         switch(console) {
@@ -107,10 +107,10 @@ public class CollectablesCursorAdaptor extends CursorAdapter {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String rowID = cursor.getString(cursor.getColumnIndexOrThrow(CollectablesSQLContract.VideoGamesEntry.COLUMN_ROW_ID));
+                String rowID = cursor.getString(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID));
 
 //                Intent intent = new Intent(context.getApplicationContext(), CollectableDialogFragment.class);
-//                intent.putExtra(CollectablesSQLContract.VideoGamesEntry.COLUMN_ROW_ID, rowID);
+//                intent.putExtra(CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID, rowID);
 //                context.startActivity(intent);
             }
         });
