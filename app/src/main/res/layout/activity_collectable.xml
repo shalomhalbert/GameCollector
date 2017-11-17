@@ -8,12 +8,12 @@
     android:background="@color/colorDarkBackground">
 
     <include
-        android:id="@+id/activity_add_collectable_toolbar"
+        android:id="@+id/activity_collectable_toolbar"
         layout="@layout/toolbar_actionbar" />
 
     <ListView
-        android:id="@+id/activity_main_listview"
-        android:layout_below="@id/activity_add_collectable_toolbar"
+        android:id="@+id/activity_collection_listview"
+        android:layout_below="@id/activity_collectable_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

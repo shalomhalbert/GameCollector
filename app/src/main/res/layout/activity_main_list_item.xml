@@ -14,7 +14,7 @@
 
     <!--Displays collectable's console's logo-->
     <ImageView
-        android:id="@+id/activity_main_image_console_logo"
+        android:id="@+id/activity_collection_image_console_logo"
         android:layout_width="64dp"
         android:layout_height="64dp"
         tools:src="@drawable/nintendo_64_logo"/>
@@ -22,10 +22,10 @@
     <!--Displays collectable's title-->
     <com.example.android.gamecollector.customviews.CustomTextView
         xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
-        android:id="@+id/activity_main_text_title"
+        android:id="@+id/activity_collection_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/activity_main_image_console_logo"
+        android:layout_toRightOf="@id/activity_collection_image_console_logo"
         android:layout_marginLeft="24dp"
         android:textSize="16sp"
         tools:text="Super Mario 64"
