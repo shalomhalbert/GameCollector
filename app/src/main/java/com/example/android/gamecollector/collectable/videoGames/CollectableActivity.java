@@ -1,4 +1,4 @@
-package com.example.android.gamecollector.collectable;
+package com.example.android.gamecollector.collectable.videoGames;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -43,6 +44,19 @@ public class CollectablesActivity extends AppCompatActivity implements LoaderMan
         /*Set toolbar as activities action bar*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_add_collectable_toolbar);
         setSupportActionBar(toolbar);
+
+        /*Get a support ActionBar corresponding to this Toolbar*/
+        ActionBar actionBar = getSupportActionBar();
+
+        /*Enable the Up button*/
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
 
         /*Ensures only necessary columns are given to Cursor Adaptor*/
         String[] projection = {VideoGamesEntry.COLUMN_ROW_ID, VideoGamesEntry.COLUMN_CONSOLE,
