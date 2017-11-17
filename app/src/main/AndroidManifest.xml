@@ -28,10 +28,11 @@
         </activity>
 
         <activity
-            android:name=".collectable.CollectablesActivity"
+            android:name=".collectable.videoGames.CollectableActivity"
             android:label="Add to collection"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".collected.videoGames.PersonalCollectionActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -43,7 +44,7 @@
         </activity>
 
         <provider
-            android:name=".data.sqlite.CollectablesProvider"
+            android:name=".data.sqlite.CollectableProvider"
             android:authorities="com.example.android.gamecollector"
             android:exported="false"/>
     </application>
