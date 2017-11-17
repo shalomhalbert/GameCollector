@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Created by shalom on 2017-10-18.
- * ArrayAdapter for CollectablesActivity that binds values to list items
+ * ArrayAdapter for CollectableActivity that binds values to list items
  */
 
 public class CollectedArrayAdapter extends ArrayAdapter<CollectedVideoGame>{
