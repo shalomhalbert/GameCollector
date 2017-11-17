@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
 
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.collectable.CollectablesActivity;
+import com.example.android.gamecollector.collectable.videoGames.CollectableActivity;
 import com.example.android.gamecollector.data.firebase.CollectedArrayAdapter;
 import com.example.android.gamecollector.data.firebase.CollectedVideoGame;
 import com.google.firebase.database.ChildEventListener;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by shalom on 2017-10-05.
  * Displays user's personal collection
+ * Also, it's the main activity/
  */
 
 public class PersonalCollectionActivity extends AppCompatActivity{
@@ -42,21 +44,25 @@ public class PersonalCollectionActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*Set toolbar as activity's ActionBar*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_collection_toolbar);
+        setSupportActionBar(toolbar);
+
         createDatabaseListeners();
 
         floatingActionButtonListner();
     }
 
-    /*Handles tapping the FloatingActionButton by starting CollectablesActivity*/
+    /*Handles tapping the FloatingActionButton by starting CollectableActivity*/
     private void floatingActionButtonListner() {
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
-                findViewById(R.id.activity_main_floating_action_button);
+        final FloatingActionButton floatingActionButton = (FloatingActionButton)
+                findViewById(R.id.activity_collection_floating_action_button);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent changeActivity = new Intent(getApplicationContext(),
-                        CollectablesActivity.class);
+                        CollectableActivity.class);
                 startActivity(changeActivity);
             }
         });
@@ -113,7 +119,7 @@ public class PersonalCollectionActivity extends AppCompatActivity{
             * Runs after ChildEventListener finishes.*/
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                listView = (ListView) findViewById(R.id.activity_main_listview);
+                listView = (ListView) findViewById(R.id.activity_collection_listview);
                 adapter = new CollectedArrayAdapter(getApplicationContext(), videoGames);
                 listView.setAdapter(adapter);
             }
