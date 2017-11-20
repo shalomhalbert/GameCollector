@@ -2,6 +2,9 @@ package com.example.android.gamecollector.data.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.gamecollector.R;
+import com.example.android.gamecollector.collectable.videoGames.CollectableDialogFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 /**
  * Created by shalom on 2017-10-12.
  * ListView adapter that uses collectable data given as a Cursor as its resource.
@@ -29,14 +34,16 @@ public class CollectableCursorAdaptor extends CursorAdapter {
     /*Instantiations for Firebase Realtime Database*/
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private static FragmentManager FragmentManager;
 
     /**
      * @param context The context
      * @param c       Cursor from which data is extracted
      */
-    public CollectableCursorAdaptor(Context context, Cursor c) {
+    public CollectableCursorAdaptor(Context context, Cursor c, FragmentManager FragmentManager) {
         /*Set flags to 0*/
         super(context, c, 0);
+        this.FragmentManager = FragmentManager;
     }
 
     /**
@@ -64,9 +71,9 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         TextView copiesTextView = (TextView) view.findViewById(R.id.activity_collectable_text_copies_owned);
 
         /*Extract properties from cursor*/
-        String console = cursor.getString(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_CONSOLE));
-        String title = cursor.getString(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_TITLE));
-        String copiesOwned = cursor.getString(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_COPIES_OWNED));
+        String console = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_CONSOLE));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_TITLE));
+        String copiesOwned = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED));
 
         /*Set appropriate image to display*/
         switch(console) {
@@ -107,12 +114,44 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String rowID = cursor.getString(cursor.getColumnIndexOrThrow(CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID));
+                /*Cursor's row ID*/
+                String rowID = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_ROW_ID));
+                /*Get cursor's data as a Bundle which holds a HashMap*/
+                Bundle cursorDataBundle = context.getContentResolver().call(null, "getItemData", null, null);
 
-//                Intent intent = new Intent(context.getApplicationContext(), CollectableDialogFragment.class);
-//                intent.putExtra(CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID, rowID);
-//                context.startActivity(intent);
+                ShowDialog(cursorDataBundle);
+
+
+                if (cursorDataBundle != null) {
+                    HashMap<String,String> cursorDataMap = (HashMap<String, String>) cursorDataBundle.getSerializable("HashMap");
+                }
+
+
             }
         });
+    }
+
+    /*Opens dialog*/
+    private static void ShowDialog(Bundle bundle) {
+        /*Required for fragmentTransaction.add()*/
+        int containerViewId = android.R.id.content;
+
+                /*Initialize CollectableDialogFragment*/
+        CollectableDialogFragment dialogFragment = new CollectableDialogFragment();
+                /*Supplies arguments to dialogFragment*/
+        dialogFragment.setArguments(bundle);
+                /*FragmentManager is taken in constructor and FragmentTransaction makes transactions*/
+        FragmentTransaction fragmentTransaction = FragmentManager.beginTransaction();
+                /*Sets transition effect for when dialog opens*/
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.add(containerViewId, dialogFragment).addToBackStack(null).commit();
+    }
+
+    /*Closes dialog*/
+    private static void DismissDialog() {
+        /*Pop DialogFragment off the Back Stack*/
+        if(FragmentManager.getBackStackEntryCount()>0) {
+            FragmentManager.popBackStack();
+        }
     }
 }
