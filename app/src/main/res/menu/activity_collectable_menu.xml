@@ -5,7 +5,7 @@
     <!--ActionBar menu item for adding a new collectable to user's collection via search-->
     <item
         android:id="@+id/activity_collectable_search_menu"
-        android:title="@string/add_collectable_menu_title"
+        android:title="@string/collectable_menu_title"
         android:icon="@drawable/ic_search_white_24dp"
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
