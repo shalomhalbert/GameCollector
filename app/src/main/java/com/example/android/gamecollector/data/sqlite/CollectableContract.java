@@ -9,10 +9,10 @@ import android.provider.BaseColumns;
  * Contract for storing collectables data
  */
 
-public final class CollectableSQLContract {
+public final class CollectableContract {
 
     /*Should be empty*/
-    private CollectableSQLContract() {}
+    private CollectableContract() {}
 
     public static final String CONTENT_AUTHORITY = "com.example.android.gamecollector";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
