@@ -25,7 +25,7 @@ public class CustomTextView extends TextView {
         /*Returns a TypedArray holding an array of the attribute values*/
         TypedArray styledAttributes = context.obtainStyledAttributes(attrs,R.styleable.RobotoTextView);
         /*Gets font name from typface attribute is defined. Fontname will be the filename for the wanted font*/
-        String fontName = styledAttributes.getString(R.styleable.RobotoTextView_typeface);
+        String fontName = styledAttributes.getString(R.styleable.RobotoTextView_typefaceTextView);
         /*Note that TypedArray objects are a shared resource and must be recycled after use*/
         styledAttributes.recycle();
 

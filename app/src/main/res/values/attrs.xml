@@ -2,11 +2,11 @@
 <resources>
     <!--TextView that can implement Roboto typeface-->
     <declare-styleable name="RobotoTextView">
-        <attr name="typeface" format="string"/>
+        <attr name="typefaceTextView" format="string"/>
     </declare-styleable>
 
     <!--EditText that can implement Roboto typeface-->
     <declare-styleable name="RobotoEditText">
-        <attr name="typeface" format="string"/>
+        <attr name="typefaceEditText" format="string"/>
     </declare-styleable>
 </resources>
