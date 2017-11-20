@@ -28,7 +28,7 @@
         android:layout_marginLeft="24dp"
         android:layout_toRightOf="@id/activity_collectable_image_console_logo"
         android:textSize="16sp"
-        roboto:typeface="roboto_bold.ttf"
+        roboto:typefaceTextView="roboto_bold.ttf"
         tools:text="Super Mario 64" />
 
     <!--Displays how copies of the collectable the user owns-->
@@ -42,7 +42,7 @@
         android:layout_toRightOf="@id/activity_collectable_image_console_logo"
         android:layout_below="@id/activity_collectable_text_title"
         android:textSize="14sp"
-        roboto:typeface="roboto_bold.ttf"
+        roboto:typefaceTextView="roboto_bold.ttf"
         tools:text="1 Owned"/>
 
 </RelativeLayout>

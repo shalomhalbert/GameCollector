@@ -29,6 +29,6 @@
         android:layout_marginLeft="24dp"
         android:textSize="16sp"
         tools:text="Super Mario 64"
-        roboto:typeface="roboto_bold.ttf"/>
+        roboto:typefaceTextView="roboto_bold.ttf"/>
     
 </RelativeLayout>
