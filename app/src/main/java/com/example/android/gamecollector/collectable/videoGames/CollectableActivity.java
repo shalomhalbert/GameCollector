@@ -18,8 +18,8 @@ import android.widget.ListView;
 
 import com.example.android.gamecollector.R;
 import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
-import com.example.android.gamecollector.data.sqlite.CollectableSQLContract.FtsVideoGamesEntry;
-import com.example.android.gamecollector.data.sqlite.CollectableSQLContract.VideoGamesEntry;
+import com.example.android.gamecollector.data.sqlite.CollectableContract.FtsVideoGamesEntry;
+import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 
 /**
  * Created by shalom on 2017-10-11.
@@ -61,7 +61,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
 
         /*Sets up ListView and attaches Cursor Adaptor to it, and tells Adaptor which Cursor it'll interpret*/
         ListView listView = (ListView) findViewById(R.id.collectables_list_view);
-        collectableCursorAdaptor = new CollectableCursorAdaptor(this, getTable);
+        collectableCursorAdaptor = new CollectableCursorAdaptor(this, getTable, getSupportFragmentManager());
         listView.setAdapter(collectableCursorAdaptor);
 
         getSupportLoaderManager().initLoader(0, null, this);
