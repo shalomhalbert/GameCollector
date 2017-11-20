@@ -1,13 +1,20 @@
 package com.example.android.gamecollector.data.sqlite;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+
+import java.util.HashMap;
 
 /**
  * Created by shalom on 2017-10-11.
@@ -32,21 +39,24 @@ public class CollectableProvider extends ContentProvider {
     /*SQLite statement for searching the video_games table by matching its 'title' column with
      * the resulting row's 'docid' that is in the indexed fts_video_games table*/
     private static final String SQL_QUERY_ADD_COLLECTABLE_SEARCH_RESULTS_ACTIVITY = "SELECT * FROM "
-            + CollectableSQLContract.VideoGamesEntry.TABLE_NAME + " WHERE "
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID
-            + " IN (SELECT docid FROM " + CollectableSQLContract.FtsVideoGamesEntry.TABLE_NAME
-            + " WHERE " + CollectableSQLContract.FtsVideoGamesEntry.TABLE_NAME
+            + CollectableContract.VideoGamesEntry.TABLE_NAME + " WHERE "
+            + CollectableContract.VideoGamesEntry.COLUMN_ROW_ID
+            + " IN (SELECT docid FROM " + CollectableContract.FtsVideoGamesEntry.TABLE_NAME
+            + " WHERE " + CollectableContract.FtsVideoGamesEntry.TABLE_NAME
             + " MATCH ?)";
 
+    /*Bundle in call()'s serializable's key*/
+    public static final String VIDEO_GAME_DATA = "HashMap";
+
     static {
-        URI_MATCHER.addURI(CollectableSQLContract.CONTENT_AUTHORITY,
-                CollectableSQLContract.PATH_VIDEO_GAMES, VIDEO_GAMES);
-        URI_MATCHER.addURI(CollectableSQLContract.CONTENT_AUTHORITY,
-                CollectableSQLContract.PATH_VIDEO_GAMES + "/#", VIDEO_GAME_ID);
-        URI_MATCHER.addURI(CollectableSQLContract.CONTENT_AUTHORITY,
-                CollectableSQLContract.PATH_FTS_VIDEO_GAMES, FTS_VIDEO_GAMES);
-        URI_MATCHER.addURI(CollectableSQLContract.CONTENT_AUTHORITY,
-                CollectableSQLContract.PATH_FTS_VIDEO_GAMES + "/#", FTS_VIDEO_GAMES_ID);
+        URI_MATCHER.addURI(CollectableContract.CONTENT_AUTHORITY,
+                CollectableContract.PATH_VIDEO_GAMES, VIDEO_GAMES);
+        URI_MATCHER.addURI(CollectableContract.CONTENT_AUTHORITY,
+                CollectableContract.PATH_VIDEO_GAMES + "/#", VIDEO_GAME_ID);
+        URI_MATCHER.addURI(CollectableContract.CONTENT_AUTHORITY,
+                CollectableContract.PATH_FTS_VIDEO_GAMES, FTS_VIDEO_GAMES);
+        URI_MATCHER.addURI(CollectableContract.CONTENT_AUTHORITY,
+                CollectableContract.PATH_FTS_VIDEO_GAMES + "/#", FTS_VIDEO_GAMES_ID);
     }
 
     @Override
@@ -63,14 +73,14 @@ public class CollectableProvider extends ContentProvider {
 
         switch (URI_MATCHER.match(uri)) {
             case VIDEO_GAMES:
-                cursor = sqLiteDatabase.query(CollectableSQLContract.VideoGamesEntry.TABLE_NAME,
+                cursor = sqLiteDatabase.query(CollectableContract.VideoGamesEntry.TABLE_NAME,
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case VIDEO_GAME_ID:
                 /*SQL statement for extracting a single row from the video_games table using row ID*/
                 String sqlString = "SELECT * FROM "
-                        + CollectableSQLContract.VideoGamesEntry.TABLE_NAME
-                        + " WHERE " + CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID + "=?";
+                        + CollectableContract.VideoGamesEntry.TABLE_NAME
+                        + " WHERE " + CollectableContract.VideoGamesEntry.COLUMN_ROW_ID + "=?";
                 /*Cursor containing all data for the selected row*/
                 cursor = sqLiteDatabase.rawQuery(sqlString, selectionArgs);
                 break;
@@ -97,9 +107,9 @@ public class CollectableProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (URI_MATCHER.match(uri)) {
             case VIDEO_GAMES:
-                return CollectableSQLContract.VideoGamesEntry.CONTENT_TYPE;
+                return CollectableContract.VideoGamesEntry.CONTENT_TYPE;
             case VIDEO_GAME_ID:
-                return CollectableSQLContract.VideoGamesEntry.CONTENT_ITEM_TYPE;
+                return CollectableContract.VideoGamesEntry.CONTENT_ITEM_TYPE;
             default:
                 return null;
         }
@@ -121,9 +131,9 @@ public class CollectableProvider extends ContentProvider {
                 break;
             case VIDEO_GAME_ID:
                 /*Updates a row based on a given Unique_ID*/
-                rowsUpdated = sqLiteDatabase.update(CollectableSQLContract.VideoGamesEntry.TABLE_NAME,
+                rowsUpdated = sqLiteDatabase.update(CollectableContract.VideoGamesEntry.TABLE_NAME,
                         values,
-                        CollectableSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID + "=?",
+                        CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID + "=?",
                         selectionArgs);
                 break;
             default:
@@ -138,4 +148,74 @@ public class CollectableProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         return 0;
     }
+
+    @Override
+    public Bundle call(String method, String arg, Bundle extras) {
+        if (method == "getItemData") {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(VIDEO_GAME_DATA, getItemData(extras.getString(VideoGamesEntry.COLUMN_ROW_ID)));
+            return bundle;
+        } else {
+            Log.e(LOG_TAG, "Trouble calling getItemData() via call()");
+            return null;
+        }
+    }
+
+    /**
+     * Only accessible via call()
+     * @param rowId Row ID for a specific video game
+     * @return A HashMap filled with the video game's data
+     */
+    private HashMap<String, String> getItemData(String rowId) {
+        /*Map will contain item data*/
+        HashMap<String, String> map = new HashMap<>();
+
+        /*Convert rowId to long for appended Uri*/
+        long rowIdLong = Long.valueOf(rowId);
+        /*Create Uri for the tapped collectable item*/
+        Uri individualItemUri = ContentUris.withAppendedId(CollectableContract.VideoGamesEntry.CONTENT_URI, rowIdLong);
+
+        String[] selectionArgs = {rowId};
+        /*Get cursor with data belonging to the tapped collectable item*/
+        Cursor newCollectable = getContext().getContentResolver().query(individualItemUri, null,
+                null, selectionArgs, null);
+
+        if (newCollectable != null && newCollectable.moveToFirst()) {
+            /*Get every value from cursor*/
+            //Reformat code to centralize this action
+            String collectableRowId = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
+                    CollectableContract.VideoGamesEntry.COLUMN_ROW_ID));
+            String collectableConsole = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
+                    CollectableContract.VideoGamesEntry.COLUMN_CONSOLE));
+            String collectableTitle = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
+                    CollectableContract.VideoGamesEntry.COLUMN_TITLE));
+            String collectableLicensee = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
+                    CollectableContract.VideoGamesEntry.COLUMN_LICENSEE));
+            String collectableReleased = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
+                    CollectableContract.VideoGamesEntry.COLUMN_RELEASED));
+            String collectableUniqueId = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
+                    CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID));
+
+            /*Add values to Map*/
+            map.put(VideoGamesEntry.COLUMN_ROW_ID, collectableRowId);
+            map.put(VideoGamesEntry.COLUMN_CONSOLE, collectableConsole);
+            map.put(VideoGamesEntry.COLUMN_TITLE, collectableTitle);
+            map.put(VideoGamesEntry.COLUMN_LICENSEE, collectableLicensee);
+            map.put(VideoGamesEntry.COLUMN_RELEASED, collectableReleased);
+            map.put(VideoGamesEntry.COLUMN_UNIQUE_ID, collectableUniqueId);
+        } else {
+            Log.e(LOG_TAG, "Problem getting cursor values");
+            return null;
+        }
+
+        return map;
+    }
+
+    /* Increases copies owned by one when a game is added, and reduces by one when one is deleted.
+     * Should return 1 to prove only a single row was affected*/
+   private void updateCopiesOwned() {
+//       Handle video game added to collection
+
+//       Handle video game deleted from collection
+   }
 }
