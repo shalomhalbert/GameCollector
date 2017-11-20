@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Created by shalom on 2017-10-07.
- * Uses CollectableSQLContract class's constants to create SQLite database.
+ * Uses CollectableContract class's constants to create SQLite database.
  * Also, enables database management.
  */
 
@@ -24,29 +24,29 @@ public class CollectableDbHelper extends SQLiteOpenHelper {
 
     /*Used for creating table with all data*/
     private static final String SQL_CREATE_VIDEO_GAMES_TABLE = "CREATE TABLE "
-            + CollectableSQLContract.VideoGamesEntry.TABLE_NAME + " ("
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_CONSOLE + " TEXT NOT NULL, "
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_TITLE + " TEXT NOT NULL, "
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_LICENSEE + " TEXT DEFAULT unknown, "
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_RELEASED + " TEXT DEFAULT unknown, "
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_COPIES_OWNED + " , INTEGER DEFAULT 0"
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID + " TEXT NOT NULL);";
+            + CollectableContract.VideoGamesEntry.TABLE_NAME + " ("
+            + CollectableContract.VideoGamesEntry.COLUMN_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + CollectableContract.VideoGamesEntry.COLUMN_CONSOLE + " TEXT NOT NULL, "
+            + CollectableContract.VideoGamesEntry.COLUMN_TITLE + " TEXT NOT NULL, "
+            + CollectableContract.VideoGamesEntry.COLUMN_LICENSEE + " TEXT DEFAULT unknown, "
+            + CollectableContract.VideoGamesEntry.COLUMN_RELEASED + " TEXT DEFAULT unknown, "
+            + CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED + " , INTEGER DEFAULT 0"
+            + CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID + " TEXT NOT NULL);";
     /*Deletes video_games table*/
-    private static final String SQL_DELETE_VIDEO_GAMES_TABLE = "DROP TABLE IF EXISTS " + CollectableSQLContract.VideoGamesEntry.TABLE_NAME;
+    private static final String SQL_DELETE_VIDEO_GAMES_TABLE = "DROP TABLE IF EXISTS " + CollectableContract.VideoGamesEntry.TABLE_NAME;
     /*Used for creating virtual table that uses fts4*/
     private static final String SQL_CREATE_FTS_VIDEO_GAMES_TABLE = "CREATE VIRTUAL TABLE "
-            + CollectableSQLContract.FtsVideoGamesEntry.TABLE_NAME + " USING " + CollectableSQLContract.FtsVideoGamesEntry.FTS_VERSION
-            + " (" + "content='" + CollectableSQLContract.VideoGamesEntry.TABLE_NAME + "'" + ", "
-            + CollectableSQLContract.FtsVideoGamesEntry.COLUMN_TITLE + ");";
+            + CollectableContract.FtsVideoGamesEntry.TABLE_NAME + " USING " + CollectableContract.FtsVideoGamesEntry.FTS_VERSION
+            + " (" + "content='" + CollectableContract.VideoGamesEntry.TABLE_NAME + "'" + ", "
+            + CollectableContract.FtsVideoGamesEntry.COLUMN_TITLE + ");";
     /*Used for populating fts_video_games table with data from video_games table*/
     private static final String SQL_POPULATE_FTS_VIDEO_GAMES_TABLE = "INSERT INTO "
-            + CollectableSQLContract.FtsVideoGamesEntry.TABLE_NAME + " (" + CollectableSQLContract.FtsVideoGamesEntry.COLUMN_DOC_ID + ", "
-            + CollectableSQLContract.FtsVideoGamesEntry.COLUMN_TITLE + ") SELECT " + CollectableSQLContract.VideoGamesEntry.COLUMN_ROW_ID + ", "
-            + CollectableSQLContract.VideoGamesEntry.COLUMN_TITLE + " FROM " + CollectableSQLContract.VideoGamesEntry.TABLE_NAME + ";";
+            + CollectableContract.FtsVideoGamesEntry.TABLE_NAME + " (" + CollectableContract.FtsVideoGamesEntry.COLUMN_DOC_ID + ", "
+            + CollectableContract.FtsVideoGamesEntry.COLUMN_TITLE + ") SELECT " + CollectableContract.VideoGamesEntry.COLUMN_ROW_ID + ", "
+            + CollectableContract.VideoGamesEntry.COLUMN_TITLE + " FROM " + CollectableContract.VideoGamesEntry.TABLE_NAME + ";";
     /*Rebuilds fts_video_games table everytime the video_games table is updated*/
     private static final String SQL_REBUILD_FTS_VIDEO_GAMES_TABLE = "INSERT INTO "
-            + CollectableSQLContract.FtsVideoGamesEntry.TABLE_NAME + "(" + CollectableSQLContract.FtsVideoGamesEntry.TABLE_NAME
+            + CollectableContract.FtsVideoGamesEntry.TABLE_NAME + "(" + CollectableContract.FtsVideoGamesEntry.TABLE_NAME
             + ") VALUES ('rebuild')";
 
 
@@ -95,12 +95,12 @@ public class CollectableDbHelper extends SQLiteOpenHelper {
             }
 
             /*SQL script used for inserting each video game into the VideoGames table*/
-            String SQL_INSERT_VIDEO_GAMES = "INSERT INTO " + CollectableSQLContract.VideoGamesEntry.TABLE_NAME + " ("
-                    + CollectableSQLContract.VideoGamesEntry.COLUMN_CONSOLE + ", "
-                    + CollectableSQLContract.VideoGamesEntry.COLUMN_TITLE + ", "
-                    + CollectableSQLContract.VideoGamesEntry.COLUMN_LICENSEE + ", "
-                    + CollectableSQLContract.VideoGamesEntry.COLUMN_RELEASED + ", "
-                    + CollectableSQLContract.VideoGamesEntry.COLUMN_UNIQUE_ID
+            String SQL_INSERT_VIDEO_GAMES = "INSERT INTO " + CollectableContract.VideoGamesEntry.TABLE_NAME + " ("
+                    + CollectableContract.VideoGamesEntry.COLUMN_CONSOLE + ", "
+                    + CollectableContract.VideoGamesEntry.COLUMN_TITLE + ", "
+                    + CollectableContract.VideoGamesEntry.COLUMN_LICENSEE + ", "
+                    + CollectableContract.VideoGamesEntry.COLUMN_RELEASED + ", "
+                    + CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID
                     + ") VALUES ('" + console + "', '" + title + "', '" + licensee + "', '" + released + "', '" + uniqueID + "');";
 
             db.execSQL(SQL_INSERT_VIDEO_GAMES);
