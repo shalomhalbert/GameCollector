@@ -2,6 +2,7 @@
 <RelativeLayout
     android:id="@+id/activity_main_relative_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,7 +16,7 @@
         android:id="@+id/activity_collection_listview"
         android:layout_below="@id/activity_collection_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/activity_collection_floating_action_button"
