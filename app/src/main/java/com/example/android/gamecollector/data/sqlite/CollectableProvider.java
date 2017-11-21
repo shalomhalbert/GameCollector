@@ -128,6 +128,7 @@ public class CollectableProvider extends ContentProvider {
 
         switch (URI_MATCHER.match(uri)) {
             case VIDEO_GAMES:
+                Log.e(LOG_TAG, "Incorrect Uri received");
                 break;
             case VIDEO_GAME_ID:
                 /*Updates a row based on a given Unique_ID*/
@@ -183,18 +184,13 @@ public class CollectableProvider extends ContentProvider {
         if (newCollectable != null && newCollectable.moveToFirst()) {
             /*Get every value from cursor*/
             //Reformat code to centralize this action
-            String collectableRowId = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
-                    CollectableContract.VideoGamesEntry.COLUMN_ROW_ID));
-            String collectableConsole = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
-                    CollectableContract.VideoGamesEntry.COLUMN_CONSOLE));
-            String collectableTitle = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
-                    CollectableContract.VideoGamesEntry.COLUMN_TITLE));
-            String collectableLicensee = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
-                    CollectableContract.VideoGamesEntry.COLUMN_LICENSEE));
-            String collectableReleased = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
-                    CollectableContract.VideoGamesEntry.COLUMN_RELEASED));
-            String collectableUniqueId = newCollectable.getString(newCollectable.getColumnIndexOrThrow(
-                    CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID));
+            String collectableRowId = newCollectable.getString(newCollectable.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_ROW_ID));
+            String collectableConsole = newCollectable.getString(newCollectable.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_CONSOLE));
+            String collectableTitle = newCollectable.getString(newCollectable.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_TITLE));
+            String collectableLicensee = newCollectable.getString(newCollectable.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_LICENSEE));
+            String collectableReleased = newCollectable.getString(newCollectable.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_RELEASED));
+            String collectableUniqueId = newCollectable.getString(newCollectable.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_UNIQUE_ID));
+            String collectableCopies = newCollectable.getString(newCollectable.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_COPIES_OWNED));
 
             /*Add values to Map*/
             map.put(VideoGamesEntry.COLUMN_ROW_ID, collectableRowId);
@@ -203,6 +199,7 @@ public class CollectableProvider extends ContentProvider {
             map.put(VideoGamesEntry.COLUMN_LICENSEE, collectableLicensee);
             map.put(VideoGamesEntry.COLUMN_RELEASED, collectableReleased);
             map.put(VideoGamesEntry.COLUMN_UNIQUE_ID, collectableUniqueId);
+            map.put(VideoGamesEntry.COLUMN_COPIES_OWNED, collectableCopies);
         } else {
             Log.e(LOG_TAG, "Problem getting cursor values");
             return null;
@@ -210,12 +207,4 @@ public class CollectableProvider extends ContentProvider {
 
         return map;
     }
-
-    /* Increases copies owned by one when a game is added, and reduces by one when one is deleted.
-     * Should return 1 to prove only a single row was affected*/
-   private void updateCopiesOwned() {
-//       Handle video game added to collection
-
-//       Handle video game deleted from collection
-   }
 }
