@@ -299,7 +299,11 @@ public class CollectableDialogFragment extends DialogFragment {
         videoGame1.setDateAdded(currentDateTimeString);
         videoGame1.setRegionLock(regionLock);
         videoGame1.setComponentsOwned(componentsOwned);
-        videoGame1.setNote(note.getText().toString());
+        if(note.getText().toString() != null || note.getText().toString() != "") {
+            videoGame1.setNote(note.getText().toString());
+        } else {
+            videoGame1.setNote(VideoGame.UNDEFINED_TRAIT);
+        }
 
         return videoGame1;
     }
