@@ -1,9 +1,8 @@
 package com.example.android.gamecollector.collectable.videoGames;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,25 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.collected.videoGames.PersonalCollectionActivity;
-import com.example.android.gamecollector.data.sqlite.CollectableContract;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
-import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
 import com.example.android.gamecollector.data.sqlite.CollectableProvider;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by shalom on 2017-11-13.
@@ -80,16 +71,18 @@ public class CollectableDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_collectable_dialog, container, false);
 
-//        String toolbarTitle = R.string.fragment_collectable_title + "[add collectable's title]";
-
+        /*Set string for Toolbar's title*/
+        String toolbarTitle = R.string.fragment_collectable_title + " " + videoGameData.get(VideoGamesEntry.COLUMN_TITLE);
+        /*Find Toolbar*/
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.activity_collectable_dialog_toolbar);
-//        toolbar.setTitle(toolbarTitle);
         /*Sets toolbar as ActionBar*/
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
+        /*Set toolbar's title*/
+        toolbar.setTitle(toolbarTitle);
         /*Enable home button and supply a custom icon*/
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
+            /*Show custom drawable for up icon*/
             actionBar.setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -119,17 +112,32 @@ public class CollectableDialogFragment extends DialogFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        setup switch-case for each action
         int id = item.getItemId();
 
         switch (id) {
             case R.id.activity_collectable_dialog_action_save:
 //                Update SQLite database Copies_Owned
                 videoGame = populateVideoGame();
+                videoGame.updateFirebase();
 
+                /*Updated number of copes owned*/
+                int updatedCopies = Integer.valueOf(videoGameData.get(VideoGamesEntry.COLUMN_COPIES_OWNED)) + 1;
+
+                /*Key value pair used for updating database*/
+                ContentValues sqliteUpdate = new ContentValues();
+                sqliteUpdate.put(VideoGamesEntry.COLUMN_COPIES_OWNED, String.valueOf(updatedCopies));
+
+                /*Update call*/
+                int rowsUpdate = getContext().getContentResolver().update(VideoGamesEntry.CONTENT_URI, sqliteUpdate,
+                        VideoGamesEntry.COLUMN_UNIQUE_ID + "=" + videoGame.getUniqueID(),
+                        null);
+
+                Log.i(LOG_TAG, "Rows updated: " + rowsUpdate);
+
+                dismiss();
 
                 break;
-            case android.R.id.home ;
+            case android.R.id.home:
 //                Make sure to confirm discard of data if data was input
                 dismiss();
                 break;
