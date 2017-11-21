@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Game Collector</string>
 
-    <!--Relates to res/xml/searchable.xml android:hint-->
+    <!--Relates to PersonalCollection class's toolbar title-->
+    <string name="activity_collection_toolbar_title">Collection</string>
+
+    <!--Relates to searchable.xml android:hint-->
     <string name="collectable_search_hint">Search items</string>
 
-    <!--Relates to res/mactivity_main_menun_menu.xml.xml-->
+    <!--Relates to activity_collectable_menu-->
     <string name="collectable_menu_title">Add collectable</string>
 
     <!--Empty search activity filler text-->
