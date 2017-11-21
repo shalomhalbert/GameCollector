@@ -16,7 +16,7 @@
             android:value=".AddCollectableSearchResultsActivity" />
 
         <activity
-            android:name=".collected.videoGames.PersonalCollectionActivity"
+            android:name=".collected.videoGames.CollectionActivity"
             android:label="Personal Collection"
             android:screenOrientation="portrait">
 
@@ -32,7 +32,7 @@
             android:label="Add to collection"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:parentActivityName=".collected.videoGames.PersonalCollectionActivity">
+            android:parentActivityName=".collected.videoGames.CollectionActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
