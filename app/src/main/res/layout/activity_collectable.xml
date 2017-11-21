@@ -12,7 +12,7 @@
         layout="@layout/toolbar_actionbar" />
 
     <ListView
-        android:id="@+id/activity_collection_listview"
+        android:id="@+id/activity_collectable_listview"
         android:layout_below="@id/activity_collectable_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
