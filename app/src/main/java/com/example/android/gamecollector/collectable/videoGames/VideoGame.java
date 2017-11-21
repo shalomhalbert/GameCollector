@@ -27,6 +27,12 @@ public class VideoGame {
     public static final String COMPONENTS_OWNED = "Components_Owned";
     public static final String NOTE = "Note";
     public static final String UNDEFINED_TRAIT = "undefined";
+    /*Console names*/
+    public static final String NINTENDO_ENTERTAINMENT_SYSTEM = "NES";
+    public static final String SUPER_NINTENDO_ENTERTAINMENT_SYSTEM = "SNES";
+    public static final String NINTENDO_64 = "N64";
+    public static final String NINTENDO_GAMEBOY = "GB";
+    public static final String NINTENDO_GAMEBOY_COLOR = "GBC";
     /*Data that will be inputted into Firebase Realtime Database*/
     private String uniqueID;
     private String console;
@@ -48,6 +54,20 @@ public class VideoGame {
         this.title = title;
         this.licensee = licensee;
         this.released = released;
+    }
+
+    public VideoGame(String uniqueID, String console, String title, String licensee, String released,
+                     String dateAdded, String regionLock, HashMap<String,Boolean> componentsOwned,
+                     String note) {
+        this.uniqueID = uniqueID;
+        this.console = console;
+        this.title = title;
+        this.licensee = licensee;
+        this.released = released;
+        this.dateAdded = dateAdded;
+        this.regionLock = regionLock;
+        this.componentsOwned = componentsOwned;
+        this.note = note;
     }
 
     public void updateFirebase() {
