@@ -60,7 +60,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
         Cursor getTable = getContentResolver().query(VideoGamesEntry.CONTENT_URI, projection, null, null, null, null);
 
         /*Sets up ListView and attaches Cursor Adaptor to it, and tells Adaptor which Cursor it'll interpret*/
-        ListView listView = (ListView) findViewById(R.id.collectables_list_view);
+        ListView listView = (ListView) findViewById(R.id.activity_collectable_listview);
         collectableCursorAdaptor = new CollectableCursorAdaptor(this, getTable, getSupportFragmentManager());
         listView.setAdapter(collectableCursorAdaptor);
 
@@ -76,7 +76,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
 
         /*Associate 'searchable configuration' with the SearchView*/
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search_add_collectable).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.activity_collectable_search_menu).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
