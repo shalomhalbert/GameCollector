@@ -13,6 +13,20 @@ import java.util.UUID;
  */
 
 public class VideoGame {
+    /*Constants which can be regionLock's value*/
+    public static final String USA = "USA";
+    public static final String JAPAN = "Japan";
+    public static final String EUROPEAN_UNION = "EU";
+    /*Constants for componentsOwned's keys*/
+    public static final String GAME = "Game";
+    public static final String MANUAL = "Manual";
+    public static final String BOX = "Box";
+    /*Constants for other Firebase's key values that are not one of table VideoGames's column names*/
+    public static final String DATE_ADDED = "Date_Added";
+    public static final String REGION_LOCK = "Region_Lock";
+    public static final String COMPONENTS_OWNED = "Components_Owned";
+    public static final String NOTE = "Note";
+    public static final String UNDEFINED_TRAIT = "undefined";
     /*Data that will be inputted into Firebase Realtime Database*/
     private String uniqueID;
     private String console;
@@ -21,27 +35,8 @@ public class VideoGame {
     private String released;
     private String dateAdded;
     private String regionLock;
-    private HashMap<String,Boolean> componentsOwned = new HashMap<>();
+    private HashMap<String, Boolean> componentsOwned = new HashMap<>();
     private String note;
-
-    /*Constants which can be regionLock's value*/
-    public static final String USA = "USA";
-    public static final String JAPAN = "Japan";
-    public static final String EUROPEAN_UNION = "EU";
-
-    /*Constants for componentsOwned's keys*/
-    public static final String GAME = "Game";
-    public static final String MANUAL = "Manual";
-    public static final String BOX = "Box";
-
-    /*Constants for other Firebase's key values that are not one of table VideoGames's column names*/
-    public static final String DATE_ADDED = "Date_Added";
-    public static final String REGION_LOCK = "Region_Lock";
-    public static final String COMPONENTS_OWNED = "Components_Owned";
-    public static final String NOTE = "Note";
-
-    public static final String UNDEFINED_TRAIT = "undefined";
-
     /*Firbase Realtime Database initializations*/
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -55,7 +50,7 @@ public class VideoGame {
         this.released = released;
     }
 
-    public void saveToFirebase() {
+    public void updateFirebase() {
         /*Create a unique ID that names a node for an individual video game when it's added*/
         String uniqueNodeId = UUID.randomUUID().toString();
 
@@ -82,75 +77,76 @@ public class VideoGame {
         databaseReference.child(NOTE).setValue(note);
     }
 
-    public void setUniqueID(String uniqueID) {
-        this.uniqueID = uniqueID;
-    }
-
-    public void setConsole(String console) {
-        this.console = console;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setLicensee(String licensee) {
-        this.licensee = licensee;
-    }
-
-    public void setReleased(String released) {
-        this.released = released;
-    }
-
-    public void setDateAdded(String dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
-    public void setRegionLock(String regionLock) {
-        this.regionLock = regionLock;
-    }
-
-    public void setComponentsOwned(HashMap<String,Boolean> componentsOwned) {
-        this.componentsOwned = componentsOwned;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
     public String getUniqueID() {
         return uniqueID;
+    }
+
+    public void setUniqueID(String uniqueID) {
+        this.uniqueID = uniqueID;
     }
 
     public String getConsole() {
         return console;
     }
 
+    public void setConsole(String console) {
+        this.console = console;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getLicensee() {
         return licensee;
     }
 
+    public void setLicensee(String licensee) {
+        this.licensee = licensee;
+    }
+
     public String getReleased() {
         return released;
+    }
+
+    public void setReleased(String released) {
+        this.released = released;
     }
 
     public String getDateAdded() {
         return dateAdded;
     }
 
+    public void setDateAdded(String dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
     public String getRegionLock() {
         return regionLock;
+    }
+
+    public void setRegionLock(String regionLock) {
+        this.regionLock = regionLock;
     }
 
     public HashMap<String, Boolean> getComponentsOwned() {
         return componentsOwned;
     }
 
+    public void setComponentsOwned(HashMap<String, Boolean> componentsOwned) {
+        this.componentsOwned = componentsOwned;
+    }
+
     public String getNote() {
         return note;
     }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
 }
