@@ -19,8 +19,6 @@ import com.example.android.gamecollector.R;
 import com.example.android.gamecollector.collectable.videoGames.CollectableDialogFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
 /**
  * Created by shalom on 2017-10-12.
  * ListView adapter that uses collectable data given as a Cursor as its resource.
@@ -56,7 +54,7 @@ public class CollectableCursorAdaptor extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         /*Initialize ListView to setup onItemClickListener*/
-        ListView listView = (ListView) parent.findViewById(R.id.collectables_list_view);
+        ListView listView = (ListView) parent.findViewById(R.id.activity_collectable_listview);
         listItemListener(listView, context, cursor);
         /*Layout that will be inflated*/
         return LayoutInflater.from(context).inflate(R.layout.activity_collectable_list_item, parent, false);
@@ -119,20 +117,13 @@ public class CollectableCursorAdaptor extends CursorAdapter {
                 /*Get cursor's data as a Bundle which holds a HashMap*/
                 Bundle cursorDataBundle = context.getContentResolver().call(null, "getItemData", null, null);
 
-                ShowDialog(cursorDataBundle);
-
-
-                if (cursorDataBundle != null) {
-                    HashMap<String,String> cursorDataMap = (HashMap<String, String>) cursorDataBundle.getSerializable("HashMap");
-                }
-
-
+                showDialog(cursorDataBundle);
             }
         });
     }
 
     /*Opens dialog*/
-    private static void ShowDialog(Bundle bundle) {
+    private void showDialog(Bundle bundle) {
         /*Required for fragmentTransaction.add()*/
         int containerViewId = android.R.id.content;
 
@@ -145,13 +136,5 @@ public class CollectableCursorAdaptor extends CursorAdapter {
                 /*Sets transition effect for when dialog opens*/
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.add(containerViewId, dialogFragment).addToBackStack(null).commit();
-    }
-
-    /*Closes dialog*/
-    private static void DismissDialog() {
-        /*Pop DialogFragment off the Back Stack*/
-        if(FragmentManager.getBackStackEntryCount()>0) {
-            FragmentManager.popBackStack();
-        }
     }
 }
