@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.android.gamecollector.CollectableDialogFragment;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 
 import java.util.HashMap;
@@ -154,7 +155,7 @@ public class CollectableProvider extends ContentProvider {
     public Bundle call(String method, String arg, Bundle extras) {
         if (method == "getItemData") {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(VIDEO_GAME_DATA, getItemData(extras.getString(VideoGamesEntry.COLUMN_ROW_ID)));
+            bundle.putSerializable(CollectableDialogFragment.SQLITE_DATA, getItemData(extras.getString(VideoGamesEntry.COLUMN_ROW_ID)));
             return bundle;
         } else {
             Log.e(LOG_TAG, "Trouble calling getItemData() via call()");
