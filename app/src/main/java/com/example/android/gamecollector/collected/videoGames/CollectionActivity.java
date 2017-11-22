@@ -3,14 +3,18 @@ package com.example.android.gamecollector.collected.videoGames;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.android.gamecollector.CollectableDialogFragment;
 import com.example.android.gamecollector.R;
+import com.example.android.gamecollector.VideoGame;
 import com.example.android.gamecollector.collectable.videoGames.CollectableActivity;
-import com.example.android.gamecollector.collectable.videoGames.VideoGame;
 import com.example.android.gamecollector.data.firebase.CollectedArrayAdapter;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 import com.google.firebase.database.ChildEventListener;
@@ -39,6 +43,8 @@ public class CollectionActivity extends AppCompatActivity{
     /*Instantiation of Realtime Database objects*/
     private FirebaseDatabase database;
     private DatabaseReference collectionRef;
+    /*Manages dialog fragment*/
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public class CollectionActivity extends AppCompatActivity{
         setContentView(R.layout.activity_collection);
 
         /*Set toolbar as activity's ActionBar*/
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_collection_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         /*Set toolbar's title*/
         toolbar.setTitle(R.string.activity_collection_toolbar_title);
@@ -93,10 +99,10 @@ public class CollectionActivity extends AppCompatActivity{
                 String title = dataSnapshot.child(VideoGamesEntry.COLUMN_TITLE).getValue(String.class);
                 String licensee = dataSnapshot.child(VideoGamesEntry.COLUMN_LICENSEE).getValue(String.class);
                 String released = dataSnapshot.child(VideoGamesEntry.COLUMN_RELEASED).getValue(String.class);
-                String dateAdded = dataSnapshot.child(VideoGame.DATE_ADDED).getValue(String.class);
-                String regionLock = dataSnapshot.child(VideoGame.REGION_LOCK).getValue(String.class);
+                String dateAdded = dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class);
+                String regionLock = dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class);
                 componentsOwned = buildComponentsMap(dataSnapshot);
-                String note = dataSnapshot.child(VideoGame.NOTE).getValue(String.class);
+                String note = dataSnapshot.child(VideoGame.KEY_NOTE).getValue(String.class);
 
                 videoGames.add(new VideoGame(uniqueId, console, title, licensee, released, dateAdded,
                         regionLock, componentsOwned, note));
@@ -132,6 +138,24 @@ public class CollectionActivity extends AppCompatActivity{
                 listView = (ListView) findViewById(R.id.activity_collection_listview);
                 adapter = new CollectedArrayAdapter(getApplicationContext(), videoGames);
                 listView.setAdapter(adapter);
+                /*Set and handle when a list item is clicked*/
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        /*Initialize bundle that'll be passed to dialog fragment*/
+                        Bundle bundle = new Bundle();
+                        /*Extract VideoGame object from clicked list item*/
+                        VideoGame videoGame = (VideoGame) parent.getItemAtPosition(position);
+                        bundle.putString(VideoGame.KEY_UNIQUE_NODE_ID, videoGame.getValueUniqueNodeId());
+                        bundle.putString(VideoGamesEntry.COLUMN_TITLE, videoGame.getValueTitle());
+                        bundle.putString(VideoGame.KEY_REGION_LOCK, videoGame.getValueRegionLock());
+                        bundle.putSerializable(VideoGame.KEY_COMPONENTS_OWNED, videoGame.getValuesComponentsOwned());
+                        bundle.putString(VideoGame.KEY_NOTE, videoGame.getValueNote());
+
+                        showDialog(bundle);
+
+                    }
+                });
             }
 
             @Override
@@ -151,9 +175,9 @@ public class CollectionActivity extends AppCompatActivity{
         HashMap<String,Boolean> componentsOwned = new HashMap<>();
 
         /*Extract values from dataSnapshot*/
-        boolean game = dataSnapshot.child(VideoGame.COMPONENTS_OWNED).child(VideoGame.GAME).getValue(Boolean.class);
-        boolean manual = dataSnapshot.child(VideoGame.COMPONENTS_OWNED).child(VideoGame.MANUAL).getValue(Boolean.class);
-        boolean box = dataSnapshot.child(VideoGame.COMPONENTS_OWNED).child(VideoGame.BOX).getValue(Boolean.class);
+        boolean game = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.GAME).getValue(Boolean.class);
+        boolean manual = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.MANUAL).getValue(Boolean.class);
+        boolean box = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.BOX).getValue(Boolean.class);
 
         /*Add values to HashMap*/
         componentsOwned.put(VideoGame.GAME, game);
@@ -161,5 +185,21 @@ public class CollectionActivity extends AppCompatActivity{
         componentsOwned.put(VideoGame.BOX, box);
 
         return componentsOwned;
+    }
+
+    /*Opens populated DialogFragment*/
+    private void showDialog(Bundle bundle) {
+        /*Required for fragmentTransaction.add()*/
+        int containerViewId = android.R.id.content;
+
+                /*Initialize CollectableDialogFragment*/
+        CollectableDialogFragment dialogFragment = new CollectableDialogFragment();
+                /*Supplies arguments to dialogFragment*/
+        dialogFragment.setArguments(bundle);
+                /*FragmentManager is taken in constructor and FragmentTransaction makes transactions*/
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                /*Sets transition effect for when dialog opens*/
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.add(containerViewId, dialogFragment).addToBackStack(null).commit();
     }
 }
