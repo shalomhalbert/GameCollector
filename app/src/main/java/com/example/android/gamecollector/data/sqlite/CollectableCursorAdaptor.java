@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.android.gamecollector.CollectableDialogFragment;
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.collectable.videoGames.CollectableDialogFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 /**
@@ -32,16 +32,16 @@ public class CollectableCursorAdaptor extends CursorAdapter {
     /*Instantiations for Firebase Realtime Database*/
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private static FragmentManager FragmentManager;
+    private FragmentManager fragmentManager;
 
     /**
      * @param context The context
      * @param c       Cursor from which data is extracted
      */
-    public CollectableCursorAdaptor(Context context, Cursor c, FragmentManager FragmentManager) {
+    public CollectableCursorAdaptor(Context context, Cursor c, FragmentManager fragmentManager) {
         /*Set flags to 0*/
         super(context, c, 0);
-        this.FragmentManager = FragmentManager;
+        this.fragmentManager = fragmentManager;
     }
 
     /**
@@ -112,8 +112,12 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*Bundle that'll be passed onto the dialog fragment*/
+                Bundle dialogBundle = new Bundle();
+
                 /*Cursor's row ID*/
                 String rowID = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_ROW_ID));
+
                 /*Get cursor's data as a Bundle which holds a HashMap*/
                 Bundle cursorDataBundle = context.getContentResolver().call(null, "getItemData", null, null);
 
@@ -131,8 +135,8 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         CollectableDialogFragment dialogFragment = new CollectableDialogFragment();
                 /*Supplies arguments to dialogFragment*/
         dialogFragment.setArguments(bundle);
-                /*FragmentManager is taken in constructor and FragmentTransaction makes transactions*/
-        FragmentTransaction fragmentTransaction = FragmentManager.beginTransaction();
+                /*fragmentManager is taken in constructor and FragmentTransaction makes transactions*/
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 /*Sets transition effect for when dialog opens*/
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.add(containerViewId, dialogFragment).addToBackStack(null).commit();
