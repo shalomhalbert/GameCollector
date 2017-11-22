@@ -42,7 +42,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
         setContentView(R.layout.activity_collectable);
 
         /*Set toolbar as activity's action bar*/
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_collectable_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         /*Get a support ActionBar corresponding to this Toolbar*/
         ActionBar actionBar = getSupportActionBar();
