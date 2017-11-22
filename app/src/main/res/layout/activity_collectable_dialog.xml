@@ -8,16 +8,14 @@
     android:layout_height="match_parent"
     android:paddingBottom="16dp">
 
-    <include
-        android:id="@+id/activity_collectable_dialog_toolbar"
-        layout="@layout/toolbar_actionbar" />
+    <include layout="@layout/toolbar_actionbar"/>
 
     <com.example.android.gamecollector.customviews.CustomTextView
         android:id="@+id/activity_collectable_text_region_lock"
         xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_collectable_dialog_toolbar"
+        android:layout_below="@id/toolbar"
         android:layout_marginLeft="24dp"
         android:text="@string/region_lock"
         android:textSize="16sp"
