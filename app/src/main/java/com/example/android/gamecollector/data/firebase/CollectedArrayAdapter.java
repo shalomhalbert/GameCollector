@@ -1,6 +1,7 @@
 package com.example.android.gamecollector.data.firebase;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.collectable.videoGames.VideoGame;
+import com.example.android.gamecollector.VideoGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.HashMap;
  */
 
 public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
+    public static final String LOG_TAG = CollectedArrayAdapter.class.getSimpleName();
     /**
      * @param context    Activity's context
      * @param videoGames Arraylist populated with video game data
@@ -62,7 +64,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         int iconNumber = 0;
 
         /*Map of components owned where True means the component is owned*/
-        HashMap<String, Boolean> componenetsOwned = videoGame.getComponentsOwned();
+        HashMap<String, Boolean> componenetsOwned = videoGame.getValuesComponentsOwned();
         /*Iterate through every key*/
         for (String key : componenetsOwned.keySet()) {
             /*Handle cases where componenet is owned*/
@@ -70,7 +72,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
                 switch (key) {
                     case VideoGame.GAME:
                         icon = iconsList.get(iconNumber);
-                        icon.setImageResource(setGameImageSrc(videoGame.getConsole()));
+                        icon.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
                         iconNumber++;
                         break;
                     case VideoGame.MANUAL:
@@ -88,8 +90,8 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         }
 
         /*Handles displaying a drawable for regionLock*/
-        if (videoGame.getRegionLock() != null) {
-            switch (videoGame.getRegionLock()) {
+        if (videoGame.getValueRegionLock() != null) {
+            switch (videoGame.getValueRegionLock()) {
                 case VideoGame.USA:
                     icon = iconsList.get(iconNumber);
                     icon.setImageResource(R.drawable.flag_usa);
@@ -108,7 +110,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
             }
         }
 
-        if (videoGame.getNote() != VideoGame.UNDEFINED_TRAIT) {
+        if (videoGame.getValueNote() != VideoGame.UNDEFINED_TRAIT) {
             icon = iconsList.get(iconNumber);
             icon.setImageResource(R.drawable.ic_note_black_24dp);
             iconNumber++;
@@ -135,6 +137,9 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
                 return R.drawable.gameboy_cartridge_icon;
             case VideoGame.NINTENDO_GAMEBOY_COLOR:
                 return R.drawable.gameboy_cartridge_icon;
+            default:
+                Log.e(LOG_TAG, "Error setting cartridge icon");
+                return R.drawable.n64_cartridge_icon;
         }
     }
 }
