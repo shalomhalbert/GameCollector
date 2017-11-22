@@ -12,14 +12,14 @@
     android:background="@color/colorDarkBackground"
     android:orientation="vertical">
 
-    <!--Displays collectable's console's logo-->
+    <!--Displays collectablvalueConsolesole's logo-->
     <ImageView
         android:id="@+id/activity_collectable_image_console_logo"
         android:layout_width="64dp"
         android:layout_height="64dp"
         tools:src="@drawable/nintendo_64_logo" />
 
-    <!--Displays collectable's title-->
+    <!--Displays collectablvalueTitleitle-->
     <com.example.android.gamecollector.customviews.CustomTextView
         xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
         android:id="@+id/activity_collectable_text_title"
