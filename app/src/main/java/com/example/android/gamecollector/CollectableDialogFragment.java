@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.android.gamecollector.R;
+import com.example.android.gamecollector.VideoGame;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 import com.example.android.gamecollector.data.sqlite.CollectableProvider;
 
