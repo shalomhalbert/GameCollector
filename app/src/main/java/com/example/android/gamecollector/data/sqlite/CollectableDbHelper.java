@@ -30,7 +30,7 @@ public class CollectableDbHelper extends SQLiteOpenHelper {
             + CollectableContract.VideoGamesEntry.COLUMN_TITLE + " TEXT NOT NULL, "
             + CollectableContract.VideoGamesEntry.COLUMN_LICENSEE + " TEXT DEFAULT unknown, "
             + CollectableContract.VideoGamesEntry.COLUMN_RELEASED + " TEXT DEFAULT unknown, "
-            + CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED + " , INTEGER DEFAULT 0"
+            + CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED + " INTEGER DEFAULT 0, "
             + CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID + " TEXT NOT NULL);";
     /*Deletes video_games table*/
     private static final String SQL_DELETE_VIDEO_GAMES_TABLE = "DROP TABLE IF EXISTS " + CollectableContract.VideoGamesEntry.TABLE_NAME;
@@ -68,7 +68,6 @@ public class CollectableDbHelper extends SQLiteOpenHelper {
         /*Create and populate fts_video_games table*/
         db.execSQL(SQL_CREATE_FTS_VIDEO_GAMES_TABLE);
         db.execSQL(SQL_POPULATE_FTS_VIDEO_GAMES_TABLE);
-
     }
 
     @Override
@@ -105,6 +104,8 @@ public class CollectableDbHelper extends SQLiteOpenHelper {
 
             db.execSQL(SQL_INSERT_VIDEO_GAMES);
         }
+
+        db.close();
     }
 
     /*Concatenates console and title into one String, and removes all characters which are not a letter or number*/
