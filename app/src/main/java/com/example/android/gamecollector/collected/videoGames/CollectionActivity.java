@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,13 +27,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /**
  * Created by shalom on 2017-10-05.
  * Displays user's personal collection
  * Also, it's the main activity/
  */
 
-public class CollectionActivity extends AppCompatActivity{
+public class CollectionActivity extends AppCompatActivity {
     public static final String LOG_TAG = CollectionActivity.class.getSimpleName();
     /*Contains a list of objects with video game data that will be adapted to a ListView*/
     private ArrayList<VideoGame> videoGames = new ArrayList<>();
@@ -44,7 +46,7 @@ public class CollectionActivity extends AppCompatActivity{
     private FirebaseDatabase database;
     private DatabaseReference collectionRef;
     /*Manages dialog fragment*/
-    private FragmentManager fragmentManager;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,7 @@ public class CollectionActivity extends AppCompatActivity{
             * Runs after onCreate finishes.*/
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                HashMap<String,Boolean> componentsOwned = new HashMap<>();
+                HashMap<String, Boolean> componentsOwned = new HashMap<>();
 
                 /*Data points from each video_games node*/
                 String uniqueId = dataSnapshot.child(VideoGamesEntry.COLUMN_UNIQUE_ID).getValue(String.class);
@@ -137,6 +139,7 @@ public class CollectionActivity extends AppCompatActivity{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listView = (ListView) findViewById(R.id.activity_collection_listview);
                 adapter = new CollectedArrayAdapter(getApplicationContext(), videoGames);
+                Log.i(LOG_TAG, "Number of VideoGame elements given to adapter: " + videoGames.size());
                 listView.setAdapter(adapter);
                 /*Set and handle when a list item is clicked*/
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,6 +150,7 @@ public class CollectionActivity extends AppCompatActivity{
                         /*Extract VideoGame object from clicked list item*/
                         VideoGame videoGame = (VideoGame) parent.getItemAtPosition(position);
                         bundle.putString(VideoGame.KEY_UNIQUE_NODE_ID, videoGame.getValueUniqueNodeId());
+                        bundle.putString(VideoGame.KEY_CONSOLE, videoGame.getValueConsole());
                         bundle.putString(VideoGamesEntry.COLUMN_TITLE, videoGame.getValueTitle());
                         bundle.putString(VideoGame.KEY_REGION_LOCK, videoGame.getValueRegionLock());
                         bundle.putSerializable(VideoGame.KEY_COMPONENTS_OWNED, videoGame.getValuesComponentsOwned());
@@ -167,17 +171,17 @@ public class CollectionActivity extends AppCompatActivity{
 
     /**
      * Builds HashMap of componenets owned from Firebase DataSnapshot
+     *
      * @param dataSnapshot DataSnapshot object provided by onChildAdded()
      * @return HashMap populated with values representing whether component is owned
      */
-    private HashMap<String,Boolean> buildComponentsMap(DataSnapshot dataSnapshot) {
+    private HashMap<String, Boolean> buildComponentsMap(DataSnapshot dataSnapshot) {
         /*Placeholder HashMap*/
-        HashMap<String,Boolean> componentsOwned = new HashMap<>();
-
+        HashMap<String, Boolean> componentsOwned = new HashMap<>();
         /*Extract values from dataSnapshot*/
-        boolean game = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.GAME).getValue(Boolean.class);
-        boolean manual = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.MANUAL).getValue(Boolean.class);
-        boolean box = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.BOX).getValue(Boolean.class);
+        Boolean game = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.GAME).getValue(Boolean.class);
+        Boolean manual = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.MANUAL).getValue(Boolean.class);
+        Boolean box = dataSnapshot.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.BOX).getValue(Boolean.class);
 
         /*Add values to HashMap*/
         componentsOwned.put(VideoGame.GAME, game);
@@ -192,13 +196,13 @@ public class CollectionActivity extends AppCompatActivity{
         /*Required for fragmentTransaction.add()*/
         int containerViewId = android.R.id.content;
 
-                /*Initialize CollectableDialogFragment*/
+        /*Initialize CollectableDialogFragment*/
         CollectableDialogFragment dialogFragment = new CollectableDialogFragment();
-                /*Supplies arguments to dialogFragment*/
+        /*Supplies arguments to dialogFragment*/
         dialogFragment.setArguments(bundle);
-                /*FragmentManager is taken in constructor and FragmentTransaction makes transactions*/
+        /*FragmentManager is taken in constructor and FragmentTransaction makes transactions*/
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                /*Sets transition effect for when dialog opens*/
+        /*Sets transition effect for when dialog opens*/
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.add(containerViewId, dialogFragment).addToBackStack(null).commit();
     }
