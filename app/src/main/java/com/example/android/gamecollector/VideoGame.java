@@ -106,9 +106,9 @@ public class VideoGame {
         databaseReference.child(KEY_RELEASED ).setValue(valueReleased);
         databaseReference.child(KEY_DATE_ADDED).setValue(valueDateAdded);
         databaseReference.child(KEY_REGION_LOCK).setValue(valueRegionLock);
-        databaseReference.child(KEY_COMPONENTS_OWNED).child(GAME).setValue(valuesComponentsOwned.get(GAME).toString());
-        databaseReference.child(KEY_COMPONENTS_OWNED).child(MANUAL).setValue(valuesComponentsOwned.get(MANUAL).toString());
-        databaseReference.child(KEY_COMPONENTS_OWNED).child(BOX).setValue(valuesComponentsOwned.get(BOX).toString());
+        databaseReference.child(KEY_COMPONENTS_OWNED).child(GAME).setValue(valuesComponentsOwned.get(GAME));
+        databaseReference.child(KEY_COMPONENTS_OWNED).child(MANUAL).setValue(valuesComponentsOwned.get(MANUAL));
+        databaseReference.child(KEY_COMPONENTS_OWNED).child(BOX).setValue(valuesComponentsOwned.get(BOX));
         databaseReference.child(KEY_NOTE).setValue(valueNote);
         databaseReference.child(KEY_UNIQUE_NODE_ID).setValue(valueUniqueNodeId);
     }
