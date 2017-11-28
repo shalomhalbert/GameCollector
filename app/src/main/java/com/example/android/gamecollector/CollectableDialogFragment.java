@@ -18,12 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.gamecollector.customviews.CustomEditText;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
-import com.example.android.gamecollector.data.sqlite.CollectableProvider;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -42,28 +41,29 @@ public class CollectableDialogFragment extends DialogFragment {
     public static final String SQLITE_DATA = "sqliteData";
     public static final String FIREBASE_DATA = VideoGame.KEY_UNIQUE_NODE_ID;
     private Context context;
-    /*Map containing video game data of the clicked list item*/
-    private HashMap<String, String> contentProviderBundle;
     /*Object containing video game's data*/
     private VideoGame videoGame;
     /*Instantiated views*/
+    private View view;
     private ImageView usaFlag;
     private ImageView japanFlag;
     private ImageView euFlag;
     private ImageView game;
     private ImageView manual;
     private ImageView box;
-    private EditText noteEditText;
+    private CustomEditText noteEditText;
 
     /*Initialize contentProviderBundle and componentsOwned, and handle clicking*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.i(LOG_TAG, "Entered DialogFragment!");
         if (getArguments() != null) {
+            /*Handles adding new item to collection*/
             if (getArguments().containsKey(SQLITE_DATA)) {
                 /*Extract Hashmap containing video game's data*/
-                contentProviderBundle = (HashMap<String, String>) getArguments().getSerializable(CollectableProvider.VIDEO_GAME_DATA);
-
+                HashMap<String, String> contentProviderBundle = (HashMap<String, String>) getArguments().getSerializable(SQLITE_DATA);
                 /*Set VideoGame's values*/
                 videoGame = new VideoGame(contentProviderBundle.get(VideoGame.KEY_UNIQUE_ID),
                         contentProviderBundle.get(VideoGame.KEY_CONSOLE),
@@ -76,6 +76,7 @@ public class CollectableDialogFragment extends DialogFragment {
                 videoGame.setValueManual(false);
                 videoGame.setValueBox(false);
             } else if (getArguments().containsKey(FIREBASE_DATA)) {
+                /*Handles editing a collected item*/
                 videoGame = new VideoGame();
 
                 for (String key : getArguments().keySet()) {
@@ -86,6 +87,9 @@ public class CollectableDialogFragment extends DialogFragment {
                     switch (key) {
                         case VideoGame.KEY_UNIQUE_NODE_ID:
                             videoGame.setValueUniqueNodeId(getArguments().getString(VideoGame.KEY_UNIQUE_NODE_ID));
+                            break;
+                        case VideoGame.KEY_CONSOLE:
+                            videoGame.setValueConsole(getArguments().getString(VideoGame.KEY_CONSOLE));
                             break;
                         case VideoGame.KEY_TITLE:
                             videoGame.setValueTitle(getArguments().getString(VideoGame.KEY_TITLE));
@@ -103,6 +107,7 @@ public class CollectableDialogFragment extends DialogFragment {
                 }
             }
         }
+
 
 
     }
@@ -129,8 +134,8 @@ public class CollectableDialogFragment extends DialogFragment {
         }
 
         /*Initialize views*/
-        noteEditText = (EditText) view.findViewById(R.id.activity_collectable_edittext_notes);
-        handleButtons(container, view);
+        noteEditText = (CustomEditText) view.findViewById(R.id.activity_collectable_customedittext_notes);
+        handleButtons(container);
 
         /*Populate views if possible*/
         if (videoGame.getValueRegionLock() != null) {
@@ -201,7 +206,7 @@ public class CollectableDialogFragment extends DialogFragment {
 
 
     /*Head method for handling the dialog's buttons*/
-    private void handleButtons(ViewGroup container, View view) {
+    private void handleButtons(ViewGroup container) {
         /*Initialization of every ImageView on activty_add_collectable_dialog.xml for programmatic use*/
         usaFlag = (ImageView) view.findViewById(R.id.activity_collectable_image_usa);
         japanFlag = (ImageView) view.findViewById(R.id.activity_collectable_image_japan);
@@ -223,6 +228,8 @@ public class CollectableDialogFragment extends DialogFragment {
 
         setRegionLock(usaFlag, japanFlag, euFlag);
 
+        setCartridgeIcon();
+
         setComponentsOwned(game, manual, box);
 
     }
@@ -230,7 +237,7 @@ public class CollectableDialogFragment extends DialogFragment {
     /*Sets every icon's tint to colorInactiveIcon*/
     private void setButtonTintInactive(ArrayList<ImageView> imageViews) {
         for (ImageView icon : imageViews) {
-            icon.setColorFilter(ContextCompat.getColor(getView().getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+            icon.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
         }
     }
 
@@ -281,10 +288,10 @@ public class CollectableDialogFragment extends DialogFragment {
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (videoGame.getValueGame() == false) {
+                if (!videoGame.getValueGame()) {
                     setIconAsActive(game);
                     videoGame.setValueGame(true);
-                } else if (videoGame.getValueGame() == true) {
+                } else if (videoGame.getValueGame()) {
                     setIconAsInactive(game);
                     videoGame.setValueGame(false);
                 }
@@ -294,10 +301,10 @@ public class CollectableDialogFragment extends DialogFragment {
         manual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (videoGame.getValueManual() == false) {
+                if (!videoGame.getValueManual()) {
                     setIconAsActive(manual);
                     videoGame.setValueManual(true);
-                } else if (videoGame.getValueManual() == true) {
+                } else if (videoGame.getValueManual()) {
                     setIconAsInactive(manual);
                     videoGame.setValueManual(false);
                 }
@@ -307,10 +314,10 @@ public class CollectableDialogFragment extends DialogFragment {
         box.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (videoGame.getValueBox() == false) {
+                if (!videoGame.getValueBox()) {
                     setIconAsActive(box);
                     videoGame.setValueBox(true);
-                } else if (videoGame.getValueBox() == true) {
+                } else if (videoGame.getValueBox()) {
                     setIconAsInactive(box);
                     videoGame.setValueBox(false);
                 }
@@ -321,20 +328,20 @@ public class CollectableDialogFragment extends DialogFragment {
     /*Sets tints to display only the tapped icon as active*/
     private void setSingleIconAsActive(ImageView active, ImageView inactive1, ImageView inactive2) {
         /*Changes icon's tint to inactive color*/
-        active.setColorFilter(ContextCompat.getColor(getView().getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
+        active.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
         /*Changes icon's tint to inactive color*/
-        inactive1.setColorFilter(ContextCompat.getColor(getView().getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
-        inactive2.setColorFilter(ContextCompat.getColor(getView().getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+        inactive1.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+        inactive2.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
     }
 
     /*Changes icon's tint to active color*/
     private void setIconAsActive(ImageView imageView) {
-        imageView.setColorFilter(ContextCompat.getColor(getView().getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
+        imageView.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
     }
 
     /*Changes icon's tint to inactive color*/
     private void setIconAsInactive(ImageView imageView) {
-        imageView.setColorFilter(ContextCompat.getColor(getView().getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+        imageView.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
     }
 
     /*Populates unset VideoGame values*/
@@ -345,11 +352,47 @@ public class CollectableDialogFragment extends DialogFragment {
     }
 
     private void setNote() {
-        if (noteEditText.getText().toString() != null || noteEditText.getText().toString() != "") {
-            videoGame.setValueNote(noteEditText.getText().toString());
-        } else {
+        String text = noteEditText.getText().toString().trim();
+
+        if (text.isEmpty() || text.length() == 0 || text.equals("") || text == null) {
             videoGame.setValueNote(VideoGame.UNDEFINED_TRAIT);
+        } else {
+            videoGame.setValueNote(noteEditText.getText().toString());
+
         }
+    }
+
+
+    private void setCartridgeIcon() {
+
+        /*Handles null videoGame.getValueConsole()*/
+        if (videoGame.getValueConsole() == null) {
+            Log.e(LOG_TAG, "videoGame.getValueConsole() is null");
+            return;
+        }
+        int resID = 0;
+        switch (videoGame.getValueConsole().trim()) {
+            case VideoGame.NINTENDO_ENTERTAINMENT_SYSTEM:
+                resID = R.drawable.nes_cartridge_icon;
+                break;
+            case VideoGame.SUPER_NINTENDO_ENTERTAINMENT_SYSTEM:
+                resID =  R.drawable.snes_cartridge;
+                break;
+            case VideoGame.NINTENDO_64:
+                resID = R.drawable.n64_cartridge_icon;
+                break;
+            case VideoGame.NINTENDO_GAMEBOY:
+                resID = R.drawable.gameboy_cartridge_icon;
+                break;
+            case VideoGame.NINTENDO_GAMEBOY_COLOR:
+                resID = R.drawable.gameboy_cartridge_icon;
+                break;
+            default:
+                Log.e(LOG_TAG, "Error setting cartridge icon");
+                resID = R.drawable.n64_cartridge_icon;
+                break;
+        }
+        game.setImageResource(resID);
     }
 
     /**
@@ -389,15 +432,15 @@ public class CollectableDialogFragment extends DialogFragment {
         /*Counts how many clicks occur*/
         int clicks = 0;
 
-        if (videoGame.getValueGame() == true) {
+        if (videoGame.getValueGame()) {
             game.performClick();
             clicks++;
         }
-        if (videoGame.getValueManual() == true) {
+        if (videoGame.getValueManual()) {
             manual.performClick();
             clicks++;
         }
-        if (videoGame.getValueBox() == true) {
+        if (videoGame.getValueBox()) {
             box.performClick();
             clicks++;
         }
@@ -410,7 +453,7 @@ public class CollectableDialogFragment extends DialogFragment {
      * @param note A string which will be displayed
      */
     public void populateNote(String note) {
-        if (note == null || note == "") {
+        if (note == VideoGame.UNDEFINED_TRAIT) {
             return;
         }
         noteEditText.setText(note, TextView.BufferType.EDITABLE);
