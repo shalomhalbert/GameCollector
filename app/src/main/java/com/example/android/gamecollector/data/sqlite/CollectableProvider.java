@@ -40,8 +40,8 @@ public class CollectableProvider extends ContentProvider {
     /*SQLite statement for searching the video_games table by matching its 'title' column with
      * the resulting row's 'docid' that is in the indexed fts_video_games table*/
     private static final String SQL_QUERY_ADD_COLLECTABLE_SEARCH_RESULTS_ACTIVITY = "SELECT * FROM "
-            + CollectableContract.VideoGamesEntry.TABLE_NAME + " WHERE "
-            + CollectableContract.VideoGamesEntry.COLUMN_ROW_ID
+            + VideoGamesEntry.TABLE_NAME + " WHERE "
+            + VideoGamesEntry.COLUMN_ROW_ID
             + " IN (SELECT docid FROM " + CollectableContract.FtsVideoGamesEntry.TABLE_NAME
             + " WHERE " + CollectableContract.FtsVideoGamesEntry.TABLE_NAME
             + " MATCH ?)";
@@ -74,14 +74,14 @@ public class CollectableProvider extends ContentProvider {
 
         switch (URI_MATCHER.match(uri)) {
             case VIDEO_GAMES:
-                cursor = sqLiteDatabase.query(CollectableContract.VideoGamesEntry.TABLE_NAME,
+                cursor = sqLiteDatabase.query(VideoGamesEntry.TABLE_NAME,
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case VIDEO_GAME_ID:
                 /*SQL statement for extracting a single row from the video_games table using row ID*/
                 String sqlString = "SELECT * FROM "
-                        + CollectableContract.VideoGamesEntry.TABLE_NAME
-                        + " WHERE " + CollectableContract.VideoGamesEntry.COLUMN_ROW_ID + "=?";
+                        + VideoGamesEntry.TABLE_NAME
+                        + " WHERE " + VideoGamesEntry.COLUMN_ROW_ID + "=?";
                 /*Cursor containing all data for the selected row*/
                 cursor = sqLiteDatabase.rawQuery(sqlString, selectionArgs);
                 break;
@@ -108,9 +108,9 @@ public class CollectableProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (URI_MATCHER.match(uri)) {
             case VIDEO_GAMES:
-                return CollectableContract.VideoGamesEntry.CONTENT_TYPE;
+                return VideoGamesEntry.CONTENT_TYPE;
             case VIDEO_GAME_ID:
-                return CollectableContract.VideoGamesEntry.CONTENT_ITEM_TYPE;
+                return VideoGamesEntry.CONTENT_ITEM_TYPE;
             default:
                 return null;
         }
@@ -133,9 +133,9 @@ public class CollectableProvider extends ContentProvider {
                 break;
             case VIDEO_GAME_ID:
                 /*Updates a row based on a given Unique_ID*/
-                rowsUpdated = sqLiteDatabase.update(CollectableContract.VideoGamesEntry.TABLE_NAME,
+                rowsUpdated = sqLiteDatabase.update(VideoGamesEntry.TABLE_NAME,
                         values,
-                        CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID + "=?",
+                        VideoGamesEntry.COLUMN_UNIQUE_ID + "=?",
                         selectionArgs);
                 break;
             default:
@@ -175,9 +175,10 @@ public class CollectableProvider extends ContentProvider {
         /*Convert rowId to long for appended Uri*/
         long rowIdLong = Long.valueOf(rowId);
         /*Create Uri for the tapped collectable item*/
-        Uri individualItemUri = ContentUris.withAppendedId(CollectableContract.VideoGamesEntry.CONTENT_URI, rowIdLong);
+        Uri individualItemUri = ContentUris.withAppendedId(VideoGamesEntry.CONTENT_URI, rowIdLong);
 
         String[] selectionArgs = {rowId};
+        Log.i(LOG_TAG, "Running getItemData() for rowId: " + rowId);
         /*Get cursor with data belonging to the tapped collectable item*/
         Cursor newCollectable = getContext().getContentResolver().query(individualItemUri, null,
                 null, selectionArgs, null);
