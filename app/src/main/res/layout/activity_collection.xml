@@ -8,11 +8,13 @@
     android:orientation="vertical"
     android:background="@color/colorDarkBackground">
 
-    <include layout="@layout/toolbar_actionbar"/>
+    <include
+        layout="@layout/toolbar_actionbar"
+        android:id="@+id/activity_collection_toolbar"/>
 
     <ListView
         android:id="@+id/activity_collection_listview"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/activity_collection_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
