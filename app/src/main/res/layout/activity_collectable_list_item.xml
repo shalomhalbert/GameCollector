@@ -22,7 +22,7 @@
     <!--Displays collectablvalueTitleitle-->
     <com.example.android.gamecollector.customviews.CustomTextView
         xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
-        android:id="@+id/activity_collectable_text_title"
+        android:id="@+id/activity_collectable_customtext_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
@@ -34,13 +34,13 @@
     <!--Displays how copies of the collectable the user owns-->
     <com.example.android.gamecollector.customviews.CustomTextView
         xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
-        android:id="@+id/activity_collectable_text_copies_owned"
+        android:id="@+id/activity_collectable_customtext_copies_owned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="24dp"
         android:layout_toRightOf="@id/activity_collectable_image_console_logo"
-        android:layout_below="@id/activity_collectable_text_title"
+        android:layout_below="@id/activity_collectable_customtext_title"
         android:textSize="14sp"
         roboto:typefaceTextView="roboto_bold.ttf"
         tools:text="1 Owned"/>
