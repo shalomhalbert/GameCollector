@@ -362,9 +362,8 @@ public class CollectableDialogFragment extends DialogFragment {
         }
     }
 
-
+    /*Handles setting the cartridge icon under componentsOwned*/
     private void setCartridgeIcon() {
-
         /*Handles null videoGame.getValueConsole()*/
         if (videoGame.getValueConsole() == null) {
             Log.e(LOG_TAG, "videoGame.getValueConsole() is null");
