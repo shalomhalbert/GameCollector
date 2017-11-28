@@ -17,3 +17,9 @@ do that anytime.
 
 **Need help?**
 Please shoot over all questions, comments, criticisms, and complaints to me. Will do my best to answer quickly.
+
+**My current primary objectives**
+1. Publish application on Google Play Store.
+2. Display current selling prices for each item (helps users track their collection's value).
+3. Clean current lists of video games.
+4. Expand breadth of collectibles to include accessories, and additional consoles.
