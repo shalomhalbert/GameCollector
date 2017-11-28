@@ -13,12 +13,14 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.gamecollector.CollectableDialogFragment;
 import com.example.android.gamecollector.R;
+import com.example.android.gamecollector.customviews.CustomTextView;
+import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by shalom on 2017-10-12.
  * ListView adapter that uses collectable data given as a Cursor as its resource.
@@ -65,13 +67,13 @@ public class CollectableCursorAdaptor extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         /*Initailly this will display a video game's console's logo*/
         ImageView displayImage = (ImageView) view.findViewById(R.id.activity_collectable_image_console_logo);
-        TextView titleTextView = (TextView) view.findViewById(R.id.activity_collectable_text_title);
-        TextView copiesTextView = (TextView) view.findViewById(R.id.activity_collectable_text_copies_owned);
+        CustomTextView titleTextView = (CustomTextView) view.findViewById(R.id.activity_collectable_customtext_title);
+        CustomTextView copiesTextView = (CustomTextView) view.findViewById(R.id.activity_collectable_customtext_copies_owned);
 
         /*Extract properties from cursor*/
-        String console = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_CONSOLE));
-        String title = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_TITLE));
-        String copiesOwned = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED));
+        String console = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_CONSOLE));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_TITLE));
+        String copiesOwned = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_COPIES_OWNED));
 
         /*Set appropriate image to display*/
         switch(console) {
@@ -109,17 +111,23 @@ public class CollectableCursorAdaptor extends CursorAdapter {
     /*Initializes OnItemClickListener()
      *When clicked it passes rowID through explicit intent*/
     private void listItemListener(final ListView listView, final Context context, final Cursor cursor) {
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Log.e(LOG_TAG, "id: " + id);
+
                 /*Bundle that'll be passed onto the dialog fragment*/
                 Bundle dialogBundle = new Bundle();
-
-                /*Cursor's row ID*/
-                String rowID = cursor.getString(cursor.getColumnIndexOrThrow(CollectableContract.VideoGamesEntry.COLUMN_ROW_ID));
+                dialogBundle.putString(VideoGamesEntry.COLUMN_ROW_ID, String.valueOf(id));
+                
 
                 /*Get cursor's data as a Bundle which holds a HashMap*/
-                Bundle cursorDataBundle = context.getContentResolver().call(null, "getItemData", null, null);
+                Bundle cursorDataBundle = context.getContentResolver()
+                        .call(VideoGamesEntry.CONTENT_URI, "getItemData", 
+                                null, dialogBundle);
+
 
                 showDialog(cursorDataBundle);
             }
