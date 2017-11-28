@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.gamecollector.R;
 import com.example.android.gamecollector.VideoGame;
+import com.example.android.gamecollector.customviews.CustomTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +34,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     public View getView(int position, View convertView, ViewGroup parent) {
         /*Gets the data item associated with the specified position in the data set*/
         final VideoGame videoGame = getItem(position);
+        Log.i(LOG_TAG, "videoGame.getValueConsole(): " + videoGame.getValueConsole());
 
         /*Handles a null convertView*/
         if (convertView == null) {
@@ -42,7 +43,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
 
         /*Initialize views*/
         ImageView consoleLogoView = (ImageView) convertView.findViewById(R.id.activity_collection_image_console_logo);
-        TextView titleView = (TextView) convertView.findViewById(R.id.activity_collection_text_title);
+        CustomTextView titleView = (CustomTextView) convertView.findViewById(R.id.activity_collection_customtext_title);
         /*Initialize informational icons which are located beneath the title TextView
          *Numbers range from 1 (leftmost) to 5 (rightmost)*/
         ImageView icon0 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_1);
@@ -50,6 +51,10 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         ImageView icon2 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_3);
         ImageView icon3 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_4);
         ImageView icon4 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_5);
+
+        /*Set logo and title*/
+        consoleLogoView.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
+        titleView.setText(videoGame.getValueTitle());
 
         /*List which holds ImageViews for icon# (1-5)*/
         ArrayList<ImageView> iconsList = new ArrayList<>();
@@ -64,11 +69,16 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         int iconNumber = 0;
 
         /*Map of components owned where True means the component is owned*/
-        HashMap<String, Boolean> componenetsOwned = videoGame.getValuesComponentsOwned();
+        HashMap<String, Boolean> componentsOwned = videoGame.getValuesComponentsOwned();
         /*Iterate through every key*/
-        for (String key : componenetsOwned.keySet()) {
+        for (String key : componentsOwned.keySet()) {
+            Log.i(LOG_TAG, "componentsOwned.get(key): " + componentsOwned.get(key));
+            if (componentsOwned.get(key) == null) {
+                continue;
+            }
+
             /*Handle cases where componenet is owned*/
-            if (componenetsOwned.get(key) == true) {
+            if (componentsOwned.get(key) == true) {
                 switch (key) {
                     case VideoGame.GAME:
                         icon = iconsList.get(iconNumber);
