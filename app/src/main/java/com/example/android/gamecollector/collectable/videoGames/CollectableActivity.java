@@ -17,9 +17,9 @@ import android.view.MenuInflater;
 import android.widget.ListView;
 
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.FtsVideoGamesEntry;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
 
 /**
  * Created by shalom on 2017-10-11.
@@ -63,6 +63,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
         ListView listView = (ListView) findViewById(R.id.activity_collectable_listview);
         collectableCursorAdaptor = new CollectableCursorAdaptor(this, getTable, getSupportFragmentManager());
         listView.setAdapter(collectableCursorAdaptor);
+
 
         getSupportLoaderManager().initLoader(0, null, this);
     }
