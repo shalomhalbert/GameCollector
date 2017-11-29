@@ -27,6 +27,11 @@ import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
  * Uses search widget.
  */
 
+//    TODO(1) Adapt list item dividers to Sketch wireframe
+//    TODO(2) Change list item text color
+//    TODO(3) Enable copies owned to be displayed
+//    TODO(4) Enable partial word search to work (e.g. "poke" for "pokemon")
+
 public class CollectableActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     /*Use in Log statements*/
     public static final String LOG_TAG = CollectableActivity.class.getSimpleName();
