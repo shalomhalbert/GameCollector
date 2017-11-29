@@ -3,6 +3,8 @@ package com.example.android.gamecollector;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -34,6 +36,15 @@ import java.util.HashMap;
  * A full-screen dialog that allows user to input data about a collectable they are adding
  * to their collection.
  */
+
+//    TODO(1) Edit: Undefined note shouldn't display "undefined"
+//    TODO(2) USA flag is displaying improperly
+//    TODO(3) Confirm icon active and inactive colors are responding correctly
+//    TODO(4) Change CustomEditText to appropraite color
+//    TODO(5) CLicking save crashes app
+//    TODO(6) Add: Remove search icon from Toolbar
+//    TODO(7) Set home action button to send user to origination activity and save to Personal Collection
+//    TODO(8) Edit: Buttons are not highlighting
 
 public class CollectableDialogFragment extends DialogFragment {
     public static final String LOG_TAG = CollectableDialogFragment.class.getSimpleName();
@@ -115,7 +126,7 @@ public class CollectableDialogFragment extends DialogFragment {
     /*Inflate the layout to use as dialog or embedded fragment*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_collectable_dialog, container, false);
+        view = inflater.inflate(R.layout.activity_collectable_dialog, container, false);
 
         /*Set string for Toolbar's title*/
         String toolbarTitle = setToolbarTitle();
@@ -204,7 +215,6 @@ public class CollectableDialogFragment extends DialogFragment {
         return super.onOptionsItemSelected(item);
     }
 
-
     /*Head method for handling the dialog's buttons*/
     private void handleButtons(ViewGroup container) {
         /*Initialization of every ImageView on activty_add_collectable_dialog.xml for programmatic use*/
@@ -214,6 +224,8 @@ public class CollectableDialogFragment extends DialogFragment {
         game = (ImageView) view.findViewById(R.id.activity_collectable_image_game);
         manual = (ImageView) view.findViewById(R.id.activity_collectable_image_manual);
         box = (ImageView) view.findViewById(R.id.activity_collectable_image_box);
+
+        setImageResources();
 
         /*ArrayList of all icons*/
         ArrayList<ImageView> imageViews = new ArrayList<>();
@@ -232,6 +244,20 @@ public class CollectableDialogFragment extends DialogFragment {
 
         setComponentsOwned(game, manual, box);
 
+    }
+
+    /*Set image resource for all ImageViews except R.id.activity_collectable_image_game*/
+    private void setImageResources() {
+        Bitmap icon = BitmapFactory.decodeResource(view.getContext().getResources(),
+                R.drawable.flag_usa);
+        Bitmap usa = Bitmap.createScaledBitmap(icon,30,24,true);
+        usaFlag.setImageBitmap(usa);
+
+//        usaFlag.setImageResource(R.drawable.flag_usa);
+        japanFlag.setImageResource(R.drawable.flag_japan);
+        euFlag.setImageResource(R.drawable.flag_european_union);
+        manual.setImageResource(R.drawable.video_game_manual_icon);
+        box.setImageResource(R.drawable.box_icon);
     }
 
     /*Sets every icon's tint to colorInactiveIcon*/
@@ -362,8 +388,9 @@ public class CollectableDialogFragment extends DialogFragment {
         }
     }
 
-    /*Handles setting the cartridge icon under componentsOwned*/
+    /*handle setting the cartridge icon under componentsOwned*/
     private void setCartridgeIcon() {
+
         /*Handles null videoGame.getValueConsole()*/
         if (videoGame.getValueConsole() == null) {
             Log.e(LOG_TAG, "videoGame.getValueConsole() is null");
