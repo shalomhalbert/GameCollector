@@ -22,6 +22,13 @@ import java.util.HashMap;
 
 public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     public static final String LOG_TAG = CollectedArrayAdapter.class.getSimpleName();
+
+    /*List which holds ImageViews for icon# (1-5)*/
+    private ArrayList<ImageView> iconsList = new ArrayList<>();
+    /*Used for tracking which icon ImageView should be used*/
+    private int iconNumber = 0;
+
+
     /**
      * @param context    Activity's context
      * @param videoGames Arraylist populated with video game data
@@ -34,11 +41,13 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     public View getView(int position, View convertView, ViewGroup parent) {
         /*Gets the data item associated with the specified position in the data set*/
         final VideoGame videoGame = getItem(position);
-        Log.i(LOG_TAG, "videoGame.getValueConsole(): " + videoGame.getValueConsole());
+
 
         /*Handles a null convertView*/
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_collection_list_item, parent, false);
+        } else {
+            return convertView;
         }
 
         /*Initialize views*/
@@ -56,75 +65,15 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         consoleLogoView.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
         titleView.setText(videoGame.getValueTitle());
 
-        /*List which holds ImageViews for icon# (1-5)*/
-        ArrayList<ImageView> iconsList = new ArrayList<>();
         iconsList.add(icon0);
         iconsList.add(icon1);
         iconsList.add(icon2);
         iconsList.add(icon3);
         iconsList.add(icon4);
-        /*Instantiated ImageView that will only be initialized to equal an ImageView from iconsList*/
-        ImageView icon;
-        /*Used for tracking which icon ImageView should be used*/
-        int iconNumber = 0;
 
-        /*Map of components owned where True means the component is owned*/
-        HashMap<String, Boolean> componentsOwned = videoGame.getValuesComponentsOwned();
-        /*Iterate through every key*/
-        for (String key : componentsOwned.keySet()) {
-            Log.i(LOG_TAG, "componentsOwned.get(key): " + componentsOwned.get(key));
-            if (componentsOwned.get(key) == null) {
-                continue;
-            }
-
-            /*Handle cases where componenet is owned*/
-            if (componentsOwned.get(key) == true) {
-                switch (key) {
-                    case VideoGame.GAME:
-                        icon = iconsList.get(iconNumber);
-                        icon.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
-                        iconNumber++;
-                        break;
-                    case VideoGame.MANUAL:
-                        icon = iconsList.get(iconNumber);
-                        icon.setImageResource(R.drawable.video_game_manual_icon);
-                        iconNumber++;
-                        break;
-                    case VideoGame.BOX:
-                        icon = iconsList.get(iconNumber);
-                        icon.setImageResource(R.drawable.box_icon);
-                        iconNumber++;
-                        break;
-                }
-            }
-        }
-
-        /*Handles displaying a drawable for regionLock*/
-        if (videoGame.getValueRegionLock() != null) {
-            switch (videoGame.getValueRegionLock()) {
-                case VideoGame.USA:
-                    icon = iconsList.get(iconNumber);
-                    icon.setImageResource(R.drawable.flag_usa);
-                    iconNumber++;
-                    break;
-                case VideoGame.JAPAN:
-                    icon = iconsList.get(iconNumber);
-                    icon.setImageResource(R.drawable.flag_japan);
-                    iconNumber++;
-                    break;
-                case VideoGame.EUROPEAN_UNION:
-                    icon = iconsList.get(iconNumber);
-                    icon.setImageResource(R.drawable.flag_european_union);
-                    iconNumber++;
-                    break;
-            }
-        }
-
-        if (videoGame.getValueNote() != VideoGame.UNDEFINED_TRAIT) {
-            icon = iconsList.get(iconNumber);
-            icon.setImageResource(R.drawable.ic_note_black_24dp);
-            iconNumber++;
-        }
+        setComponentIcons(videoGame);
+        setRegionIcon(videoGame);
+        setNoteIcon(videoGame);
 
         return convertView;
     }
@@ -152,4 +101,73 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
                 return R.drawable.n64_cartridge_icon;
         }
     }
+
+    private void setComponentIcons(VideoGame videoGame) {
+        ImageView icon;
+        /*Map of components owned where True means the component is owned*/
+        HashMap<String, Boolean> componentsOwned = videoGame.getValuesComponentsOwned();
+        /*Check is component is owned and handle it*/
+        if (componentsOwned.get(VideoGame.GAME) == true) {
+            icon = iconsList.get(iconNumber);
+            icon.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
+            iconNumber++;
+        } else if (componentsOwned.get(VideoGame.GAME) == null) {
+            Log.e(LOG_TAG, "Key VideoGame.GAME has null value");
+        }
+
+        if (componentsOwned.get(VideoGame.MANUAL) == true) {
+            icon = iconsList.get(iconNumber);
+            icon.setImageResource(R.drawable.video_game_manual_icon);
+            iconNumber++;
+        } else if (componentsOwned.get(VideoGame.GAME) == null) {
+            Log.e(LOG_TAG, "Key VideoGame.MANUAL has null value");
+        }
+
+        if (componentsOwned.get(VideoGame.BOX) == true) {
+            icon = iconsList.get(iconNumber);
+            icon.setImageResource(R.drawable.box_icon);
+            iconNumber++;
+        } else if (componentsOwned.get(VideoGame.GAME) == null) {
+            Log.e(LOG_TAG, "Key VideoGame.BOX has null value");
+        }
+    }
+
+    private void setRegionIcon(VideoGame videoGame) {
+        ImageView icon;
+        /*Check for regionLock and handle it*/
+        switch (videoGame.getValueRegionLock()) {
+            case VideoGame.USA:
+                icon = iconsList.get(iconNumber);
+                icon.setImageResource(R.drawable.flag_usa);
+                iconNumber++;
+                break;
+            case VideoGame.JAPAN:
+                icon = iconsList.get(iconNumber);
+                icon.setImageResource(R.drawable.flag_japan);
+                iconNumber++;
+                break;
+            case VideoGame.EUROPEAN_UNION:
+                icon = iconsList.get(iconNumber);
+                icon.setImageResource(R.drawable.flag_european_union);
+                iconNumber++;
+                break;
+            case VideoGame.UNDEFINED_TRAIT:
+                Log.i(LOG_TAG, "Region lock not defined");
+                break;
+            default:
+                Log.e(LOG_TAG, "Problem setting region lock");
+        }
+    }
+
+    private void setNoteIcon(VideoGame videoGame) {
+        ImageView icon;
+        if (videoGame.getValueNote().trim() == VideoGame.UNDEFINED_TRAIT) {
+            icon = iconsList.get(iconNumber);
+            icon.setImageResource(R.drawable.ic_note_black_24dp);
+            iconNumber++;
+        } else {
+            Log.i(LOG_TAG, "videoGame.getValueNote(): " + videoGame.getValueNote());
+        }
+    }
+
 }
