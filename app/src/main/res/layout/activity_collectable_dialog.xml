@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDarkBackground"
-    android:paddingBottom="16dp">
+    android:paddingBottom="16dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <include
         android:id="@+id/activity_collectable_dialog_toolbar"
@@ -31,7 +33,6 @@
         android:layout_below="@id/activity_collectable_text_region_lock"
         android:layout_marginTop="36dp"
         android:layout_marginLeft="40dp"
-        android:src="@drawable/flag_usa"
         android:tint="@color/colorInactiveIcon" />
 
     <ImageView
@@ -42,7 +43,6 @@
         android:layout_toRightOf="@id/activity_collectable_image_usa"
         android:layout_marginTop="36dp"
         android:layout_marginLeft="36dp"
-        android:src="@drawable/flag_japan"
         android:tint="@color/colorInactiveIcon" />
 
     <ImageView
@@ -53,7 +53,6 @@
         android:layout_toRightOf="@id/activity_collectable_image_japan"
         android:layout_marginTop="36dp"
         android:layout_marginLeft="36dp"
-        android:src="@drawable/flag_european_union"
         android:tint="@color/colorInactiveIcon" />
 
     <View
@@ -97,8 +96,7 @@
         android:layout_marginLeft="36dp"
         android:layout_below="@id/activity_collectable_text_components_owned"
         android:layout_toRightOf="@id/activity_collectable_image_game"
-        android:tint="@color/colorInactiveIcon"
-        android:src="@drawable/video_game_manual_icon"/>
+        android:tint="@color/colorInactiveIcon"/>
 
     <ImageView
         android:id="@+id/activity_collectable_image_box"
@@ -107,8 +105,7 @@
         android:layout_marginLeft="36dp"
         android:layout_below="@id/activity_collectable_text_components_owned"
         android:layout_toRightOf="@id/activity_collectable_image_manual"
-        android:tint="@color/colorInactiveIcon"
-        android:src="@drawable/box_icon"/>
+        android:tint="@color/colorInactiveIcon"/>
 
     <View
         android:id="@+id/activity_collectable_divider_2"
