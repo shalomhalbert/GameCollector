@@ -1,5 +1,7 @@
 package com.example.android.gamecollector;
 
+import android.util.Log;
+
 import com.example.android.gamecollector.data.sqlite.CollectableContract;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -73,7 +75,7 @@ public class VideoGame {
 
     public VideoGame(String valueUniqueID, String valueConsole, String valueTitle, String valueLicensee, String valueReleased,
                      String valueDateAdded, String valueRegionLock, HashMap<String,Boolean> valuesComponentsOwned,
-                     String valueNote) {
+                     String valueNote, String valueUniqueNodeId) {
         this.valueUniqueID = valueUniqueID;
         this.valueConsole = valueConsole;
         this.valueTitle = valueTitle;
@@ -83,6 +85,7 @@ public class VideoGame {
         this.valueRegionLock = valueRegionLock;
         this.valuesComponentsOwned = valuesComponentsOwned;
         this.valueNote = valueNote;
+        this.valueUniqueNodeId = valueUniqueNodeId;
     }
 
     public void createNode() {
@@ -114,6 +117,7 @@ public class VideoGame {
     }
 
     public void updateNode() {
+        Log.i(LOG_TAG, "regionLock: " + getValueRegionLock() + ", game: " + getValueGame() + ", manual: " + getValueManual() + ", box: " + getValueBox());
         if (valueRegionLock == null) {
             valueRegionLock = UNDEFINED_TRAIT;
         }
@@ -122,9 +126,9 @@ public class VideoGame {
         databaseReference = firebaseDatabase.getReference()
                 .child("collectables_owned")
                 .child("video_games")
-                .child(valueUniqueNodeId);
+                .child(getValueUniqueNodeId());
         /*Update region lock*/
-        databaseReference.child(KEY_REGION_LOCK).child(valueRegionLock);
+        databaseReference.child(KEY_REGION_LOCK).setValue(getValueRegionLock());
         /*Update components owned*/
         databaseReference.child(KEY_COMPONENTS_OWNED).child(GAME).setValue(getValueGame());
         databaseReference.child(KEY_COMPONENTS_OWNED).child(MANUAL).setValue(getValueManual());
