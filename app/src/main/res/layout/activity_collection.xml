@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--TODO(1) Replace ListView with RecyclerView-->
 <RelativeLayout
     android:id="@+id/activity_main_relative_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,7 +17,9 @@
         android:id="@+id/activity_collection_listview"
         android:layout_below="@id/activity_collection_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:divider="@color/colorDarkDividers"
+        android:dividerHeight="1dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/activity_collection_floating_action_button"
