@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -33,6 +35,11 @@ import java.util.HashMap;
  * Displays user's personal collection
  * Also, it's the main activity/
  */
+
+//    TODO(3) Match list item divider width to Sketch wireframe (after switching to RecyclerView)
+//    TODO(2) Add options menu with About section (Learn what should be in it, besides citing drawable sources)
+//    TODO(2) Add sign-in using google credentials
+//    TODO(1) Editing should update a node, not create a new one
 
 public class CollectionActivity extends AppCompatActivity {
     public static final String LOG_TAG = CollectionActivity.class.getSimpleName();
@@ -93,8 +100,6 @@ public class CollectionActivity extends AppCompatActivity {
             * Runs after onCreate finishes.*/
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                HashMap<String, Boolean> componentsOwned = new HashMap<>();
-
                 /*Data points from each video_games node*/
                 String uniqueId = dataSnapshot.child(VideoGamesEntry.COLUMN_UNIQUE_ID).getValue(String.class);
                 String console = dataSnapshot.child(VideoGamesEntry.COLUMN_CONSOLE).getValue(String.class);
@@ -103,16 +108,27 @@ public class CollectionActivity extends AppCompatActivity {
                 String released = dataSnapshot.child(VideoGamesEntry.COLUMN_RELEASED).getValue(String.class);
                 String dateAdded = dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class);
                 String regionLock = dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class);
-                componentsOwned = buildComponentsMap(dataSnapshot);
+                HashMap<String, Boolean> componentsOwned = buildComponentsMap(dataSnapshot);
                 String note = dataSnapshot.child(VideoGame.KEY_NOTE).getValue(String.class);
+                String uniqueNodeId = dataSnapshot.child(VideoGame.KEY_UNIQUE_NODE_ID).getValue(String.class);
 
                 videoGames.add(new VideoGame(uniqueId, console, title, licensee, released, dateAdded,
-                        regionLock, componentsOwned, note));
+                        regionLock, componentsOwned, note, uniqueNodeId));
             }
 
+            /*Currently only handles Edit dialog results*/
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                /*Tracks element's index number*/
+                int counter = 0;
+                for (VideoGame game : videoGames) {
+                    if ( game.getValueDateAdded() == dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class)) {
+                        break;
+                    }
+                    counter++;
+                }
+                videoGames.get(counter).setValueRegionLock(dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class));
+                videoGames.get(counter).setValuesComponentsOwned(buildComponentsMap(dataSnapshot));
             }
 
             @Override
@@ -137,6 +153,7 @@ public class CollectionActivity extends AppCompatActivity {
             * Runs after ChildEventListener finishes.*/
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                sortTitles();
                 listView = (ListView) findViewById(R.id.activity_collection_listview);
                 adapter = new CollectedArrayAdapter(getApplicationContext(), videoGames);
                 Log.i(LOG_TAG, "Number of VideoGame elements given to adapter: " + videoGames.size());
@@ -189,6 +206,16 @@ public class CollectionActivity extends AppCompatActivity {
         componentsOwned.put(VideoGame.BOX, box);
 
         return componentsOwned;
+    }
+
+    /*Sort ArrayList according to title, alphabetically (1-999, then a/z)*/
+    private void sortTitles() {
+        Collections.sort(videoGames, new Comparator<VideoGame>() {
+            @Override
+            public int compare(VideoGame game1, VideoGame game2) {
+                return game1.getValueTitle().compareToIgnoreCase(game2.getValueTitle());
+            }
+        });
     }
 
     /*Opens populated DialogFragment*/
