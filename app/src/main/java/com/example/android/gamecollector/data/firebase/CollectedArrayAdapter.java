@@ -71,7 +71,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         iconsList.add(icon3);
         iconsList.add(icon4);
 
-        setComponentIcons(videoGame);
+         setComponentIcons(videoGame);
         setRegionIcon(videoGame);
         setNoteIcon(videoGame);
 
