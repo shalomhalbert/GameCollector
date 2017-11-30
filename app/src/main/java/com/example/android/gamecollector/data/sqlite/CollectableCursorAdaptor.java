@@ -66,9 +66,9 @@ public class CollectableCursorAdaptor extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         /*Initailly this will display a video game's console's logo*/
-        ImageView displayImage = (ImageView) view.findViewById(R.id.activity_collectable_image_console_logo);
-        CustomTextView titleTextView = (CustomTextView) view.findViewById(R.id.activity_collectable_customtext_title);
-        CustomTextView copiesTextView = (CustomTextView) view.findViewById(R.id.activity_collectable_customtext_copies_owned);
+        ImageView displayImage = (ImageView) view.findViewById(R.id.image_console_logo);
+        CustomTextView titleTextView = (CustomTextView) view.findViewById(R.id.customtext_title);
+        CustomTextView copiesTextView = (CustomTextView) view.findViewById(R.id.customtext_copies_owned);
 
         /*Extract properties from cursor*/
         String console = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_CONSOLE));
@@ -115,8 +115,6 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Log.e(LOG_TAG, "id: " + id);
 
                 /*Bundle that'll be passed onto the dialog fragment*/
                 Bundle dialogBundle = new Bundle();
