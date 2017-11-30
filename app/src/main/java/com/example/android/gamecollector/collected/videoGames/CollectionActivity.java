@@ -39,7 +39,7 @@ import java.util.HashMap;
 //    TODO(3) Match list item divider width to Sketch wireframe (after switching to RecyclerView)
 //    TODO(2) Add options menu with About section (Learn what should be in it, besides citing drawable sources)
 //    TODO(2) Add sign-in using google credentials
-//    TODO(1) Editing should update a node, not create a new one
+//    TODO(1) Bug: Prevent more than one flag from displaying. (seems to got through getView() > 1 time)
 
 public class CollectionActivity extends AppCompatActivity {
     public static final String LOG_TAG = CollectionActivity.class.getSimpleName();
@@ -127,8 +127,13 @@ public class CollectionActivity extends AppCompatActivity {
                     }
                     counter++;
                 }
-                videoGames.get(counter).setValueRegionLock(dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class));
-                videoGames.get(counter).setValuesComponentsOwned(buildComponentsMap(dataSnapshot));
+                
+                if (counter >= videoGames.size()) {
+                    return;
+                } else {
+                    videoGames.get(counter).setValueRegionLock(dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class));
+                    videoGames.get(counter).setValuesComponentsOwned(buildComponentsMap(dataSnapshot));
+                }
             }
 
             @Override
@@ -213,6 +218,10 @@ public class CollectionActivity extends AppCompatActivity {
         Collections.sort(videoGames, new Comparator<VideoGame>() {
             @Override
             public int compare(VideoGame game1, VideoGame game2) {
+
+                if (game1.getValueTitle() == null || game2.getValueTitle() == null) {
+                    return 0;
+                }
                 return game1.getValueTitle().compareToIgnoreCase(game2.getValueTitle());
             }
         });
