@@ -8,8 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.android.gamecollector.CollectableDialogFragment;
@@ -118,7 +116,7 @@ public class CollectableProvider extends ContentProvider {
 
     /*Users will not insert data into this database*/
     @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+    public Uri insert(Uri uri, ContentValues values) {
         return null;
     }
 
@@ -135,7 +133,7 @@ public class CollectableProvider extends ContentProvider {
                 /*Updates a row based on a given Unique_ID*/
                 rowsUpdated = sqLiteDatabase.update(VideoGamesEntry.TABLE_NAME,
                         values,
-                        VideoGamesEntry.COLUMN_UNIQUE_ID + "=?",
+                        selection,
                         selectionArgs);
                 break;
             default:
