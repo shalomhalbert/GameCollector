@@ -127,7 +127,7 @@ public class CollectionActivity extends AppCompatActivity {
                     }
                     counter++;
                 }
-                
+
                 if (counter >= videoGames.size()) {
                     return;
                 } else {
