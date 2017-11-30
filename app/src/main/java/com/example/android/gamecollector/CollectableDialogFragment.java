@@ -1,10 +1,7 @@
 package com.example.android.gamecollector;
 
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -24,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.gamecollector.customviews.CustomEditText;
-import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -45,6 +41,7 @@ import java.util.HashMap;
 //    TODO(6) Add: Remove search icon from Toolbar
 //    TODO(7) Set home action button to send user to origination activity and save to Personal Collection
 //    TODO(8) Edit: Buttons are not highlighting
+//    TODO(9) Edit: If update encompasses removing all values, it currently doesn't display no icons
 
 public class CollectableDialogFragment extends DialogFragment {
     public static final String LOG_TAG = CollectableDialogFragment.class.getSimpleName();
@@ -76,7 +73,7 @@ public class CollectableDialogFragment extends DialogFragment {
                 /*Extract Hashmap containing video game's data*/
                 HashMap<String, String> contentProviderBundle = (HashMap<String, String>) getArguments().getSerializable(SQLITE_DATA);
                 /*Set VideoGame's values*/
-                videoGame = new VideoGame(contentProviderBundle.get(VideoGame.KEY_UNIQUE_ID),
+                videoGame = new VideoGame(getContext(), contentProviderBundle.get(VideoGame.KEY_UNIQUE_ID),
                         contentProviderBundle.get(VideoGame.KEY_CONSOLE),
                         contentProviderBundle.get(VideoGame.KEY_TITLE),
                         contentProviderBundle.get(VideoGame.KEY_LICENSEE),
@@ -86,6 +83,8 @@ public class CollectableDialogFragment extends DialogFragment {
                 videoGame.setValueGame(false);
                 videoGame.setValueManual(false);
                 videoGame.setValueBox(false);
+                /*Pass rowID*/
+                videoGame.setValueRowID(contentProviderBundle.get(VideoGame.KEY_ROW_ID));
             } else if (getArguments().containsKey(FIREBASE_DATA)) {
                 /*Handles editing a collected item*/
                 videoGame = new VideoGame();
@@ -118,7 +117,6 @@ public class CollectableDialogFragment extends DialogFragment {
                 }
             }
         }
-
 
 
     }
@@ -186,21 +184,14 @@ public class CollectableDialogFragment extends DialogFragment {
         switch (id) {
             case R.id.activity_collectable_dialog_action_save:
                 if (videoGame.getValueUniqueNodeId() == null) {
+                    /*Handles Add item*/
                     setDate();
                     setNote();
                     videoGame.createNode();
-                /*Updated number of copes owned*/
-                    int updatedCopies = videoGame.getValueCopiesOwned() + 1;
-                /*Key value pair used for updating database*/
-                    ContentValues sqliteUpdate = new ContentValues();
-                    sqliteUpdate.put(VideoGamesEntry.COLUMN_COPIES_OWNED, String.valueOf(updatedCopies));
-                /*Update SQLite database*/
-                    int rowsUpdate = getContext().getContentResolver().update(VideoGamesEntry.CONTENT_URI, sqliteUpdate,
-                            VideoGamesEntry.COLUMN_UNIQUE_ID + "=" + videoGame.getValueUniqueID(),
-                            null);
-
-                    Log.i(LOG_TAG, "Rows updated: " + rowsUpdate);
+                    dismiss();
+                    break;
                 } else {
+                    /*Handles Edit item*/
                     setNote();
                     videoGame.updateNode();
                     dismiss();
@@ -248,12 +239,7 @@ public class CollectableDialogFragment extends DialogFragment {
 
     /*Set image resource for all ImageViews except R.id.activity_collectable_image_game*/
     private void setImageResources() {
-        Bitmap icon = BitmapFactory.decodeResource(view.getContext().getResources(),
-                R.drawable.flag_usa);
-        Bitmap usa = Bitmap.createScaledBitmap(icon,30,24,true);
-        usaFlag.setImageBitmap(usa);
-
-//        usaFlag.setImageResource(R.drawable.flag_usa);
+        usaFlag.setImageResource(R.drawable.flag_usa);
         japanFlag.setImageResource(R.drawable.flag_japan);
         euFlag.setImageResource(R.drawable.flag_european_union);
         manual.setImageResource(R.drawable.video_game_manual_icon);
@@ -402,7 +388,7 @@ public class CollectableDialogFragment extends DialogFragment {
                 resID = R.drawable.nes_cartridge_icon;
                 break;
             case VideoGame.SUPER_NINTENDO_ENTERTAINMENT_SYSTEM:
-                resID =  R.drawable.snes_cartridge;
+                resID = R.drawable.snes_cartridge;
                 break;
             case VideoGame.NINTENDO_64:
                 resID = R.drawable.n64_cartridge_icon;
@@ -485,9 +471,9 @@ public class CollectableDialogFragment extends DialogFragment {
         noteEditText.setText(note, TextView.BufferType.EDITABLE);
     }
 
-    public String setToolbarTitle () {
+    public String setToolbarTitle() {
         if (videoGame.getValueUniqueNodeId() == null) {
-           return "Add " + videoGame.getValueTitle();
+            return "Add " + videoGame.getValueTitle();
         } else {
             return "Edit " + videoGame.getValueTitle();
         }

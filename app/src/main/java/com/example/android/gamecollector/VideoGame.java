@@ -1,14 +1,17 @@
 package com.example.android.gamecollector;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.example.android.gamecollector.data.sqlite.CollectableContract;
+import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.UUID;
-
 /**
  * Created by shalom on 2017-11-17.
  * An object whose sole purpose is temproary storage of a single video game's data
@@ -25,6 +28,7 @@ public class VideoGame {
     public static final String MANUAL = "Manual";
     public static final String BOX = "Box";
     /*Constants for other Firebase's key values that are not one of table VideoGames's column names*/
+    public static final String KEY_ROW_ID = CollectableContract.VideoGamesEntry.COLUMN_ROW_ID;
     public static final String KEY_UNIQUE_ID = CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID;
     public static final String KEY_CONSOLE = CollectableContract.VideoGamesEntry.COLUMN_CONSOLE;
     public static final String KEY_LICENSEE = CollectableContract.VideoGamesEntry.COLUMN_LICENSEE;
@@ -45,6 +49,7 @@ public class VideoGame {
     public static final String NINTENDO_GAMEBOY = "GB";
     public static final String NINTENDO_GAMEBOY_COLOR = "GBC";
     /*Data that will be inputted into Firebase Realtime Database*/
+    private String valueRowID = null;
     private String valueUniqueID = null; //Create by concatenating valueTitle and valueConsole name
     private String valueConsole = null;
     private String valueTitle = null;
@@ -59,12 +64,13 @@ public class VideoGame {
     /*Firebase Realtime Database initializations*/
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private Context context;
 
     /*Use when wanting to set values individually*/
     public VideoGame() { }
 
-
-    public VideoGame(String valueUniqueID, String valueConsole, String valueTitle, String valueLicensee, String valueReleased, int valueCopiesOwned) {
+    public VideoGame(Context context, String valueUniqueID, String valueConsole, String valueTitle, String valueLicensee, String valueReleased, int valueCopiesOwned) {
+        this.context = context;
         this.valueUniqueID = valueUniqueID;
         this.valueConsole = valueConsole;
         this.valueTitle = valueTitle;
@@ -74,7 +80,7 @@ public class VideoGame {
     }
 
     public VideoGame(String valueUniqueID, String valueConsole, String valueTitle, String valueLicensee, String valueReleased,
-                     String valueDateAdded, String valueRegionLock, HashMap<String,Boolean> valuesComponentsOwned,
+                     String valueDateAdded, String valueRegionLock, HashMap<String, Boolean> valuesComponentsOwned,
                      String valueNote, String valueUniqueNodeId) {
         this.valueUniqueID = valueUniqueID;
         this.valueConsole = valueConsole;
@@ -106,7 +112,7 @@ public class VideoGame {
         databaseReference.child(KEY_CONSOLE).setValue(valueConsole);
         databaseReference.child(KEY_TITLE).setValue(valueTitle);
         databaseReference.child(KEY_LICENSEE).setValue(valueLicensee);
-        databaseReference.child(KEY_RELEASED ).setValue(valueReleased);
+        databaseReference.child(KEY_RELEASED).setValue(valueReleased);
         databaseReference.child(KEY_DATE_ADDED).setValue(valueDateAdded);
         databaseReference.child(KEY_REGION_LOCK).setValue(valueRegionLock);
         databaseReference.child(KEY_COMPONENTS_OWNED).child(GAME).setValue(valuesComponentsOwned.get(GAME));
@@ -114,6 +120,10 @@ public class VideoGame {
         databaseReference.child(KEY_COMPONENTS_OWNED).child(BOX).setValue(valuesComponentsOwned.get(BOX));
         databaseReference.child(KEY_NOTE).setValue(valueNote);
         databaseReference.child(KEY_UNIQUE_NODE_ID).setValue(valueUniqueNodeId);
+
+        int rowsUpdated = updateCopiesOwned();
+
+        Log.i(LOG_TAG, "Rows updated: " + rowsUpdated);
     }
 
     public void updateNode() {
@@ -136,6 +146,33 @@ public class VideoGame {
         /*Update note*/
         databaseReference.child(KEY_NOTE).setValue(valueNote);
 
+    }
+
+    private int updateCopiesOwned() {
+        /*Updated number of copes owned*/
+        int updatedCopies = getValueCopiesOwned() + 1;
+        /*Uri with appropriate rowId appended*/
+        Uri uri = Uri.withAppendedPath(VideoGamesEntry.CONTENT_URI, getValueRowID());
+        /*Key value pair used for updating database*/
+        ContentValues sqliteUpdate = new ContentValues();
+        sqliteUpdate.put(VideoGamesEntry.COLUMN_COPIES_OWNED, String.valueOf(updatedCopies));
+
+        String selection = KEY_UNIQUE_ID + "=?";
+        String[] selectionArgs = {getValueUniqueID()};
+
+
+        /*Update SQLite database*/
+       int rowsUpdated = context.getContentResolver().update(uri, sqliteUpdate, selection, selectionArgs);
+
+       return rowsUpdated;
+    }
+
+    public String getValueRowID() {
+        return valueRowID;
+    }
+
+    public void setValueRowID(String valueRowID) {
+        this.valueRowID = valueRowID;
     }
 
     public String getValueUniqueID() {
@@ -204,22 +241,34 @@ public class VideoGame {
     }
 
     /*Get boolean value of game in valuesComponentsOwned*/
-    public boolean getValueGame() { return valuesComponentsOwned.get(GAME);}
+    public boolean getValueGame() {
+        return valuesComponentsOwned.get(GAME);
+    }
 
     /*Set boolean value of game in valuesComponentsOwned*/
-    public void setValueGame(boolean ownership) { valuesComponentsOwned.put(GAME, ownership); }
+    public void setValueGame(boolean ownership) {
+        valuesComponentsOwned.put(GAME, ownership);
+    }
 
     /*Get boolean value of manual in valuesComponentsOwned*/
-    public boolean getValueManual() { return valuesComponentsOwned.get(MANUAL);}
+    public boolean getValueManual() {
+        return valuesComponentsOwned.get(MANUAL);
+    }
 
     /*Set boolean value of manual in valuesComponentsOwned*/
-    public void setValueManual(boolean ownership) { valuesComponentsOwned.put(MANUAL, ownership); }
+    public void setValueManual(boolean ownership) {
+        valuesComponentsOwned.put(MANUAL, ownership);
+    }
 
     /*Get boolean value of box in valuesComponentsOwned*/
-    public boolean getValueBox() { return valuesComponentsOwned.get(BOX);}
+    public boolean getValueBox() {
+        return valuesComponentsOwned.get(BOX);
+    }
 
     /*Set boolean value of box in valuesComponentsOwned*/
-    public void setValueBox(boolean ownership) { valuesComponentsOwned.put(BOX, ownership); }
+    public void setValueBox(boolean ownership) {
+        valuesComponentsOwned.put(BOX, ownership);
+    }
 
     public String getValueNote() {
         return valueNote;
@@ -233,9 +282,15 @@ public class VideoGame {
         return valueUniqueNodeId;
     }
 
-    public void setValueUniqueNodeId(String valueUniqueNodeId) { this.valueUniqueNodeId = valueUniqueNodeId; }
+    public void setValueUniqueNodeId(String valueUniqueNodeId) {
+        this.valueUniqueNodeId = valueUniqueNodeId;
+    }
 
-    public int getValueCopiesOwned() { return valueCopiesOwned; }
+    public int getValueCopiesOwned() {
+        return valueCopiesOwned;
+    }
 
-    public void setValueCopiesOwned (int valueCopiesOwned) { this.valueCopiesOwned = valueCopiesOwned; }
+    public void setValueCopiesOwned(int valueCopiesOwned) {
+        this.valueCopiesOwned = valueCopiesOwned;
+    }
 }
