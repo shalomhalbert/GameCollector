@@ -14,6 +14,7 @@ import java.util.List;
  * Also, enables database management.
  */
 
+//    TODO(1) Check if data is deleted when Personal Collection's floating action button is clicked. And repopulate if it was (incl. Copies column)
 public class CollectableDbHelper extends SQLiteOpenHelper {
     public static final String LOG_TAG = CollectableDbHelper.class.getSimpleName();
     /*Database will contain all constant data about collectable items*/
