@@ -40,6 +40,8 @@ import java.util.HashMap;
 //    TODO(2) Add options menu with About section (Learn what should be in it, besides citing drawable sources)
 //    TODO(2) Add sign-in using google credentials
 //    TODO(1) Bug: Prevent more than one flag from displaying. (seems to got through getView() > 1 time)
+//    TODO(1) Add delete item option (reduces copies owned, and deleted from firebase)
+
 
 public class CollectionActivity extends AppCompatActivity {
     public static final String LOG_TAG = CollectionActivity.class.getSimpleName();
