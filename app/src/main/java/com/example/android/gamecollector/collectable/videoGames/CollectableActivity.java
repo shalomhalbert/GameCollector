@@ -27,7 +27,8 @@ import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
  * Uses search widget.
  */
 
-//    TODO(4) Enable partial word search to work (e.g. "poke" for "pokemon")
+//    TODO(3) Enable partial word search to work (e.g. "poke" for "pokemon")
+//    TODO(1) After useing search, if user taps home button it should take them to the Add to collection activity
 
 public class CollectableActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     /*Use in Log statements*/
