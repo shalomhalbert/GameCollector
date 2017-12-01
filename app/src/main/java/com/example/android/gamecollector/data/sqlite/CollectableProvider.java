@@ -45,7 +45,8 @@ public class CollectableProvider extends ContentProvider {
             + " MATCH ?)";
 
     /*Bundle in call()'s serializable's key*/
-    public static final String VIDEO_GAME_DATA = "HashMap";
+    public static final String TABLE_EXISTS_BOOLEAN = "TableExists";
+
 
     static {
         URI_MATCHER.addURI(CollectableContract.CONTENT_AUTHORITY,
@@ -151,14 +152,16 @@ public class CollectableProvider extends ContentProvider {
 
     @Override
     public Bundle call(String method, String arg, Bundle extras) {
+        Bundle bundle = new Bundle();
         if (method == "getItemData") {
-            Bundle bundle = new Bundle();
             bundle.putSerializable(CollectableDialogFragment.SQLITE_DATA, getItemData(extras.getString(VideoGamesEntry.COLUMN_ROW_ID)));
-            return bundle;
+        } else if(method == "tableExists") {
+            bundle.putBoolean(TABLE_EXISTS_BOOLEAN, tableExists());
         } else {
             Log.e(LOG_TAG, "Trouble calling getItemData() via call()");
             return null;
         }
+        return bundle;
     }
 
     /**
@@ -178,7 +181,7 @@ public class CollectableProvider extends ContentProvider {
         String[] selectionArgs = {rowId};
         Log.i(LOG_TAG, "Running getItemData() for rowId: " + rowId);
         /*Get cursor with data belonging to the tapped collectable item*/
-        Cursor newCollectable = getContext().getContentResolver().query(individualItemUri, null,
+        Cursor newCollectable = query(individualItemUri, null,
                 null, selectionArgs, null);
 
         if (newCollectable != null && newCollectable.moveToFirst()) {
@@ -206,5 +209,25 @@ public class CollectableProvider extends ContentProvider {
         }
 
         return map;
+    }
+
+    /*Checks if table video_games exists
+    * True means table exists*/
+    boolean tableExists() {
+        if (VideoGamesEntry.TABLE_NAME == null || sqLiteDatabase == null || !sqLiteDatabase.isOpen())
+        {
+            return false;
+        }
+        String sqlStatement = "SELECT COUNT(*) FROM sqlite_master WHERE type = ? AND name = ?;";
+        Cursor cursor = sqLiteDatabase.rawQuery(sqlStatement,
+                new String[] {"table", VideoGamesEntry.TABLE_NAME});
+        if (!cursor.moveToFirst())
+        {
+            cursor.close();
+            return false;
+        }
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count > 0;
     }
 }
