@@ -33,15 +33,14 @@ import java.util.HashMap;
  * to their collection.
  */
 
+//    TODO(1) USA flag is displaying improperly
+//    TODO(1) Confirm icon active and inactive colors are responding correctly
+//    TODO(1) Change CustomEditText to appropraite color
+//    TODO(1) Set home action button to send user to origination activity and save to Personal Collection
+//    TODO(1) Add: Remove search icon from Toolbar
 //    TODO(1) Edit: Undefined note shouldn't display "undefined"
-//    TODO(2) USA flag is displaying improperly
-//    TODO(3) Confirm icon active and inactive colors are responding correctly
-//    TODO(4) Change CustomEditText to appropraite color
-//    TODO(5) CLicking save crashes app
-//    TODO(6) Add: Remove search icon from Toolbar
-//    TODO(7) Set home action button to send user to origination activity and save to Personal Collection
-//    TODO(8) Edit: Buttons are not highlighting
-//    TODO(9) Edit: If update encompasses removing all values, it currently doesn't display no icons
+//    TODO(1) Edit: Buttons are not highlighting
+//    TODO(1) Edit: If update encompasses removing all values, it currently doesn't display no icons
 
 public class CollectableDialogFragment extends DialogFragment {
     public static final String LOG_TAG = CollectableDialogFragment.class.getSimpleName();
