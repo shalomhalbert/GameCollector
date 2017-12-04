@@ -20,6 +20,10 @@ import java.util.HashMap;
  * ArrayAdapter for CollectableActivity that binds values to list items
  */
 
+//    TODO(1) Fix text fonts
+//    TODO(1) Replace cartridge icons
+//    TODO(1) Make sure icons display properly
+
 public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     public static final String LOG_TAG = CollectedArrayAdapter.class.getSimpleName();
 
@@ -50,9 +54,12 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
             return convertView;
         }
 
+        Log.e(LOG_TAG, "position: " + position);
+
         /*Initialize views*/
         ImageView consoleLogoView = (ImageView) convertView.findViewById(R.id.activity_collection_image_console_logo);
         CustomTextView titleView = (CustomTextView) convertView.findViewById(R.id.activity_collection_customtext_title);
+
         /*Initialize informational icons which are located beneath the title TextView
          *Numbers range from 1 (leftmost) to 5 (rightmost)*/
         ImageView icon0 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_1);
@@ -65,15 +72,25 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         consoleLogoView.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
         titleView.setText(videoGame.getValueTitle());
 
+        Log.e(LOG_TAG, "videoGame.getValueTitle(): " + videoGame.getValueTitle());
+
         iconsList.add(icon0);
         iconsList.add(icon1);
         iconsList.add(icon2);
         iconsList.add(icon3);
         iconsList.add(icon4);
 
-         setComponentIcons(videoGame);
+        Log.e(LOG_TAG, "Before iconNumber: " + iconNumber);
+
+        setComponentIcons(videoGame);
         setRegionIcon(videoGame);
         setNoteIcon(videoGame);
+
+        Log.e(LOG_TAG, "After iconNumber: " + iconNumber);
+
+
+        /*Resets */
+        iconNumber = 0;
 
         return convertView;
     }
@@ -107,26 +124,32 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         /*Map of components owned where True means the component is owned*/
         HashMap<String, Boolean> componentsOwned = videoGame.getValuesComponentsOwned();
         /*Check is component is owned and handle it*/
-        if (componentsOwned.get(VideoGame.GAME) == true) {
+        if (componentsOwned.get(VideoGame.GAME)) {
             icon = iconsList.get(iconNumber);
             icon.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
             iconNumber++;
+        } else if (!componentsOwned.get(VideoGame.GAME)) {
+            Log.e(LOG_TAG, "Game is unowned");
         } else if (componentsOwned.get(VideoGame.GAME) == null) {
             Log.e(LOG_TAG, "Key VideoGame.GAME has null value");
         }
 
-        if (componentsOwned.get(VideoGame.MANUAL) == true) {
+        if (componentsOwned.get(VideoGame.MANUAL)) {
             icon = iconsList.get(iconNumber);
             icon.setImageResource(R.drawable.video_game_manual_icon);
             iconNumber++;
+        } else if (!componentsOwned.get(VideoGame.MANUAL)) {
+            Log.e(LOG_TAG, "Manual is unowned");
         } else if (componentsOwned.get(VideoGame.GAME) == null) {
             Log.e(LOG_TAG, "Key VideoGame.MANUAL has null value");
         }
 
-        if (componentsOwned.get(VideoGame.BOX) == true) {
+        if (componentsOwned.get(VideoGame.BOX)) {
             icon = iconsList.get(iconNumber);
             icon.setImageResource(R.drawable.box_icon);
             iconNumber++;
+        } else if (!componentsOwned.get(VideoGame.BOX)) {
+            Log.e(LOG_TAG, "Box is unowned");
         } else if (componentsOwned.get(VideoGame.GAME) == null) {
             Log.e(LOG_TAG, "Key VideoGame.BOX has null value");
         }
@@ -140,19 +163,22 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
                 icon = iconsList.get(iconNumber);
                 icon.setImageResource(R.drawable.flag_usa);
                 iconNumber++;
+                Log.e(LOG_TAG, "Case VideoGame.USA running for videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
                 break;
             case VideoGame.JAPAN:
                 icon = iconsList.get(iconNumber);
                 icon.setImageResource(R.drawable.flag_japan);
                 iconNumber++;
+                Log.e(LOG_TAG, "Case VideoGame.JAPAN running for videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
                 break;
             case VideoGame.EUROPEAN_UNION:
                 icon = iconsList.get(iconNumber);
                 icon.setImageResource(R.drawable.flag_european_union);
                 iconNumber++;
+                Log.e(LOG_TAG, "Case VideoGame.EUROPEAN_UNION running for videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
                 break;
             case VideoGame.UNDEFINED_TRAIT:
-                Log.i(LOG_TAG, "Region lock not defined");
+                Log.e(LOG_TAG, "Region lock not defined");
                 break;
             default:
                 Log.e(LOG_TAG, "Problem setting region lock");
@@ -165,6 +191,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
             icon = iconsList.get(iconNumber);
             icon.setImageResource(R.drawable.ic_note_black_24dp);
             iconNumber++;
+            Log.e(LOG_TAG, "videoGame.getValueNote().trim(): " + videoGame.getValueNote().trim());
         } else {
             Log.i(LOG_TAG, "videoGame.getValueNote(): " + videoGame.getValueNote());
         }
