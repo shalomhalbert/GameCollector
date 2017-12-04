@@ -15,6 +15,7 @@
         android:id="@+id/image_console_logo"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:paddingTop="16dp"
         android:layout_marginLeft="16dp"
         tools:src="@drawable/nintendo_64_logo" />
 
@@ -24,6 +25,7 @@
         android:id="@+id/customtext_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp"
         android:layout_toRightOf="@id/image_console_logo"
