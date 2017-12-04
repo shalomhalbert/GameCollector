@@ -26,11 +26,18 @@ import java.util.HashMap;
 
 public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     public static final String LOG_TAG = CollectedArrayAdapter.class.getSimpleName();
-
-    /*List which holds ImageViews for icon# (1-5)*/
-    private ArrayList<ImageView> iconsList = new ArrayList<>();
+    /*Instantiation of every view*/
+    private ImageView consoleLogoView;
+    private CustomTextView titleView;
+    private ImageView icon0;
+    private ImageView icon1;
+    private ImageView icon2;
+    private ImageView icon3;
+    private ImageView icon4;
     /*Used for tracking which icon ImageView should be used*/
-    private int iconNumber = 0;
+    private int iconNumber;
+    /*Utilized for setting image resources for icon# ImageViews*/
+    private ArrayList<ImageView> iconsList;
 
 
     /**
@@ -46,6 +53,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         /*Gets the data item associated with the specified position in the data set*/
         final VideoGame videoGame = getItem(position);
 
+        iconNumber = 0;
 
         /*Handles a null convertView*/
         if (convertView == null) {
@@ -54,43 +62,33 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
             return convertView;
         }
 
-        Log.e(LOG_TAG, "position: " + position);
-
         /*Initialize views*/
-        ImageView consoleLogoView = (ImageView) convertView.findViewById(R.id.activity_collection_image_console_logo);
-        CustomTextView titleView = (CustomTextView) convertView.findViewById(R.id.activity_collection_customtext_title);
-
+        consoleLogoView = (ImageView) convertView.findViewById(R.id.activity_collection_image_console_logo);
+        titleView = (CustomTextView) convertView.findViewById(R.id.activity_collection_customtext_title);
         /*Initialize informational icons which are located beneath the title TextView
          *Numbers range from 1 (leftmost) to 5 (rightmost)*/
-        ImageView icon0 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_1);
-        ImageView icon1 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_2);
-        ImageView icon2 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_3);
-        ImageView icon3 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_4);
-        ImageView icon4 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_5);
+        icon0 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_1);
+        icon1 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_2);
+        icon2 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_3);
+        icon3 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_4);
+        icon4 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_5);
 
-        /*Set logo and title*/
-        consoleLogoView.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
-        titleView.setText(videoGame.getValueTitle());
-
-        Log.e(LOG_TAG, "videoGame.getValueTitle(): " + videoGame.getValueTitle());
-
+        /*List which holds ImageViews for icon# (1-5)*/
+        iconsList = new ArrayList<>();
+        /*Add ImageViews to ArrayList*/
         iconsList.add(icon0);
         iconsList.add(icon1);
         iconsList.add(icon2);
         iconsList.add(icon3);
         iconsList.add(icon4);
 
-        Log.e(LOG_TAG, "Before iconNumber: " + iconNumber);
+        /*Set logo and title*/
+        consoleLogoView.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
+        titleView.setText(videoGame.getValueTitle());
 
         setComponentIcons(videoGame);
         setRegionIcon(videoGame);
         setNoteIcon(videoGame);
-
-        Log.e(LOG_TAG, "After iconNumber: " + iconNumber);
-
-
-        /*Resets */
-        iconNumber = 0;
 
         return convertView;
     }
