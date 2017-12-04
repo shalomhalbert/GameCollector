@@ -34,7 +34,7 @@ import java.util.HashMap;
  */
 
 //    TODO(1) USA flag is displaying improperly
-//    TODO(1) Confirm icon active and inactive colors are responding correctly
+//    TODO(1) Replace cartridge icons
 //    TODO(1) Change CustomEditText to appropraite color
 //    TODO(1) Set home action button to send user to origination activity and save to Personal Collection
 //    TODO(1) Add: Remove search icon from Toolbar
