@@ -27,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
  * Helps create list items for each row of data.
  */
 
+//    TODO(1) Fix text fonts
+
 public class CollectableCursorAdaptor extends CursorAdapter {
     /*Used for tracking Log statments*/
     public static final String LOG_TAG = CursorAdapter.class.getSimpleName();
