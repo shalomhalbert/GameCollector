@@ -40,6 +40,7 @@
         android:layout_height="16dp"
         android:layout_below="@id/activity_collection_customtext_title"
         android:layout_toRightOf="@id/activity_collection_image_console_logo"
+        android:tint="@color/colorInformativeIcon"
         tools:src="@drawable/gameboy_cartridge_icon"/>
 
     <ImageView
@@ -49,6 +50,7 @@
         android:layout_below="@id/activity_collection_customtext_title"
         android:layout_toRightOf="@id/activity_collection_list_item_image_1"
         android:layout_marginLeft="8dp"
+        android:tint="@color/colorInformativeIcon"
         tools:src="@drawable/video_game_manual_icon"/>
 
     <ImageView
@@ -58,6 +60,7 @@
         android:layout_below="@id/activity_collection_customtext_title"
         android:layout_toRightOf="@id/activity_collection_list_item_image_2"
         android:layout_marginLeft="8dp"
+        android:tint="@color/colorInformativeIcon"
         tools:src="@drawable/box_icon"/>
 
     <ImageView
@@ -67,6 +70,7 @@
         android:layout_below="@id/activity_collection_customtext_title"
         android:layout_toRightOf="@id/activity_collection_list_item_image_3"
         android:layout_marginLeft="8dp"
+        android:tint="@color/colorInformativeIcon"
         tools:src="@drawable/flag_european_union"/>
 
     <ImageView
@@ -76,6 +80,7 @@
         android:layout_below="@id/activity_collection_customtext_title"
         android:layout_toRightOf="@id/activity_collection_list_item_image_4"
         android:layout_marginLeft="8dp"
+        android:tint="@color/colorInformativeIcon"
         tools:src="@drawable/ic_note_black_24dp"/>
 
     <View
