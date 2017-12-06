@@ -1,6 +1,8 @@
 package com.example.android.gamecollector.data.firebase;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,6 +92,13 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         setComponentIcons(videoGame);
         setRegionIcon(videoGame);
         setNoteIcon(videoGame);
+
+        for (ImageView icon : iconsList) {
+            if (icon.getDrawable() == null) {
+                continue;
+            }
+            icon.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorInformativeIcon), PorterDuff.Mode.SRC_IN);
+        }
 
         return convertView;
     }
