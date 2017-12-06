@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--TODO(1) Add tints for ImageViews programatically after default setImageResource-->
 <!--List item layout activity_collectionection.xml.xml's ListView-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,7 +17,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="16dp"
-        tools:src="@drawable/nintendo_64_logo"/>
+        tools:src="@drawable/ic_n64_logo"/>
 
     <!--Displays title-->
     <com.example.android.gamecollector.customviews.CustomTextView
@@ -41,7 +42,7 @@
         android:layout_below="@id/activity_collection_customtext_title"
         android:layout_toRightOf="@id/activity_collection_image_console_logo"
         android:tint="@color/colorInformativeIcon"
-        tools:src="@drawable/gameboy_cartridge_icon"/>
+        tools:src="@drawable/ic_gameboy_cartridge"/>
 
     <ImageView
         android:id="@+id/activity_collection_list_item_image_2"
@@ -51,7 +52,7 @@
         android:layout_toRightOf="@id/activity_collection_list_item_image_1"
         android:layout_marginLeft="8dp"
         android:tint="@color/colorInformativeIcon"
-        tools:src="@drawable/video_game_manual_icon"/>
+        tools:src="@drawable/ic_manual"/>
 
     <ImageView
         android:id="@+id/activity_collection_list_item_image_3"
@@ -61,7 +62,7 @@
         android:layout_toRightOf="@id/activity_collection_list_item_image_2"
         android:layout_marginLeft="8dp"
         android:tint="@color/colorInformativeIcon"
-        tools:src="@drawable/box_icon"/>
+        tools:src="@drawable/ic_box"/>
 
     <ImageView
         android:id="@+id/activity_collection_list_item_image_4"
@@ -71,7 +72,7 @@
         android:layout_toRightOf="@id/activity_collection_list_item_image_3"
         android:layout_marginLeft="8dp"
         android:tint="@color/colorInformativeIcon"
-        tools:src="@drawable/flag_european_union"/>
+        tools:src="@drawable/ic_flag_european_union"/>
 
     <ImageView
         android:id="@+id/activity_collection_list_item_image_5"
