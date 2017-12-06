@@ -80,19 +80,19 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         /*Set appropriate image to display*/
         switch(console) {
             case "GB":
-                displayImage.setImageResource(R.drawable.gameboy_logo);
+                displayImage.setImageResource(R.drawable.ic_gameboy_logo);
                 break;
             case "GBC":
-                displayImage.setImageResource(R.drawable.game_boy_color_logo);
+                displayImage.setImageResource(R.drawable.ic_gameboy_color_logo);
                 break;
             case "N64":
-                displayImage.setImageResource(R.drawable.nintendo_64_logo);
+                displayImage.setImageResource(R.drawable.ic_n64_logo);
                 break;
             case "NES":
-                displayImage.setImageResource(R.drawable.nintendo_entertainment_system_logo);
+                displayImage.setImageResource(R.drawable.ic_nes_logo);
                 break;
             case "SNES":
-                displayImage.setImageResource(R.drawable.super_nintendo_entertainment_system_logo);
+                displayImage.setImageResource(R.drawable.ic_snes_logo);
                 break;
             default:
                 Log.e(LOG_TAG, "Unable to locate console named: " + console);
