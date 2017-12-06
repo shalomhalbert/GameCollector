@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO(2) Replace ListView with RecyclerView (https://traversoft.com/blog/2016/01/31/replace-listview-with-recyclerview/)-->
+<!--TODO(3) Replace ListView with RecyclerView (https://traversoft.com/blog/2016/01/31/replace-listview-with-recyclerview/)-->
 <RelativeLayout
     android:id="@+id/relative_layout_activity_add_collectable"
     xmlns:android="http://schemas.android.com/apk/res/android"
