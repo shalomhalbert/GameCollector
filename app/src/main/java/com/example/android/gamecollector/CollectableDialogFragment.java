@@ -41,6 +41,7 @@ import java.util.HashMap;
 //    TODO(1) Edit: Undefined note shouldn't display "undefined"
 //    TODO(1) Edit: Buttons are not highlighting
 //    TODO(1) Edit: If update encompasses removing all values, it currently doesn't display no icons
+//    TODO(1) Fix memory leak: Memory usage grows as collectables are saved to collection
 
 public class CollectableDialogFragment extends DialogFragment {
     public static final String LOG_TAG = CollectableDialogFragment.class.getSimpleName();
@@ -238,11 +239,11 @@ public class CollectableDialogFragment extends DialogFragment {
 
     /*Set image resource for all ImageViews except R.id.activity_collectable_image_game*/
     private void setImageResources() {
-        usaFlag.setImageResource(R.drawable.flag_usa);
-        japanFlag.setImageResource(R.drawable.flag_japan);
-        euFlag.setImageResource(R.drawable.flag_european_union);
-        manual.setImageResource(R.drawable.video_game_manual_icon);
-        box.setImageResource(R.drawable.box_icon);
+        usaFlag.setImageResource(R.drawable.ic_flag_usa);
+        japanFlag.setImageResource(R.drawable.ic_flag_japan);
+        euFlag.setImageResource(R.drawable.ic_flag_european_union);
+        manual.setImageResource(R.drawable.ic_manual);
+        box.setImageResource(R.drawable.ic_box);
     }
 
     /*Sets every icon's tint to colorInactiveIcon*/
@@ -384,23 +385,23 @@ public class CollectableDialogFragment extends DialogFragment {
         int resID = 0;
         switch (videoGame.getValueConsole().trim()) {
             case VideoGame.NINTENDO_ENTERTAINMENT_SYSTEM:
-                resID = R.drawable.nes_cartridge_icon;
+                resID = R.drawable.ic_nes_cartridge;
                 break;
             case VideoGame.SUPER_NINTENDO_ENTERTAINMENT_SYSTEM:
-                resID = R.drawable.snes_cartridge;
+                resID = R.drawable.ic_snes_cartridge;
                 break;
             case VideoGame.NINTENDO_64:
-                resID = R.drawable.n64_cartridge_icon;
+                resID = R.drawable.ic_n64_cartridge;
                 break;
             case VideoGame.NINTENDO_GAMEBOY:
-                resID = R.drawable.gameboy_cartridge_icon;
+                resID = R.drawable.ic_gameboy_cartridge;
                 break;
             case VideoGame.NINTENDO_GAMEBOY_COLOR:
-                resID = R.drawable.gameboy_cartridge_icon;
+                resID = R.drawable.ic_gameboy_cartridge;
                 break;
             default:
                 Log.e(LOG_TAG, "Error setting cartridge icon");
-                resID = R.drawable.n64_cartridge_icon;
+                resID = R.drawable.ic_n64_cartridge;
                 break;
         }
         game.setImageResource(resID);
