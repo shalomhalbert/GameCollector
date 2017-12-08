@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
@@ -128,6 +129,9 @@ public class CollectableCursorAdaptor extends CursorAdapter {
                         .call(VideoGamesEntry.CONTENT_URI, "getItemData", 
                                 null, dialogBundle);
 
+                /*Hides keyboard before dialog is shown*/
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                 showDialog(cursorDataBundle);
             }
