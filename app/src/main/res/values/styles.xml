@@ -1,5 +1,5 @@
 <resources>
-
+<!--TODO(1) Arrange and apply style-->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
