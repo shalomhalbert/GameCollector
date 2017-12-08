@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO(1) Add tints for ImageViews programatically after default setImageResource-->
 <!--List item layout activity_collectionection.xml.xml's ListView-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,7 +29,6 @@
         android:layout_marginBottom="8dp"
         android:textSize="16sp"
         tools:text="Super Mario 64"
-        tools:textColor="@color/colorDarkPrimaryText"
         roboto:typefaceTextView="roboto_bold.ttf"/>
 
     <!--Id numerics represented icon's position in their row.
