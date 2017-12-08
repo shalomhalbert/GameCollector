@@ -33,13 +33,8 @@ import java.util.HashMap;
  * to their collection.
  */
 
-//    TODO(1) USA flag is displaying improperly
-//    TODO(1) Replace cartridge icons
-//    TODO(1) Change CustomEditText to appropraite color
-//    TODO(1) Set home action button to send user to origination activity and save to Personal Collection
-//    TODO(1) Add: Remove search icon from Toolbar
 //    TODO(1) Edit: Undefined note shouldn't display "undefined"
-//    TODO(1) Edit: Buttons are not highlighting
+//    TODO(1) Edit: Components owned buttons are not highlighting
 //    TODO(1) Edit: If update encompasses removing all values, it currently doesn't display no icons
 //    TODO(1) Fix memory leak: Memory usage grows as collectables are saved to collection
 
@@ -137,13 +132,15 @@ public class CollectableDialogFragment extends DialogFragment {
         /*Enable home button and supply a custom icon*/
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+//            TODO(1) Change drawable's color
             /*Show custom drawable for up icon*/
             actionBar.setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
-            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         /*Initialize views*/
         noteEditText = (CustomEditText) view.findViewById(R.id.activity_collectable_customedittext_notes);
+
         handleButtons(container);
 
         /*Populate views if possible*/
@@ -175,6 +172,9 @@ public class CollectableDialogFragment extends DialogFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.activity_collectable_dialog_menu, menu);
+        if (menu.findItem(R.id.activity_collectable_search_menu) != null) {
+            menu.findItem(R.id.activity_collectable_search_menu).setVisible(false);
+        }
     }
 
     @Override
@@ -199,11 +199,12 @@ public class CollectableDialogFragment extends DialogFragment {
                 }
 
             case android.R.id.home:
-//                Make sure to confirm discard of data if data was input
                 dismiss();
                 break;
+            default:
+                Log.e(LOG_TAG, "Problem, reached no actionable OptionItem");
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     /*Head method for handling the dialog's buttons*/
