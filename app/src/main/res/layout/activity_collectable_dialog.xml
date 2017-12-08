@@ -133,5 +133,8 @@
         android:layout_below="@id/activity_collectable_text_notes"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="40dp"
-        android:hint="@string/notes_hint"/>
+        android:hint="@string/notes_hint"
+        android:backgroundTint="@color/colorDarkHintText"
+        android:textColorHint="@color/colorDarkHintText"
+        android:textColor="@color/colorDarkSecondaryText"/>
 </RelativeLayout>
