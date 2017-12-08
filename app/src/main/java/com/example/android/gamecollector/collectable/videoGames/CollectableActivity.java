@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ListView;
@@ -27,17 +28,19 @@ import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
  * Uses search widget.
  */
 
-//    TODO(3) Enable partial word search to work (e.g. "poke" for "pokemon")-- May entail using onQueryTextChange()
-//    TODO(3) After using search, if user taps home button it should take them to the Add to collection activity
+//    TODO(3) Enable partial word search to work (e.g. "poke" for "pokemon")-- Entails more advanced query search
 
-public class CollectableActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class CollectableActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     /*Use in Log statements*/
     public static final String LOG_TAG = CollectableActivity.class.getSimpleName();
     /*Constant for intent.putExtra() in SearchView.OnQueryTextListener*/
-    private static final String SEARCH_QUERY= "query";
-
+    private static final String SEARCH_QUERY = "query";
+    /*Instantiate Toolbar*/
+    Toolbar toolbar;
     /*Instaniated to help manage CollectableCursorAdaptor*/
     CollectableCursorAdaptor collectableCursorAdaptor;
+    /*Instantiate cursor of entire table*/
+    private Cursor getTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
         setContentView(R.layout.activity_collectable);
 
         /*Set toolbar as activity's action bar*/
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         /*Get a support ActionBar corresponding to this Toolbar*/
         ActionBar actionBar = getSupportActionBar();
@@ -60,7 +63,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
         String[] projection = {VideoGamesEntry.COLUMN_ROW_ID, VideoGamesEntry.COLUMN_CONSOLE,
                 VideoGamesEntry.COLUMN_TITLE, VideoGamesEntry.COLUMN_COPIES_OWNED};
         /*Requests all data in the video_games table and is displayed in an identical order to their row number's*/
-        Cursor getTable = getContentResolver().query(VideoGamesEntry.CONTENT_URI, projection, null, null, null, null);
+        getTable = getContentResolver().query(VideoGamesEntry.CONTENT_URI, projection, null, null, null, null);
 
         /*Sets up ListView and attaches Cursor Adaptor to it, and tells Adaptor which Cursor it'll interpret*/
         ListView listView = (ListView) findViewById(R.id.activity_collectable_listview);
@@ -82,23 +85,32 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.activity_collectable_search_menu).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        /*Hint displayed after search icon is clicked*/
+        searchView.setQueryHint("Enter a title...");
+
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            /*Handles searching when text is submitted*/
             @Override
             public boolean onQueryTextSubmit(String query) {
+//                Intent intent = new Intent(getApplicationContext(), CollectableActivity.class);
+//                intent.putExtra(SEARCH_QUERY, query);
+//                intent.setAction(Intent.ACTION_SEARCH);
+//                startActivity(intent);
+                return false;
+            }
+
+            /*Handles searching as text is typed*/
+            @Override
+            public boolean onQueryTextChange(String newText) {
                 Intent intent = new Intent(getApplicationContext(), CollectableActivity.class);
-                intent.putExtra(SEARCH_QUERY, query);
+                intent.putExtra(SEARCH_QUERY, newText);
                 intent.setAction(Intent.ACTION_SEARCH);
                 startActivity(intent);
                 return true;
             }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
         };
-
+        /*Connect SeachView and OnQueryTextListener*/
         searchView.setOnQueryTextListener(queryTextListener);
         return true;
     }
@@ -107,20 +119,38 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        /*Should update listView instantiated in onCreate()*/
+        /*Should update listView instantiated in onCreate() with Cursor from handleIntent*/
         Cursor queryResults = handleIntent(intent);
+        /*Update Adaptor's cursor*/
         collectableCursorAdaptor.changeCursor(queryResults);
     }
 
-    /*Handles query*/
+    /*Handles query using extras supplied by OnQueryTextListener's Intent*/
     private Cursor handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             /*Get String from search widget via ACTION_SEARCH Intent*/
             String[] selectionArgs = {intent.getStringExtra(SEARCH_QUERY)};
 
+            Log.i(LOG_TAG, "Search Query: +" + selectionArgs[0] + "+");
+
+            /*Handles empty search query*/
+            if (selectionArgs[0].equals("")) {
+                /*Handles a closed getTableCursor*/
+                if (getTable.isClosed()) {
+                    /*Ensures only necessary columns are given to Cursor Adaptor*/
+                    String[] projection = {VideoGamesEntry.COLUMN_ROW_ID, VideoGamesEntry.COLUMN_CONSOLE,
+                            VideoGamesEntry.COLUMN_TITLE, VideoGamesEntry.COLUMN_COPIES_OWNED};
+                    /*Requests all data in the video_games table and is displayed in an identical order to their row number's*/
+                    getTable = getContentResolver().query(VideoGamesEntry.CONTENT_URI, projection, null, null, null, null);
+                }
+                /*Returns cursor containing the entire video_games table*/
+                return getTable;
+            }
+
             /*Every argument except uri and selectionArgs are provided in the contentProvider*/
             Cursor queryResponseCursor = getContentResolver()
                     .query(FtsVideoGamesEntry.CONTENT_URI, null, null, selectionArgs, null);
+            /*Returns a cursor containing data belonging to rows with titles contaning the queried word*/
             return queryResponseCursor;
         } else {
             return null;
