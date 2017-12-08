@@ -23,8 +23,7 @@ import java.util.HashMap;
  */
 
 //    TODO(1) Fix text fonts
-//    TODO(1) Replace cartridge icons
-//    TODO(1) Show console logo instead of cartridge
+//    TODO(1) Ensure apropriate data is being passed to dialog
 //    TODO(1) Note icon displaying when there is no note. When tapped, most editText express no note (i.e. shows hint text), and one shows "undefined"
 
 public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
@@ -86,8 +85,9 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         iconsList.add(icon4);
 
         /*Set logo and title*/
-        consoleLogoView.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
+        consoleLogoView.setImageResource(setLogoImageSrc(videoGame.getValueConsole()));
         titleView.setText(videoGame.getValueTitle());
+        titleView.setTextColor(R.color.colorDarkPrimaryText);
 
         setComponentIcons(videoGame);
         setRegionIcon(videoGame);
@@ -127,6 +127,30 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         }
     }
 
+    /**
+     * Handles selecting which drawable logo icon should be displayed if a game is owned
+     *
+     * @param console Provided with videoGame.getconsole()
+     * @return Relevant logo's drawable resource ID
+     */
+    private int setLogoImageSrc(String console) {
+        switch (console) {
+            case VideoGame.NINTENDO_ENTERTAINMENT_SYSTEM:
+                return R.drawable.ic_nes_logo;
+            case VideoGame.SUPER_NINTENDO_ENTERTAINMENT_SYSTEM:
+                return R.drawable.ic_snes_logo;
+            case VideoGame.NINTENDO_64:
+                return R.drawable.ic_n64_logo;
+            case VideoGame.NINTENDO_GAMEBOY:
+                return R.drawable.ic_gameboy_logo;
+            case VideoGame.NINTENDO_GAMEBOY_COLOR:
+                return R.drawable.ic_gameboy_color_logo;
+            default:
+                Log.e(LOG_TAG, "Error setting cartridge icon");
+                return R.drawable.ic_n64_logo;
+        }
+    }
+
     private void setComponentIcons(VideoGame videoGame) {
         ImageView icon;
         /*Map of components owned where True means the component is owned*/
@@ -137,7 +161,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
             icon.setImageResource(setGameImageSrc(videoGame.getValueConsole()));
             iconNumber++;
         } else if (!componentsOwned.get(VideoGame.GAME)) {
-            Log.e(LOG_TAG, "Game is unowned");
+            Log.i(LOG_TAG, "Game is unowned");
         } else if (componentsOwned.get(VideoGame.GAME) == null) {
             Log.e(LOG_TAG, "Key VideoGame.GAME has null value");
         }
@@ -147,7 +171,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
             icon.setImageResource(R.drawable.ic_manual);
             iconNumber++;
         } else if (!componentsOwned.get(VideoGame.MANUAL)) {
-            Log.e(LOG_TAG, "Manual is unowned");
+            Log.i(LOG_TAG, "Manual is unowned");
         } else if (componentsOwned.get(VideoGame.GAME) == null) {
             Log.e(LOG_TAG, "Key VideoGame.MANUAL has null value");
         }
@@ -157,7 +181,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
             icon.setImageResource(R.drawable.ic_box);
             iconNumber++;
         } else if (!componentsOwned.get(VideoGame.BOX)) {
-            Log.e(LOG_TAG, "Box is unowned");
+            Log.i(LOG_TAG, "Box is unowned");
         } else if (componentsOwned.get(VideoGame.GAME) == null) {
             Log.e(LOG_TAG, "Key VideoGame.BOX has null value");
         }
@@ -171,22 +195,19 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
                 icon = iconsList.get(iconNumber);
                 icon.setImageResource(R.drawable.ic_flag_usa);
                 iconNumber++;
-                Log.e(LOG_TAG, "Case VideoGame.USA running for videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
                 break;
             case VideoGame.JAPAN:
                 icon = iconsList.get(iconNumber);
                 icon.setImageResource(R.drawable.ic_flag_japan);
                 iconNumber++;
-                Log.e(LOG_TAG, "Case VideoGame.JAPAN running for videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
                 break;
             case VideoGame.EUROPEAN_UNION:
                 icon = iconsList.get(iconNumber);
                 icon.setImageResource(R.drawable.ic_flag_european_union);
                 iconNumber++;
-                Log.e(LOG_TAG, "Case VideoGame.EUROPEAN_UNION running for videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
                 break;
             case VideoGame.UNDEFINED_TRAIT:
-                Log.e(LOG_TAG, "Region lock not defined");
+                Log.i(LOG_TAG, "Region lock not defined");
                 break;
             default:
                 Log.e(LOG_TAG, "Problem setting region lock");
@@ -199,7 +220,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
             icon = iconsList.get(iconNumber);
             icon.setImageResource(R.drawable.ic_note_black_24dp);
             iconNumber++;
-            Log.e(LOG_TAG, "videoGame.getValueNote().trim(): " + videoGame.getValueNote().trim());
+            Log.i(LOG_TAG, "videoGame.getValueNote().trim(): " + videoGame.getValueNote().trim());
         } else {
             Log.i(LOG_TAG, "videoGame.getValueNote(): " + videoGame.getValueNote());
         }
