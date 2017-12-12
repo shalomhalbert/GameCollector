@@ -105,8 +105,6 @@ public class CollectableDbHelper extends SQLiteOpenHelper {
 
             db.execSQL(SQL_INSERT_VIDEO_GAMES);
         }
-
-        db.close();
     }
 
     /*Concatenates console and title into one String, and removes all characters which are not a letter or number*/
