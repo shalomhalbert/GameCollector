@@ -37,6 +37,7 @@ import java.util.HashMap;
  */
 
 //    TODO(3) Match list item divider width to Sketch wireframe (after switching to RecyclerView)
+//    TODO(3) When user signs in, Firebase should update SQLite copies owned after checking if table exists. Build it if it doesn't
 //    TODO(2) Add options menu with About section (Learn what should be in it, besides citing drawable sources)
 //    TODO(2) Add sign-in using google credentials
 //    TODO(1) Add delete item option (reduces copies owned, and deleted from Firebase)
@@ -122,18 +123,29 @@ public class CollectionActivity extends AppCompatActivity {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 /*Tracks element's index number*/
                 int counter = 0;
+                /*Checks whether the changed node's date matches a videogame in the ArrayList
+                 *If dates match, they are the same node.*/
                 for (VideoGame game : videoGames) {
-                    if ( game.getValueDateAdded() == dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class)) {
+                    if (game.getValueDateAdded().equals(dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class))) {
                         break;
                     }
                     counter++;
                 }
 
+                /*If counter is larger than the VideoGame ArrayList's size, there was no change*/
                 if (counter >= videoGames.size()) {
                     return;
                 } else {
+                    /*Update the changed element*/
                     videoGames.get(counter).setValueRegionLock(dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class));
                     videoGames.get(counter).setValuesComponentsOwned(buildComponentsMap(dataSnapshot));
+                    videoGames.get(counter).setValueNote(dataSnapshot.child(VideoGame.KEY_NOTE).getValue(String.class));
+                    /*Informs ArrayAdapter that its ArraList was updated*/
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
                 }
             }
 
