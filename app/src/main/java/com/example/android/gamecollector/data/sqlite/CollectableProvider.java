@@ -61,6 +61,7 @@ public class CollectableProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+        /*Initialize CollectableDbHelper*/
         collectableDbHelper = new CollectableDbHelper(getContext());
         return true;
     }
