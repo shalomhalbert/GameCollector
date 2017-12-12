@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.example.android.gamecollector.customviews.CustomEditText;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -33,9 +32,6 @@ import java.util.HashMap;
  * to their collection.
  */
 
-//    TODO(1) Edit: Undefined note shouldn't display "undefined"
-//    TODO(1) Edit: Components owned buttons are not highlighting
-//    TODO(1) Edit: If update encompasses removing all values, it currently doesn't display no icons
 //    TODO(1) Fix memory leak: Memory usage grows as collectables are saved to collection
 
 public class CollectableDialogFragment extends DialogFragment {
@@ -89,6 +85,7 @@ public class CollectableDialogFragment extends DialogFragment {
                         /*Extract serialized HashMap*/
                         videoGame.setValuesComponentsOwned((HashMap<String, Boolean>) getArguments().getSerializable(VideoGame.KEY_COMPONENTS_OWNED));
                     }
+                    /*Set VideoGame's values*/
                     switch (key) {
                         case VideoGame.KEY_UNIQUE_NODE_ID:
                             videoGame.setValueUniqueNodeId(getArguments().getString(VideoGame.KEY_UNIQUE_NODE_ID));
@@ -110,6 +107,8 @@ public class CollectableDialogFragment extends DialogFragment {
                             break;
                     }
                 }
+
+
             }
         }
 
@@ -133,25 +132,14 @@ public class CollectableDialogFragment extends DialogFragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-//            TODO(1) Change drawable's color
             /*Show custom drawable for up icon*/
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_clear_white);
         }
 
         /*Initialize views*/
         noteEditText = (CustomEditText) view.findViewById(R.id.activity_collectable_customedittext_notes);
 
         handleButtons(container);
-
-        /*Populate views if possible*/
-        if (videoGame.getValueRegionLock() != null) {
-            clickRegionLock(videoGame.getValueRegionLock());
-        }
-        if (videoGame.getValueNote() != null && videoGame.getValueNote() != "") {
-            populateNote(videoGame.getValueNote());
-        }
-        int componentsClicked = clickComponentsOwned();
-        Log.i(LOG_TAG, componentsClicked + " componenets were clicked");
 
         /*Report that this fragment would like to participate in populating the options menu by
         receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.*/
@@ -184,14 +172,14 @@ public class CollectableDialogFragment extends DialogFragment {
         switch (id) {
             case R.id.activity_collectable_dialog_action_save:
                 if (videoGame.getValueUniqueNodeId() == null) {
-                    /*Handles Add item*/
+                    /*Handles saving Add item*/
                     setDate();
                     setNote();
                     videoGame.createNode();
                     dismiss();
                     break;
                 } else {
-                    /*Handles Edit item*/
+                    /*Handles saving Edit item*/
                     setNote();
                     videoGame.updateNode();
                     dismiss();
@@ -216,26 +204,13 @@ public class CollectableDialogFragment extends DialogFragment {
         game = (ImageView) view.findViewById(R.id.activity_collectable_image_game);
         manual = (ImageView) view.findViewById(R.id.activity_collectable_image_manual);
         box = (ImageView) view.findViewById(R.id.activity_collectable_image_box);
-
+        /*Designate*/
         setImageResources();
-
-        /*ArrayList of all icons*/
-        ArrayList<ImageView> imageViews = new ArrayList<>();
-        imageViews.add(usaFlag);
-        imageViews.add(japanFlag);
-        imageViews.add(euFlag);
-        imageViews.add(game);
-        imageViews.add(manual);
-        imageViews.add(box);
-
-        setButtonTintInactive(imageViews);
-
-        setRegionLock(usaFlag, japanFlag, euFlag);
-
-        setCartridgeIcon();
-
-        setComponentsOwned(game, manual, box);
-
+        /*Set OnClickListeners for every button*/
+        setRegionLockOnClickListeners(usaFlag, japanFlag, euFlag);
+        setComponentsOwnedOnClickListeners(game, manual, box);
+        /*Sets appropriate tints for images*/
+        setButtonTint();
     }
 
     /*Set image resource for all ImageViews except R.id.activity_collectable_image_game*/
@@ -245,24 +220,38 @@ public class CollectableDialogFragment extends DialogFragment {
         euFlag.setImageResource(R.drawable.ic_flag_european_union);
         manual.setImageResource(R.drawable.ic_manual);
         box.setImageResource(R.drawable.ic_box);
+        game.setImageResource(setCartridgeIcon());
     }
 
     /*Sets every icon's tint to colorInactiveIcon*/
-    private void setButtonTintInactive(ArrayList<ImageView> imageViews) {
-        for (ImageView icon : imageViews) {
-            icon.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+    private void setButtonTint() {
+        usaFlag.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+        japanFlag.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+        euFlag.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+        manual.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+        box.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+        game.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
+
+        Log.e(LOG_TAG, "videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
+        Log.e(LOG_TAG, "videoGame.getValueNote(): " + videoGame.getValueNote());
+
+        /*If user opens dialog in CollectionAvticity, the following translate the item's data to the UI*/
+        if (getArguments().containsKey(FIREBASE_DATA)) {
+            handleRegionLock();
+            handleComponentsOwned();
+            populateNote();
         }
     }
 
     /*Initializes and handles onClickListeners for responding to when flags are tapped*/
-    private void setRegionLock(final ImageView usaFlag, final ImageView japanFlag, final ImageView euFlag) {
+    private void setRegionLockOnClickListeners(final ImageView usaFlag, final ImageView japanFlag, final ImageView euFlag) {
         usaFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (videoGame.getValueRegionLock() != VideoGame.USA) {
+                if (!videoGame.getValueRegionLock().equals(VideoGame.USA)) {
                     setSingleIconAsActive(usaFlag, japanFlag, euFlag);
                     videoGame.setValueRegionLock(VideoGame.USA);
-                } else if (videoGame.getValueRegionLock() == VideoGame.USA) {
+                } else if (videoGame.getValueRegionLock().equals(VideoGame.USA)) {
                     setIconAsInactive(usaFlag);
                     videoGame.setValueRegionLock(null);
                 }
@@ -272,10 +261,10 @@ public class CollectableDialogFragment extends DialogFragment {
         japanFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (videoGame.getValueRegionLock() != VideoGame.JAPAN) {
+                if (!videoGame.getValueRegionLock().equals(VideoGame.JAPAN)) {
                     setSingleIconAsActive(japanFlag, usaFlag, euFlag);
                     videoGame.setValueRegionLock(VideoGame.JAPAN);
-                } else if (videoGame.getValueRegionLock() == VideoGame.JAPAN) {
+                } else if (videoGame.getValueRegionLock().equals(VideoGame.JAPAN)) {
                     setIconAsInactive(japanFlag);
                     videoGame.setValueRegionLock(null);
                 }
@@ -285,10 +274,10 @@ public class CollectableDialogFragment extends DialogFragment {
         euFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (videoGame.getValueRegionLock() != VideoGame.EUROPEAN_UNION) {
+                if (!videoGame.getValueRegionLock().equals(VideoGame.EUROPEAN_UNION)) {
                     setSingleIconAsActive(euFlag, usaFlag, japanFlag);
                     videoGame.setValueRegionLock(VideoGame.EUROPEAN_UNION);
-                } else if (videoGame.getValueRegionLock() == VideoGame.EUROPEAN_UNION) {
+                } else if (videoGame.getValueRegionLock().equals(VideoGame.EUROPEAN_UNION)) {
                     setIconAsInactive(euFlag);
                     videoGame.setValueRegionLock(null);
                 }
@@ -297,7 +286,7 @@ public class CollectableDialogFragment extends DialogFragment {
     }
 
     /*Initializes and handles onClickListeners for responding to when components are tapped*/
-    private void setComponentsOwned(final ImageView game, final ImageView manual, final ImageView box) {
+    private void setComponentsOwnedOnClickListeners(final ImageView game, final ImageView manual, final ImageView box) {
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -364,27 +353,32 @@ public class CollectableDialogFragment extends DialogFragment {
         videoGame.setValueDateAdded(currentDateTimeString);
     }
 
+    /*Saves note written in CustomEditText to VideoGame object*/
     private void setNote() {
-        String text = noteEditText.getText().toString().trim();
+        String text = noteEditText.getText().toString();
 
-        if (text.isEmpty() || text.length() == 0 || text.equals("") || text == null) {
-            videoGame.setValueNote(VideoGame.UNDEFINED_TRAIT);
+        if (!text.isEmpty() && !text.equals("") && text != null) {
+            videoGame.setValueNote(text);
         } else {
-            videoGame.setValueNote(noteEditText.getText().toString());
-
+            videoGame.setValueNote(VideoGame.UNDEFINED_TRAIT);
         }
     }
 
-    /*handle setting the cartridge icon under componentsOwned*/
-    private void setCartridgeIcon() {
+    /**
+     * Uses videoGame.getValueConsole()'s value to determine the approperiate Res ID
+     *
+     * @return Res ID of cartridge which should be displayed
+     */
+    private int setCartridgeIcon() {
 
         /*Handles null videoGame.getValueConsole()*/
         if (videoGame.getValueConsole() == null) {
             Log.e(LOG_TAG, "videoGame.getValueConsole() is null");
-            return;
+            return 0;
         }
+
         int resID = 0;
-        switch (videoGame.getValueConsole().trim()) {
+        switch (videoGame.getValueConsole()) {
             case VideoGame.NINTENDO_ENTERTAINMENT_SYSTEM:
                 resID = R.drawable.ic_nes_cartridge;
                 break;
@@ -405,77 +399,68 @@ public class CollectableDialogFragment extends DialogFragment {
                 resID = R.drawable.ic_n64_cartridge;
                 break;
         }
-        game.setImageResource(resID);
+        return resID;
     }
 
-    /**
-     * Simulates clicking a region lock flag's ImageView
-     *
-     * @return boolean that relays if click was successful. True means it was.
-     */
-    public boolean clickRegionLock(String regionLock) {
-        boolean wasClicked = false;
-
-        switch (regionLock) {
-            case VideoGame.USA:
-                wasClicked = usaFlag.performClick();
-                break;
-            case VideoGame.JAPAN:
-                wasClicked = japanFlag.performClick();
-                break;
-            case VideoGame.EUROPEAN_UNION:
-                wasClicked = euFlag.performClick();
-                break;
-            case VideoGame.UNDEFINED_TRAIT:
-                Log.i(LOG_TAG, "Trait was undefined");
-                break;
-            default:
-                Log.e(LOG_TAG, "Trouble clicking region lock");
-                break;
+    /*Sets valueRegionLock's related flag to appropriate color*/
+    public void handleRegionLock() {
+        if (!videoGame.getValueRegionLock().equals(VideoGame.UNDEFINED_TRAIT) && videoGame.getValueRegionLock() != null) {
+            switch (videoGame.getValueRegionLock()) {
+                case VideoGame.USA:
+                    usaFlag.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
+                    break;
+                case VideoGame.JAPAN:
+                    japanFlag.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
+                    break;
+                case VideoGame.EUROPEAN_UNION:
+                    euFlag.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
+                    break;
+                case VideoGame.UNDEFINED_TRAIT:
+                    Log.e(LOG_TAG, "Got to handleRegionLock() with undefined valueRegionLock");
+                    break;
+                default:
+                    Log.e(LOG_TAG, "Trouble clicking region lock");
+                    break;
+            }
+        } else {
+            Log.i(LOG_TAG, "No region lock was set");
         }
-        return wasClicked;
     }
 
-    /**
-     * Simulates clicking a componenet owned ImageView
-     *
-     * @return boolean that relays if click was successful. True means it was.
-     */
-    public int clickComponentsOwned() {
-        /*Counts how many clicks occur*/
-        int clicks = 0;
-
+    /*Sets appropriate colors for componentsOwned*/
+    public void handleComponentsOwned() {
         if (videoGame.getValueGame()) {
-            game.performClick();
-            clicks++;
+            game.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
         }
         if (videoGame.getValueManual()) {
-            manual.performClick();
-            clicks++;
+            manual.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
         }
         if (videoGame.getValueBox()) {
-            box.performClick();
-            clicks++;
+            box.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorActiveIcon), PorterDuff.Mode.SRC_IN);
         }
-        return clicks;
+    }
+
+    /*Populates the note EditText with saved String */
+    public void populateNote() {
+        if (!videoGame.getValueNote().equals(VideoGame.UNDEFINED_TRAIT)
+                && !videoGame.getValueNote().equals("")
+                && videoGame.getValueNote() != null) {
+            noteEditText.setText(videoGame.getValueNote(), TextView.BufferType.EDITABLE);
+        } else {
+            Log.i(LOG_TAG, "EditText wasn't populated with valueNote");
+        }
     }
 
     /**
-     * Populates the note EditText with the argument
-     *
-     * @param note A string which will be displayed
+     * Sets toolbar title based on whether dialog was opened by CollectionActivity or CollectableActivity
+     * @return String that the ToolBar title should be set to
      */
-    public void populateNote(String note) {
-        if (note == VideoGame.UNDEFINED_TRAIT) {
-            return;
-        }
-        noteEditText.setText(note, TextView.BufferType.EDITABLE);
-    }
-
     public String setToolbarTitle() {
-        if (videoGame.getValueUniqueNodeId() == null) {
+        if (getArguments().containsKey(FIREBASE_DATA)) {
+            /*Opened by CollectableActivity to add a video game*/
             return "Add " + videoGame.getValueTitle();
         } else {
+            /*Opened by CollectionActivity to edit a video game*/
             return "Edit " + videoGame.getValueTitle();
         }
     }
