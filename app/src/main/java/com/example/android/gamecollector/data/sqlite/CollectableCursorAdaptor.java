@@ -2,6 +2,7 @@ package com.example.android.gamecollector.data.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,10 +15,10 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.gamecollector.CollectableDialogFragment;
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.customviews.CustomTextView;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,8 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
  * ListView adapter that uses collectable data given as a Cursor as its resource.
  * Helps create list items for each row of data.
  */
-
-//    TODO(1) Fix text fonts
 
 public class CollectableCursorAdaptor extends CursorAdapter {
     /*Used for tracking Log statments*/
@@ -70,8 +69,8 @@ public class CollectableCursorAdaptor extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         /*Initailly this will display a video game's console's logo*/
         ImageView displayImage = (ImageView) view.findViewById(R.id.image_console_logo);
-        CustomTextView titleTextView = (CustomTextView) view.findViewById(R.id.customtext_title);
-        CustomTextView copiesTextView = (CustomTextView) view.findViewById(R.id.customtext_copies_owned);
+        TextView titleTextView = (TextView) view.findViewById(R.id.title_textview);
+        TextView copiesTextView = (TextView) view.findViewById(R.id.copies_owned_textview);
 
         /*Extract properties from cursor*/
         String console = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_CONSOLE));
@@ -103,11 +102,16 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         /*Display appropriate title*/
         titleTextView.setText(title);
 
+        /*Set Typeface for TextViews*/
+        Typeface robotoBoldTypeface = Typeface.createFromAsset(context.getAssets(), "roboto_bold.ttf");
+        titleTextView.setTypeface(robotoBoldTypeface);
+
         /*Show nothing if zero copies are owned*/
         if(Integer.valueOf(copiesOwned) == 0) {
             copiesTextView.setVisibility(View.INVISIBLE);
         } else {
             copiesTextView.setText(copiesOwned + " Owned");
+            copiesTextView.setTypeface(robotoBoldTypeface);
         }
     }
 

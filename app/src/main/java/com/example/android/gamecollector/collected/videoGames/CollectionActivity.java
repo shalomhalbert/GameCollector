@@ -38,7 +38,7 @@ import java.util.HashMap;
 
 //    TODO(3) Match list item divider width to Sketch wireframe (after switching to RecyclerView)
 //    TODO(3) When user signs in, Firebase should update SQLite copies owned after checking if table exists. Build it if it doesn't
-//    TODO(2) Add options menu with About section (Learn what should be in it, besides citing drawable sources)
+//    TODO(2) Add terms of service- give credit where it is due, and list the license
 //    TODO(2) Add sign-in using google credentials
 //    TODO(1) Add delete item option (reduces copies owned, and deleted from Firebase)
 

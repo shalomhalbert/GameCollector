@@ -3,6 +3,7 @@ package com.example.android.gamecollector;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -17,10 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.android.gamecollector.customviews.CustomEditText;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -44,13 +44,16 @@ public class CollectableDialogFragment extends DialogFragment {
     private VideoGame videoGame;
     /*Instantiated views*/
     private View view;
+    private TextView regionLockTextView;
+    private TextView componentsOwnedTextView;
+    private TextView noteTextView;
     private ImageView usaFlag;
     private ImageView japanFlag;
     private ImageView euFlag;
     private ImageView game;
     private ImageView manual;
     private ImageView box;
-    private CustomEditText noteEditText;
+    private EditText noteEditText;
 
     /*Initialize contentProviderBundle and componentsOwned, and handle clicking*/
     @Override
@@ -128,6 +131,7 @@ public class CollectableDialogFragment extends DialogFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         /*Set toolbar's title*/
         toolbar.setTitle(toolbarTitle);
+
         /*Enable home button and supply a custom icon*/
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
@@ -136,8 +140,20 @@ public class CollectableDialogFragment extends DialogFragment {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_clear_white);
         }
 
-        /*Initialize views*/
-        noteEditText = (CustomEditText) view.findViewById(R.id.activity_collectable_customedittext_notes);
+        /*Initialize TextViews and EditText*/
+        regionLockTextView = (TextView) view.findViewById(R.id.region_lock_textview);
+        componentsOwnedTextView = (TextView) view.findViewById(R.id.components_owned_textview);
+        noteTextView = (TextView) view.findViewById(R.id.notes_textview);
+        noteEditText = (EditText) view.findViewById(R.id.notes_edittext);
+
+        /*Set typeface for TextViews and EditText*/
+        Typeface robotoBoldTypeface = Typeface.createFromAsset(getActivity().getAssets(), "roboto_bold.ttf");
+        regionLockTextView.setTypeface(robotoBoldTypeface);
+        componentsOwnedTextView.setTypeface(robotoBoldTypeface);
+        noteTextView.setTypeface(robotoBoldTypeface);
+
+        Typeface robotoRegularTypeface = Typeface.createFromAsset(getActivity().getAssets(), "roboto_regular.ttf");
+        noteEditText.setTypeface(robotoRegularTypeface);
 
         handleButtons(container);
 
@@ -198,12 +214,12 @@ public class CollectableDialogFragment extends DialogFragment {
     /*Head method for handling the dialog's buttons*/
     private void handleButtons(ViewGroup container) {
         /*Initialization of every ImageView on activty_add_collectable_dialog.xml for programmatic use*/
-        usaFlag = (ImageView) view.findViewById(R.id.activity_collectable_image_usa);
-        japanFlag = (ImageView) view.findViewById(R.id.activity_collectable_image_japan);
-        euFlag = (ImageView) view.findViewById(R.id.activity_collectable_image_european_union);
-        game = (ImageView) view.findViewById(R.id.activity_collectable_image_game);
-        manual = (ImageView) view.findViewById(R.id.activity_collectable_image_manual);
-        box = (ImageView) view.findViewById(R.id.activity_collectable_image_box);
+        usaFlag = (ImageView) view.findViewById(R.id.usa_imageview);
+        japanFlag = (ImageView) view.findViewById(R.id.japan_imageview);
+        euFlag = (ImageView) view.findViewById(R.id.european_union_imageview);
+        game = (ImageView) view.findViewById(R.id.game_imageview);
+        manual = (ImageView) view.findViewById(R.id.manual_imageview);
+        box = (ImageView) view.findViewById(R.id.box_imageview);
         /*Designate*/
         setImageResources();
         /*Set OnClickListeners for every button*/
@@ -353,7 +369,7 @@ public class CollectableDialogFragment extends DialogFragment {
         videoGame.setValueDateAdded(currentDateTimeString);
     }
 
-    /*Saves note written in CustomEditText to VideoGame object*/
+    /*Saves note written in EditText to VideoGame object*/
     private void setNote() {
         String text = noteEditText.getText().toString();
 

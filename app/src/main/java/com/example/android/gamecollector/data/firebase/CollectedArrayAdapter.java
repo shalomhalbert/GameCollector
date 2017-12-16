@@ -2,6 +2,7 @@ package com.example.android.gamecollector.data.firebase;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.gamecollector.R;
 import com.example.android.gamecollector.VideoGame;
-import com.example.android.gamecollector.customviews.CustomTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,18 +24,13 @@ import java.util.HashMap;
  */
 
 
-//    TODO(1) Replace usa_flag which looks weird due to bad patches (look up why patches are bad)
-//    TODO(1) Note icon not showing up
-//    TODO(1) Dialog fragment not highlighting buttons when opened for editing
-//    TODO(1) Fix text fonts
-//    TODO(1) Ensure apropriate data is being passed to dialog
-//    TODO(1) Note icon displaying when there is no note. When tapped, most editText express no note (i.e. shows hint text), and one shows "undefined"
+//    TODO(3) Replace usa_flag which looks weird due to bad patches (look up why patches are bad)
 
 public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     public static final String LOG_TAG = CollectedArrayAdapter.class.getSimpleName();
     /*Instantiation of every view*/
     private ImageView consoleLogoView;
-    private CustomTextView titleView;
+    private TextView titleView;
     private ImageView icon0;
     private ImageView icon1;
     private ImageView icon2;
@@ -70,7 +66,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
 
         /*Initialize views*/
         consoleLogoView = (ImageView) convertView.findViewById(R.id.activity_collection_image_console_logo);
-        titleView = (CustomTextView) convertView.findViewById(R.id.activity_collection_customtext_title);
+        titleView = (TextView) convertView.findViewById(R.id.title_textview);
         /*Informational icons which are located beneath the title TextView.
          *Numbers range from 0 (leftmost) to 4 (rightmost)*/
         icon0 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_1);
@@ -78,6 +74,10 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         icon2 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_3);
         icon3 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_4);
         icon4 = (ImageView) convertView.findViewById(R.id.activity_collection_list_item_image_5);
+
+        /*Set title typeface to Roboto Bold*/
+        Typeface robotoBold = Typeface.createFromAsset(getContext().getAssets(), "roboto_bold.ttf");
+        titleView.setTypeface(robotoBold);
 
         /*Set logo and title*/
         consoleLogoView.setImageResource(setLogoImageSrc(videoGame.getValueConsole()));
