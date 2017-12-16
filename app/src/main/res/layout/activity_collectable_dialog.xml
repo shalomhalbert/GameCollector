@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDarkBackground"
@@ -14,123 +13,117 @@
         android:id="@+id/activity_collectable_dialog_toolbar"
         layout="@layout/toolbar_actionbar" />
 
-    <com.example.android.gamecollector.customviews.CustomTextView
-        android:id="@+id/activity_collectable_text_region_lock"
-        xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
+    <TextView
+        android:id="@+id/region_lock_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/activity_collectable_dialog_toolbar"
         android:layout_marginLeft="24dp"
         android:text="@string/region_lock"
         android:textSize="16sp"
-        android:textColor="@color/colorDarkPrimaryText"
-        roboto:typeface="roboto_bold.ttf" />
+        android:textColor="@color/colorDarkPrimaryText" />
     
     <ImageView
-        android:id="@+id/activity_collectable_image_usa"
+        android:id="@+id/usa_imageview"
         android:layout_width="30dp"
         android:layout_height="24dp"
-        android:layout_below="@id/activity_collectable_text_region_lock"
+        android:layout_below="@id/region_lock_textview"
         android:layout_marginTop="36dp"
         android:layout_marginLeft="40dp" />
 
     <ImageView
-        android:id="@+id/activity_collectable_image_japan"
+        android:id="@+id/japan_imageview"
         android:layout_width="36dp"
         android:layout_height="24dp"
-        android:layout_below="@id/activity_collectable_text_region_lock"
-        android:layout_toRightOf="@id/activity_collectable_image_usa"
+        android:layout_below="@id/region_lock_textview"
+        android:layout_toRightOf="@id/usa_imageview"
         android:layout_marginTop="36dp"
         android:layout_marginLeft="36dp" />
 
     <ImageView
-        android:id="@+id/activity_collectable_image_european_union"
+        android:id="@+id/european_union_imageview"
         android:layout_width="33dp"
         android:layout_height="24dp"
-        android:layout_below="@id/activity_collectable_text_region_lock"
-        android:layout_toRightOf="@id/activity_collectable_image_japan"
+        android:layout_below="@id/region_lock_textview"
+        android:layout_toRightOf="@id/japan_imageview"
         android:layout_marginTop="36dp"
         android:layout_marginLeft="36dp" />
 
     <View
-        android:id="@+id/activity_collectable_divider_1"
+        android:id="@+id/divider_1_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/activity_collectable_image_usa"
+        android:layout_below="@id/usa_imageview"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp"
         android:background="@color/colorDarkDividers"/>
 
-    <com.example.android.gamecollector.customviews.CustomTextView
-        android:id="@+id/activity_collectable_text_components_owned"
-        xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
+    <TextView
+        android:id="@+id/components_owned_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_collectable_divider_1"
+        android:layout_below="@id/divider_1_view"
         android:layout_marginBottom="24dp"
         android:layout_marginLeft="24dp"
         android:text="@string/components_owned"
         android:textSize="16sp"
-        android:textColor="@color/colorDarkPrimaryText"
-        roboto:typeface="roboto_bold.ttf" />
+        android:textColor="@color/colorDarkPrimaryText" />
 
     <!--Cartridge icon will be programmatically chosen-->
     <ImageView
-        android:id="@+id/activity_collectable_image_game"
+        android:id="@+id/game_imageview"
         android:layout_width="36dp"
         android:layout_height="24dp"
         android:layout_marginLeft="40dp"
-        android:layout_below="@id/activity_collectable_text_components_owned"
+        android:layout_below="@id/components_owned_textview"
         tools:src="@drawable/ic_gameboy_cartridge"/>
 
     <ImageView
-        android:id="@+id/activity_collectable_image_manual"
+        android:id="@+id/manual_imageview"
         android:layout_width="22dp"
         android:layout_height="24dp"
         android:layout_marginLeft="36dp"
-        android:layout_below="@id/activity_collectable_text_components_owned"
-        android:layout_toRightOf="@id/activity_collectable_image_game" />
+        android:layout_below="@id/components_owned_textview"
+        android:layout_toRightOf="@id/game_imageview" />
 
     <ImageView
-        android:id="@+id/activity_collectable_image_box"
+        android:id="@+id/box_imageview"
         android:layout_width="23dp"
         android:layout_height="24dp"
         android:layout_marginLeft="36dp"
-        android:layout_below="@id/activity_collectable_text_components_owned"
-        android:layout_toRightOf="@id/activity_collectable_image_manual"/>
+        android:layout_below="@id/components_owned_textview"
+        android:layout_toRightOf="@id/manual_imageview"/>
 
     <View
-        android:id="@+id/activity_collectable_divider_2"
+        android:id="@+id/divider_2_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/activity_collectable_image_game"
+        android:layout_below="@id/game_imageview"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp"
         android:background="@color/colorDarkDividers"/>
 
-    <com.example.android.gamecollector.customviews.CustomTextView
-        android:id="@+id/activity_collectable_text_notes"
-        xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
+    <TextView
+        android:id="@+id/notes_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_collectable_divider_2"
+        android:layout_below="@id/divider_2_view"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="24dp"
         android:text="@string/notes"
         android:textSize="16sp"
-        android:textColor="@color/colorDarkPrimaryText"
-        roboto:typeface="roboto_bold.ttf" />
+        android:textColor="@color/colorDarkPrimaryText"/>
 
     <!--Make sure hint and typed text have appropriate typeface, weight, size, and color-->
-    <com.example.android.gamecollector.customviews.CustomEditText
-        android:id="@+id/activity_collectable_customedittext_notes"
+    <EditText
+        android:id="@+id/notes_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_collectable_text_notes"
+        android:layout_below="@id/notes_textview"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="40dp"
         android:hint="@string/notes_hint"

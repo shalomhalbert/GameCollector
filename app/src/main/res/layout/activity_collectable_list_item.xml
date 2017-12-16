@@ -20,9 +20,8 @@
         tools:src="@drawable/ic_n64_logo" />
 
     <!--Displays collectable valueTitle-->
-    <com.example.android.gamecollector.customviews.CustomTextView
-        xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
-        android:id="@+id/customtext_title"
+    <TextView
+        android:id="@+id/title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -31,30 +30,27 @@
         android:layout_toRightOf="@id/image_console_logo"
         android:textSize="16sp"
         android:textColor="@color/colorDarkPrimaryText"
-        roboto:typefaceTextView="roboto_bold.ttf"
         tools:text="Super Mario 64" />
 
     <!--Displays how copies of the collectable the user owns-->
-    <com.example.android.gamecollector.customviews.CustomTextView
-        xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
-        android:id="@+id/customtext_copies_owned"
+    <TextView
+        android:id="@+id/copies_owned_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp"
         android:layout_toRightOf="@id/image_console_logo"
-        android:layout_below="@id/customtext_title"
+        android:layout_below="@id/title_textview"
         android:textSize="14sp"
         android:textColor="@color/colorDarkSecondaryText"
-        roboto:typefaceTextView="roboto_bold.ttf"
         tools:text="1 Owned"/>
     
     <View
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/customtext_copies_owned"
+        android:layout_below="@id/copies_owned_textview"
         android:layout_marginTop="16dp"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp"

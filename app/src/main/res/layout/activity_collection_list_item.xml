@@ -19,17 +19,16 @@
         tools:src="@drawable/ic_n64_logo"/>
 
     <!--Displays title-->
-    <com.example.android.gamecollector.customviews.CustomTextView
-        xmlns:roboto="http://schemas.android.com/apk/com.example.customviews.CustomTextView"
-        android:id="@+id/activity_collection_customtext_title"
+    <TextView
+        android:id="@+id/title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/activity_collection_image_console_logo"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:textSize="16sp"
-        tools:text="Super Mario 64"
-        roboto:typefaceTextView="roboto_bold.ttf"/>
+        tools:textColor="@color/colorDarkBackground"
+        tools:text="Super Mario 64"/>
 
     <!--Id numerics represented icon's position in their row.
         1 is leftmost, and 5 rightmost.-->
@@ -37,7 +36,7 @@
         android:id="@+id/activity_collection_list_item_image_1"
         android:layout_width="24dp"
         android:layout_height="16dp"
-        android:layout_below="@id/activity_collection_customtext_title"
+        android:layout_below="@id/title_textview"
         android:layout_toRightOf="@id/activity_collection_image_console_logo"
         tools:src="@drawable/ic_gameboy_cartridge"/>
 
@@ -45,7 +44,7 @@
         android:id="@+id/activity_collection_list_item_image_2"
         android:layout_width="24dp"
         android:layout_height="16dp"
-        android:layout_below="@id/activity_collection_customtext_title"
+        android:layout_below="@id/title_textview"
         android:layout_toRightOf="@id/activity_collection_list_item_image_1"
         android:layout_marginLeft="8dp"
         tools:src="@drawable/ic_manual"/>
@@ -54,7 +53,7 @@
         android:id="@+id/activity_collection_list_item_image_3"
         android:layout_width="24dp"
         android:layout_height="16dp"
-        android:layout_below="@id/activity_collection_customtext_title"
+        android:layout_below="@id/title_textview"
         android:layout_toRightOf="@id/activity_collection_list_item_image_2"
         android:layout_marginLeft="8dp"
         tools:src="@drawable/ic_box"/>
@@ -63,7 +62,7 @@
         android:id="@+id/activity_collection_list_item_image_4"
         android:layout_width="24dp"
         android:layout_height="16dp"
-        android:layout_below="@id/activity_collection_customtext_title"
+        android:layout_below="@id/title_textview"
         android:layout_toRightOf="@id/activity_collection_list_item_image_3"
         android:layout_marginLeft="8dp"
         tools:src="@drawable/ic_flag_european_union"/>
@@ -72,7 +71,7 @@
         android:id="@+id/activity_collection_list_item_image_5"
         android:layout_width="24dp"
         android:layout_height="16dp"
-        android:layout_below="@id/activity_collection_customtext_title"
+        android:layout_below="@id/title_textview"
         android:layout_toRightOf="@id/activity_collection_list_item_image_4"
         android:layout_marginLeft="8dp"
         tools:src="@drawable/ic_note_black_24dp"/>
