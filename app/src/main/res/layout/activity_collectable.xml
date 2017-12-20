@@ -3,10 +3,7 @@
 <RelativeLayout
     android:id="@+id/relative_layout_activity_add_collectable"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorDarkBackground">
+    style="@style/ActivityLayout">
 
     <include
         layout="@layout/toolbar_actionbar"
@@ -14,10 +11,7 @@
 
     <ListView
         android:id="@+id/activity_collectable_listview"
-        android:layout_below="@id/activity_collectable_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/colorDarkBackground"
-        android:dividerHeight="0dp"/>
+        style="@style/Listview"
+        android:layout_below="@id/activity_collectable_toolbar"/>
 
 </RelativeLayout>
