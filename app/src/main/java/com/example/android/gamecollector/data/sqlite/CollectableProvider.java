@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.android.gamecollector.CollectableDialogFragment;
+import com.example.android.gamecollector.ItemDialogFragment;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 
 import java.util.HashMap;
@@ -155,7 +155,7 @@ public class CollectableProvider extends ContentProvider {
     public Bundle call(String method, String arg, Bundle extras) {
         Bundle bundle = new Bundle();
         if (method == "getItemData") {
-            bundle.putSerializable(CollectableDialogFragment.SQLITE_DATA, getItemData(extras.getString(VideoGamesEntry.COLUMN_ROW_ID)));
+            bundle.putSerializable(ItemDialogFragment.SQLITE_DATA, getItemData(extras.getString(VideoGamesEntry.COLUMN_ROW_ID)));
         } else if(method == "tableExists") {
             bundle.putBoolean(TABLE_EXISTS_BOOLEAN, tableExists());
         } else {
