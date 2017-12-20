@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.android.gamecollector.CollectableDialogFragment;
+import com.example.android.gamecollector.ItemDialogFragment;
 import com.example.android.gamecollector.R;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 import com.google.firebase.database.DatabaseReference;
@@ -68,9 +68,9 @@ public class CollectableCursorAdaptor extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         /*Initailly this will display a video game's console's logo*/
-        ImageView displayImage = (ImageView) view.findViewById(R.id.image_console_logo);
+        ImageView displayImage = (ImageView) view.findViewById(R.id.console_logo_imageview);
         TextView titleTextView = (TextView) view.findViewById(R.id.title_textview);
-        TextView copiesTextView = (TextView) view.findViewById(R.id.copies_owned_textview);
+        /*Removed until later TextView copiesTextView = (TextView) view.findViewById(R.id.copies_owned_textview);*/
 
         /*Extract properties from cursor*/
         String console = cursor.getString(cursor.getColumnIndexOrThrow(VideoGamesEntry.COLUMN_CONSOLE));
@@ -106,13 +106,16 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         Typeface robotoBoldTypeface = Typeface.createFromAsset(context.getAssets(), "roboto_bold.ttf");
         titleTextView.setTypeface(robotoBoldTypeface);
 
-        /*Show nothing if zero copies are owned*/
+        /*Removed until later
+
+//        Show nothing if zero copies are owned
+
         if(Integer.valueOf(copiesOwned) == 0) {
             copiesTextView.setVisibility(View.INVISIBLE);
         } else {
             copiesTextView.setText(copiesOwned + " Owned");
             copiesTextView.setTypeface(robotoBoldTypeface);
-        }
+        }*/
     }
 
     /*Initializes OnItemClickListener()
@@ -147,8 +150,8 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         /*Required for fragmentTransaction.add()*/
         int containerViewId = android.R.id.content;
 
-                /*Initialize CollectableDialogFragment*/
-        CollectableDialogFragment dialogFragment = new CollectableDialogFragment();
+                /*Initialize ItemDialogFragment*/
+        ItemDialogFragment dialogFragment = new ItemDialogFragment();
                 /*Supplies arguments to dialogFragment*/
         dialogFragment.setArguments(bundle);
                 /*fragmentManager is taken in constructor and FragmentTransaction makes transactions*/
