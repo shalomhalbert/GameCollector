@@ -65,7 +65,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         }
 
         /*Initialize views*/
-        consoleLogoView = (ImageView) convertView.findViewById(R.id.activity_collection_image_console_logo);
+        consoleLogoView = (ImageView) convertView.findViewById(R.id.console_logo_imageview);
         titleView = (TextView) convertView.findViewById(R.id.title_textview);
         /*Informational icons which are located beneath the title TextView.
          *Numbers range from 0 (leftmost) to 4 (rightmost)*/
