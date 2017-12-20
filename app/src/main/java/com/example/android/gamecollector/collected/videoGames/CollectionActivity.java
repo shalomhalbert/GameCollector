@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.android.gamecollector.CollectableDialogFragment;
+import com.example.android.gamecollector.ItemDialogFragment;
 import com.example.android.gamecollector.R;
 import com.example.android.gamecollector.VideoGame;
 import com.example.android.gamecollector.collectable.videoGames.CollectableActivity;
@@ -245,8 +245,8 @@ public class CollectionActivity extends AppCompatActivity {
         /*Required for fragmentTransaction.add()*/
         int containerViewId = android.R.id.content;
 
-        /*Initialize CollectableDialogFragment*/
-        CollectableDialogFragment dialogFragment = new CollectableDialogFragment();
+        /*Initialize ItemDialogFragment*/
+        ItemDialogFragment dialogFragment = new ItemDialogFragment();
         /*Supplies arguments to dialogFragment*/
         dialogFragment.setArguments(bundle);
         /*FragmentManager is taken in constructor and FragmentTransaction makes transactions*/
