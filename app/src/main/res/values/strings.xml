@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Game Collector</string>
 
-    <!--Relates to PersonalCollection class's toolvalueTitleitle-->
+    <!--Relates to PersonalCollection class's valueTitle-->
     <string name="activity_collection_toolbar_title">Collection</string>
 
     <!--Relates to searchable.xml android:hint-->
@@ -20,6 +20,6 @@
     <string name="notes_hint">More information...</string>
     <string name="action_save">SAVE</string>
 
-    <!--CollectableDialogFragment clasvalueTitleitle-->
+    <!--ItemDialogFragment class valueTitle-->
     <string name="fragment_collectable_title">Add </string>
 </resources>
