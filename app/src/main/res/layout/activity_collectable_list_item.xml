@@ -4,56 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relative_layout_list_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:layout_marginTop="16dp"
-    android:background="@color/colorDarkBackground"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <!--Displays collectablvalueConsole's logo-->
+    <!--Displays valueConsole's logo-->
     <ImageView
-        android:id="@+id/image_console_logo"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:paddingTop="16dp"
-        android:layout_marginLeft="16dp"
+        android:id="@+id/console_logo_imageview"
+        style="@style/ConsoleLogoImageView"
         tools:src="@drawable/ic_n64_logo" />
 
     <!--Displays collectable valueTitle-->
     <TextView
         android:id="@+id/title_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_toRightOf="@id/image_console_logo"
-        android:textSize="16sp"
-        android:textColor="@color/colorDarkPrimaryText"
+        style="@style/TitleTextView"
+        android:layout_toRightOf="@id/console_logo_imageview"
+        android:layout_centerVertical="true"
         tools:text="Super Mario 64" />
 
     <!--Displays how copies of the collectable the user owns-->
-    <TextView
-        android:id="@+id/copies_owned_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_toRightOf="@id/image_console_logo"
-        android:layout_below="@id/title_textview"
-        android:textSize="14sp"
-        android:textColor="@color/colorDarkSecondaryText"
-        tools:text="1 Owned"/>
+    <!--TODO(3) Make visible with correct data displayed-->
+    <!--<TextView-->
+        <!--android:id="@+id/copies_owned_textview"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="24dp"-->
+        <!--android:layout_marginLeft="24dp"-->
+        <!--android:layout_toRightOf="@id/console_logo_imageview"-->
+        <!--android:layout_below="@id/title_textview"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textColor="@color/colorDarkSecondaryText"-->
+        <!--tools:text="1 Owned"-->
+        <!--android:visibility="gone"/>-->
     
     <View
         android:id="@+id/view_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/copies_owned_textview"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp"
-        android:background="@color/colorDarkDividers"/>
+        style="@style/DividerView"
+        android:layout_below="@id/console_logo_imageview"/>
 
 </RelativeLayout>
