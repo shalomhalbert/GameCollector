@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ActivityLayout"
+    android:paddingBottom="16dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <include
+        android:id="@+id/item_dialog_toolbar"
+        layout="@layout/toolbar_actionbar" />
+
+    <TextView
+        android:id="@+id/region_lock_textview"
+        style="@style/ItemDialogFragmentHeadingTextView"
+        android:layout_below="@id/item_dialog_toolbar"
+        android:text="@string/region_lock"/>
+
+    <!--ImageView dimensions fit the images displayed-->
+    <ImageView
+        android:id="@+id/usa_imageview"
+        android:layout_width="30dp"
+        android:layout_height="24dp"
+        style="@style/ItemDialogFragmentImageView"
+        android:layout_below="@id/region_lock_textview"
+        android:layout_marginLeft="40dp"
+        tools:src="@drawable/ic_flag_usa"/>
+
+    <ImageView
+        android:id="@+id/japan_imageview"
+        android:layout_width="36dp"
+        android:layout_height="24dp"
+        style="@style/ItemDialogFragmentImageView"
+        android:layout_below="@id/region_lock_textview"
+        android:layout_toRightOf="@id/usa_imageview"
+        android:layout_marginLeft="36dp"
+        tools:src="@drawable/ic_flag_japan"/>
+
+    <ImageView
+        android:id="@+id/european_union_imageview"
+        android:layout_width="32dp"
+        android:layout_height="24dp"
+        style="@style/ItemDialogFragmentImageView"
+        android:layout_below="@id/region_lock_textview"
+        android:layout_toRightOf="@id/japan_imageview"
+        android:layout_marginLeft="36dp"
+        tools:src="@drawable/ic_flag_european_union"/>
+
+    <View
+        android:id="@+id/divider_1_view"
+        style="@style/DividerView"
+        android:layout_below="@id/usa_imageview"/>
+
+    <TextView
+        android:id="@+id/components_owned_textview"
+        style="@style/ItemDialogFragmentHeadingTextView"
+        android:layout_below="@id/divider_1_view"
+        android:text="@string/components_owned"/>
+
+    <!--Cartridge icon will be programmatically chosen-->
+    <ImageView
+        android:id="@+id/game_imageview"
+        android:layout_width="36dp"
+        android:layout_height="24dp"
+        style="@style/ItemDialogFragmentImageView"
+        android:layout_marginLeft="40dp"
+        android:layout_below="@id/components_owned_textview"
+        tools:src="@drawable/ic_gameboy_cartridge"/>
+
+    <ImageView
+        android:id="@+id/manual_imageview"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        style="@style/ItemDialogFragmentImageView"
+        android:layout_marginLeft="36dp"
+        android:layout_below="@id/components_owned_textview"
+        android:layout_toRightOf="@id/game_imageview"
+        tools:src="@drawable/ic_manual"/>
+
+    <ImageView
+        android:id="@+id/box_imageview"
+        android:layout_width="23dp"
+        android:layout_height="24dp"
+        style="@style/ItemDialogFragmentImageView"
+        android:layout_marginLeft="36dp"
+        android:layout_below="@id/components_owned_textview"
+        android:layout_toRightOf="@id/manual_imageview"
+        tools:src="@drawable/ic_box"/>
+
+    <View
+        android:id="@+id/divider_2_view"
+        style="@style/DividerView"
+        android:layout_below="@id/game_imageview"/>
+
+    <TextView
+        android:id="@+id/notes_textview"
+        style="@style/ItemDialogFragmentHeadingTextView"
+        android:layout_below="@id/divider_2_view"
+        android:layout_marginBottom="8dp"
+        android:text="@string/notes"/>
+
+    <!--Make sure hint and typed text have appropriate typeface, weight, size, and color-->
+    <EditText
+        android:id="@+id/notes_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notes_textview"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="40dp"
+        android:hint="@string/notes_hint"
+        android:backgroundTint="@color/colorDarkHintText"
+        android:textColorHint="@color/colorDarkHintText"
+        android:textColor="@color/colorDarkSecondaryText"/>
+</RelativeLayout>
