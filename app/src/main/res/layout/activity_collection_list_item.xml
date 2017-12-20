@@ -1,89 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--List item layout activity_collectionection.xml.xml's ListView-->
+<!--List item layout activity_collection.xml.xml's ListView-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/colorDarkBackground">
+    android:layout_height="wrap_content">
 
     <!--Displays collectablvalueConsolesole's logo-->
     <ImageView
-        android:id="@+id/activity_collection_image_console_logo"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="16dp"
+        android:id="@+id/console_logo_imageview"
+        style="@style/ConsoleLogoImageView"
         tools:src="@drawable/ic_n64_logo"/>
 
     <!--Displays title-->
     <TextView
         android:id="@+id/title_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/activity_collection_image_console_logo"
-        android:layout_marginTop="16dp"
+        style="@style/TitleTextView"
+        android:layout_toRightOf="@id/console_logo_imageview"
         android:layout_marginBottom="8dp"
-        android:textSize="16sp"
-        tools:textColor="@color/colorDarkBackground"
         tools:text="Super Mario 64"/>
 
     <!--Id numerics represented icon's position in their row.
         1 is leftmost, and 5 rightmost.-->
     <ImageView
         android:id="@+id/activity_collection_list_item_image_1"
-        android:layout_width="24dp"
-        android:layout_height="16dp"
-        android:layout_below="@id/title_textview"
-        android:layout_toRightOf="@id/activity_collection_image_console_logo"
+        style="@style/InformationalIconImageView"
+        android:layout_toRightOf="@id/console_logo_imageview"
         tools:src="@drawable/ic_gameboy_cartridge"/>
 
     <ImageView
         android:id="@+id/activity_collection_list_item_image_2"
-        android:layout_width="24dp"
-        android:layout_height="16dp"
-        android:layout_below="@id/title_textview"
+        style="@style/InformationalIconImageView.OnRight"
         android:layout_toRightOf="@id/activity_collection_list_item_image_1"
-        android:layout_marginLeft="8dp"
         tools:src="@drawable/ic_manual"/>
 
     <ImageView
         android:id="@+id/activity_collection_list_item_image_3"
-        android:layout_width="24dp"
-        android:layout_height="16dp"
-        android:layout_below="@id/title_textview"
+        style="@style/InformationalIconImageView.OnRight"
         android:layout_toRightOf="@id/activity_collection_list_item_image_2"
-        android:layout_marginLeft="8dp"
         tools:src="@drawable/ic_box"/>
 
     <ImageView
         android:id="@+id/activity_collection_list_item_image_4"
-        android:layout_width="24dp"
-        android:layout_height="16dp"
-        android:layout_below="@id/title_textview"
+        style="@style/InformationalIconImageView.OnRight"
         android:layout_toRightOf="@id/activity_collection_list_item_image_3"
-        android:layout_marginLeft="8dp"
         tools:src="@drawable/ic_flag_european_union"/>
 
     <ImageView
         android:id="@+id/activity_collection_list_item_image_5"
-        android:layout_width="24dp"
-        android:layout_height="16dp"
-        android:layout_below="@id/title_textview"
+        style="@style/InformationalIconImageView.OnRight"
         android:layout_toRightOf="@id/activity_collection_list_item_image_4"
-        android:layout_marginLeft="8dp"
         tools:src="@drawable/ic_note_black_24dp"/>
 
     <View
         android:id="@+id/view_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/activity_collection_image_console_logo"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp"
-        android:background="@color/colorDarkDividers"/>
+        style="@style/DividerView"
+        android:layout_below="@id/console_logo_imageview"/>
+
 
 </RelativeLayout>
