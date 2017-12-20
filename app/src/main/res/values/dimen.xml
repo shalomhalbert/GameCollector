@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Toolbar-->
+    <dimen name="toolbar_height">56dp</dimen>
+
+    <!--ImageViews displaying the console logo on list items-->
+    <dimen name="console_logo_imageview_width">64dp</dimen>
+    <dimen name="console_logo_imageview_height">64dp</dimen>
+    <!--ImageView displaying informational icon in CollectionActivity-->
+    <dimen name="information_icon_imageview_width">24dp</dimen>
+    <dimen name="information_icon_imageview_height">16dp</dimen>
+
+    <!--Views that act as dividers-->
+    <dimen name="divider_view_height">1dp</dimen>
+
+    <!--Floating action button-->
+    <dimen name="floating_action_button_width">56dp</dimen>
+    <dimen name="floating_action_button_height">56dp</dimen>
+
+</resources>
