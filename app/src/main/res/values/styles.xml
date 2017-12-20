@@ -8,4 +8,83 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--For a layout covering an entire activity-->
+    <style name="ActivityLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorDarkBackground</item>
+    </style>
+
+    <!--For Toolbar
+   TODO(3) Add 4dp elevation without breaking application-->
+    <style name="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/toolbar_height</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <!--For ListView-->
+    <style name="Listview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:divider">@color/colorDarkBackground</item>
+        <item name="android:dividerHeight">0dp</item>
+    </style>
+
+    <!--For ImageViews displaying the console logo on list items-->
+    <style name="ConsoleLogoImageView">
+        <item name="android:layout_width">@dimen/console_logo_imageview_width</item>
+        <item name="android:layout_height">@dimen/console_logo_imageview_height</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+    </style>
+
+    <!--For TextViews displaying an item's title-->
+    <style name="TitleTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorDarkPrimaryText</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+    </style>
+
+    <!--For ImageView displaying the leftmost informational icon in CollectionActivity-->
+    <style name="InformationalIconImageView">
+        <item name="android:layout_width">@dimen/information_icon_imageview_width</item>
+        <item name="android:layout_height">@dimen/information_icon_imageview_height</item>
+        <item name="android:layout_below">@id/title_textview</item>
+    </style>
+    <!--For ImageView displaying all informational icons in CollectionActivity except the leftmost-->
+    <style name="InformationalIconImageView.OnRight">
+        <item name="android:layout_marginLeft">8dp</item>
+    </style>
+
+    <!--For TextView displaying a heading in ItemDialogFragment-->
+    <style name="ItemDialogFragmentHeadingTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorDarkPrimaryText</item>
+        <item name="android:layout_marginBottom">24dp</item>
+    </style>
+
+    <!--For ImageViews displaying drawables in ItemDialogFragment-->
+    <style name="ItemDialogFragmentImageView">
+    </style>
+
+    <!--For Views that act as dividers-->
+    <style name="DividerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/divider_view_height</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:background">@color/colorDarkDividers</item>
+    </style>
+
 </resources>
