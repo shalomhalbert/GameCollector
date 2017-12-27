@@ -1,14 +1,21 @@
 package com.example.android.gamecollector.collected.videoGames;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -40,8 +47,6 @@ import java.util.HashMap;
 //    TODO(3) When user signs in, Firebase should update SQLite copies owned after checking if table exists. Build it if it doesn't
 //    TODO(2) Add terms of service- give credit where it is due, and list the license
 //    TODO(2) Add sign-in using google credentials
-//    TODO(1) Add delete item option (reduces copies owned, and deleted from Firebase)
-
 
 public class CollectionActivity extends AppCompatActivity {
     public static final String LOG_TAG = CollectionActivity.class.getSimpleName();
@@ -126,7 +131,11 @@ public class CollectionActivity extends AppCompatActivity {
                 /*Checks whether the changed node's date matches a videogame in the ArrayList
                  *If dates match, they are the same node.*/
                 for (VideoGame game : videoGames) {
-                    if (game.getValueDateAdded().equals(dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class))) {
+                    if (game.getValueDateAdded() == null) {
+                        /*Arbitrary number used for informing next if statment that no change occurred*/
+                        counter = 100;
+                        break;
+                    } else if (game.getValueDateAdded().equals(dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class))) {
                         break;
                     }
                     counter++;
@@ -195,11 +204,136 @@ public class CollectionActivity extends AppCompatActivity {
 
                     }
                 });
+
+                /*Allows multiple list items to be clicked*/
+                listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+                /*Set and handle multiple items being selected with clicks*/
+                listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+                    /**
+                     * Called when an item is checked or unchecked during selection mode.
+                     *
+                     * @param mode The current ActionMode
+                     * @param position Adapter position of the item that was checked or unchecked
+                     * @param id Adapter ID of the item that was checked or unchecked
+                     * @param checked true if the item is now checked, false if the item is now unchecked.
+                     */
+                    @Override
+                    public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                        /*Hide the action bar while selecting items*/
+                        getSupportActionBar().hide();
+
+                        /*Get total number of checked items*/
+                        final int checkedCount = listView.getCheckedItemCount();
+                        /*Sets title*/
+                        mode.setTitle(checkedCount + " Selected");
+//                      /**/
+                        adapter.toggleSelection(position);
+                    }
+
+                    /**
+                     * Called when action mode is first created. The menu supplied will be
+                     * used to generate action buttons for the action mode.
+                     *
+                     * @param mode ActionMode being created
+                     * @param menu Menu used to populate action buttons
+                     * @return true if the action mode should be created, false if entering
+                     * this mode should be aborted.
+                     */
+                    @Override
+                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                        getMenuInflater().inflate(R.menu.multi_select_collection_menu, menu);
+                        return true;
+                    }
+
+                    /**
+                     * Called to refresh an action mode's action menu whenever it is invalidated.
+                     *
+                     * @param mode ActionMode being prepared
+                     * @param menu Menu used to populate action buttons
+                     * @return true if the menu or action mode was updated, false otherwise.
+                     */
+                    @Override
+                    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                        //TODO auto-generated method stub
+                        return false;
+                    }
+
+                    /**
+                     * Called to report a user click on an action button.
+                     *
+                     * @param mode The current ActionMode
+                     * @param item The item that was clicked
+                     * @return true if this callback handled the event, false if the
+                     * standard MenuItem invocation should continue.
+                     */
+                    @Override
+                    public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
+                                /*ID of clicked action button*/
+                        int id = item.getItemId();
+
+                        if (id == R.id.delete) {
+                                    /*Dialog for delete confirmation*/
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CollectionActivity.this);
+
+                            alertDialogBuilder.setMessage(R.string.multi_delete_collection_alertdialog_question);
+
+                            /*Handle positive response*/
+                            alertDialogBuilder.setPositiveButton(R.string.multi_delete_collection_alertdialog_answer_yes,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            /*Get ids of selected items*/
+                                            SparseBooleanArray selectedIds = adapter.getSelectedIds();
+                                            /*Iterate through all selected list items*/
+                                            for (int i = (selectedIds.size() - 1); i >= 0; i--) {
+
+                                                if (selectedIds.valueAt(i)) {
+                                                    VideoGame selectedVideoGame = adapter.getItem(selectedIds.keyAt(i));
+                                                            /*Removes node from Firebase database*/
+                                                    selectedVideoGame.deleteNode();
+                                                            /*Remove selected item from adapter ArrayList<VideoGame>*/
+                                                    adapter.remove(selectedVideoGame);
+                                                }
+                                            }
+
+                                            mode.finish();
+                                            selectedIds.clear();
+                                        }
+                                    });
+
+                            alertDialogBuilder.setNegativeButton(R.string.multi_delete_collection_alertdialog_answer_no,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // TODO  Auto-generated method stub
+                                        }
+                                    });
+                            AlertDialog alert =  alertDialogBuilder.create();
+//                            alert.setIcon(R.drawable.questionicon);// dialog  Icon
+                            alert.setTitle("Confirmation"); // dialog  Title
+                            alert.show();
+                            return true;
+                        }
+                        return false;
+                    }
+
+                    /**
+                     * Called when an action mode is about to be exited and destroyed.
+                     *
+                     * @param mode The current ActionMode being destroyed
+                     */
+                    @Override
+                    public void onDestroyActionMode(ActionMode mode) {
+                        /*Show ActionBar again*/
+                        getSupportActionBar().show();
+                    }
+                });
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e(LOG_TAG, "DatabaseError: " + databaseError.getDetails());
             }
         });
     }
