@@ -22,4 +22,10 @@
 
     <!--ItemDialogFragment class valueTitle-->
     <string name="fragment_collectable_title">Add </string>
+
+    <!--CollectionActivity AlertDialog message-->
+    <string name="multi_delete_collection_alertdialog_question">Do you want to delete selected video games?</string>
+    <!--CollectionActivity AlertDialog responses-->
+    <string name="multi_delete_collection_alertdialog_answer_yes">Yes</string>
+    <string name="multi_delete_collection_alertdialog_answer_no">No</string>
 </resources>
