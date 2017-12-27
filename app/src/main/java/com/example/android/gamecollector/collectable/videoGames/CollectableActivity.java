@@ -29,8 +29,7 @@ import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
  */
 
 //    TODO(3) Enable partial word search to work (e.g. "poke" for "pokemon")-- Entails more advanced query search
-//    TODO(3) Readd Copies Owned, and ensure it's accurate
-//    TODO(1) Remove Copies Owned
+//    TODO(3) Re-add Copies Owned, and ensure it's accurate
 
 public class CollectableActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     /*Use in Log statements*/
