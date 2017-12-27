@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,10 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     private int iconNumber;
     /*Utilized for setting image resources for icon# ImageViews*/
     private ArrayList<ImageView> iconsList;
+    /*List supplied to adapter*/
+    private ArrayList<VideoGame> videoGames = new ArrayList<>();
+//    /*Array of item IDs for selected items*/
+    private SparseBooleanArray mSelectedItemsIds;
 
 
     /**
@@ -48,6 +53,8 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
      */
     public CollectedArrayAdapter(Context context, ArrayList<VideoGame> videoGames) {
         super(context, 0, videoGames);
+        mSelectedItemsIds = new SparseBooleanArray();
+        this.videoGames = videoGames;
     }
 
     @Override
@@ -245,5 +252,50 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
                 Log.e(LOG_TAG, "Error setting cartridge icon");
                 return R.drawable.ic_n64_cartridge;
         }
+    }
+
+    /**
+     * Removes the specified object from the array.
+     * @param object The object to remove.
+     */
+    @Override
+    public void remove(VideoGame object) {
+        videoGames.remove(object);
+        notifyDataSetChanged();
+    }
+
+    /*Retrieves the current VideoGame List used by this adapter*/
+    public ArrayList<VideoGame> getVideoGamesList() {
+        return videoGames;
+    }
+
+
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItemsIds.get(position));
+    }
+
+    /*Remove selection once unchecked*/
+    public void removeSelection() {
+        mSelectedItemsIds = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+    /*Check item when selected*/
+    public void selectView(int position, boolean value) {
+        if (value)
+            mSelectedItemsIds.put(position, value);
+        else
+            mSelectedItemsIds.delete(position);
+        notifyDataSetChanged();
+    }
+
+    /*Get number of selected items*/
+    public int getSelectedCount() {
+        return mSelectedItemsIds.size();
+    }
+
+//    Returns seleted item IDs
+    public SparseBooleanArray getSelectedIds() {
+        return mSelectedItemsIds;
     }
 }
