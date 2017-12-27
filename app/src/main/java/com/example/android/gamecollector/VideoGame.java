@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.android.gamecollector.data.sqlite.CollectableContract;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -61,6 +62,9 @@ public class VideoGame {
     private String valueNote = null;
     private String valueUniqueNodeId = null; //Created with a random character generator
     private int valueCopiesOwned = 0;
+    /*Constant names of database nodes*/
+    public static final String NODE_COLLECTABLES_OWNED = "collectables_owned";
+    public static final String NODE_VIDEO_GAMES = "video_games";
     /*Firebase Realtime Database initializations*/
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -101,11 +105,10 @@ public class VideoGame {
         if (valueRegionLock == null) {
             valueRegionLock = UNDEFINED_TRAIT;
         }
-
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference()
-                .child("collectables_owned")
-                .child("video_games")
+                .child(NODE_COLLECTABLES_OWNED)
+                .child(NODE_VIDEO_GAMES)
                 .child(valueUniqueNodeId);
 
         databaseReference.child(KEY_UNIQUE_ID).setValue(valueUniqueID);
@@ -134,8 +137,8 @@ public class VideoGame {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference()
-                .child("collectables_owned")
-                .child("video_games")
+                .child(NODE_COLLECTABLES_OWNED)
+                .child(NODE_VIDEO_GAMES)
                 .child(getValueUniqueNodeId());
         /*Update region lock*/
         databaseReference.child(KEY_REGION_LOCK).setValue(getValueRegionLock());
@@ -165,6 +168,17 @@ public class VideoGame {
        int rowsUpdated = context.getContentResolver().update(uri, sqliteUpdate, selection, selectionArgs);
 
        return rowsUpdated;
+    }
+
+    /*Removes the video game's node from Firebase*/
+    public void deleteNode() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference().child(NODE_COLLECTABLES_OWNED)
+                .child(NODE_VIDEO_GAMES).child(valueUniqueNodeId).removeValue(new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    }
+                });
     }
 
     public String getValueRowID() {
