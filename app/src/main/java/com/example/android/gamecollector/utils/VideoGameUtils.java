@@ -34,15 +34,14 @@ public final class VideoGameUtils {
         CheckRegionLock(videoGame);
 
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference dbRef = GetDatabaseReference(videoGame);
+        DatabaseReference dbRef = GetDatabaseReference().child(videoGame.getValueUniqueNodeId());
 
         dbRef.child(videoGame.KEY_UNIQUE_ID).setValue(videoGame.getValueUniqueID());
         dbRef.child(videoGame.KEY_CONSOLE).setValue(videoGame.getValueConsole());
         dbRef.child(videoGame.KEY_TITLE).setValue(videoGame.getValueTitle());
         dbRef.child(videoGame.KEY_LICENSEE).setValue(videoGame.getValueLicensee());
         dbRef.child(videoGame.KEY_RELEASED).setValue(videoGame.getValueReleased());
-        dbRef.child(videoGame.KEY_DATE_ADDED).setValue(videoGame.getValueDateAdded());
+        dbRef.child(videoGame.KEY_DATE_ADDED_UNIX).setValue(videoGame.getValueDateAdded());
         dbRef.child(videoGame.KEY_REGION_LOCK).setValue(videoGame.getValueRegionLock());
         dbRef.child(videoGame.KEY_COMPONENTS_OWNED).child(videoGame.GAME).setValue(videoGame.getValuesComponentsOwned().get(videoGame.GAME));
         dbRef.child(videoGame.KEY_COMPONENTS_OWNED).child(videoGame.MANUAL).setValue(videoGame.getValuesComponentsOwned().get(videoGame.MANUAL));
@@ -63,7 +62,7 @@ public final class VideoGameUtils {
 
         CheckRegionLock(videoGame);
 
-        DatabaseReference dbRef = GetDatabaseReference(videoGame);
+        DatabaseReference dbRef = GetDatabaseReference().child(videoGame.getValueUniqueNodeId());
         /*Update region lock*/
         dbRef.child(videoGame.KEY_REGION_LOCK).setValue(videoGame.getValueRegionLock());
         /*Update components owned*/
@@ -83,8 +82,6 @@ public final class VideoGameUtils {
      * @return How many rows were updates. Should only be one (test for this)
      */
     private static int UpdateCopiesOwned(Context context, VideoGame videoGame) {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference dbRef = firebaseDatabase.getReference();
 
         /*Updated number of copes owned*/
         int updatedCopies = videoGame.getValueCopiesOwned() + 1;
@@ -108,7 +105,7 @@ public final class VideoGameUtils {
 
     /*Removes the video game's node from Firebase*/
     public static void DeleteNode(VideoGame videoGame) {
-        GetDatabaseReference(videoGame).removeValue(new DatabaseReference.CompletionListener() {
+        GetDatabaseReference().child(videoGame.getValueUniqueNodeId()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -126,17 +123,15 @@ public final class VideoGameUtils {
         }
     }
     /**
-     * @param videoGame VideoGame object containing data
-     * @return reference to a newly generated node
+     * @return reference to a node containing all video games with uniqueNodeIDs as their key's
      */
-    private static DatabaseReference GetDatabaseReference(VideoGame videoGame) {
+    public static DatabaseReference GetDatabaseReference() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference dbRef = firebaseDatabase.getReference()
                 .child(NODE_COLLECTABLES_OWNED)
                 .child(NODE_USERS)
                 .child(GetUserID())
-                .child(NODE_VIDEO_GAMES)
-                .child(videoGame.getValueUniqueNodeId());
+                .child(NODE_VIDEO_GAMES);
 
         return dbRef;
     }
@@ -156,5 +151,12 @@ public final class VideoGameUtils {
         } else {
             throw new UnsupportedOperationException("There is no current user");
         }
+    }
+
+    /**
+     * @return Current Unix time
+     */
+    public static long GetUnixTime() {
+        return System.currentTimeMillis();
     }
 }
