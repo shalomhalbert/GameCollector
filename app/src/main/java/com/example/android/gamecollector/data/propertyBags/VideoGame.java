@@ -1,10 +1,6 @@
-package com.example.android.gamecollector;
-
-import android.content.Context;
+package com.example.android.gamecollector.data.propertyBags;
 
 import com.example.android.gamecollector.data.sqlite.CollectableContract;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 /**
@@ -56,20 +52,10 @@ public class VideoGame {
     private String valueNote = null;
     private String valueUniqueNodeId = null; //Created with a random character generator
     private int valueCopiesOwned = 0;
-    /*Constant names of database nodes*/
-    public static final String NODE_COLLECTABLES_OWNED = "collectables_owned";
-    public static final String NODE_USERS = "users";
-    public static final String NODE_VIDEO_GAMES = "video_games";
-    /*Firebase Realtime Database initializations*/
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-    private Context context;
-
     /*Use when wanting to set values individually*/
     public VideoGame() { }
 
-    public VideoGame(Context context, String valueUniqueID, String valueConsole, String valueTitle, String valueLicensee, String valueReleased, int valueCopiesOwned) {
-        this.context = context;
+    public VideoGame(String valueUniqueID, String valueConsole, String valueTitle, String valueLicensee, String valueReleased, int valueCopiesOwned) {
         this.valueUniqueID = valueUniqueID;
         this.valueConsole = valueConsole;
         this.valueTitle = valueTitle;
