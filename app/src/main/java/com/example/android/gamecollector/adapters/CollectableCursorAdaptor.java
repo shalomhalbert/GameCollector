@@ -1,4 +1,4 @@
-package com.example.android.gamecollector.data.sqlite;
+package com.example.android.gamecollector.adapters;
 
 import android.content.Context;
 import android.database.Cursor;

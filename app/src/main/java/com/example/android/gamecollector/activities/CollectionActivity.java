@@ -1,4 +1,4 @@
-package com.example.android.gamecollector.collected.videoGames;
+package com.example.android.gamecollector.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,10 +21,10 @@ import android.widget.ListView;
 
 import com.example.android.gamecollector.ItemDialogFragment;
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.VideoGame;
-import com.example.android.gamecollector.collectable.videoGames.CollectableActivity;
-import com.example.android.gamecollector.data.firebase.CollectedArrayAdapter;
+import com.example.android.gamecollector.data.propertyBags.VideoGame;
+import com.example.android.gamecollector.adapters.CollectedArrayAdapter;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+import com.example.android.gamecollector.utils.VideoGameUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -291,7 +291,7 @@ public class CollectionActivity extends AppCompatActivity {
                                                 if (selectedIds.valueAt(i)) {
                                                     VideoGame selectedVideoGame = adapter.getItem(selectedIds.keyAt(i));
                                                             /*Removes node from Firebase database*/
-                                                    selectedVideoGame.deleteNode();
+                                                    VideoGameUtils.DeleteNode(selectedVideoGame);
                                                             /*Remove selected item from adapter ArrayList<VideoGame>*/
                                                     adapter.remove(selectedVideoGame);
                                                 }

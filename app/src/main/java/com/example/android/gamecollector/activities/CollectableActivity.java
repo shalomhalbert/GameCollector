@@ -1,4 +1,4 @@
-package com.example.android.gamecollector.collectable.videoGames;
+package com.example.android.gamecollector.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -20,7 +20,7 @@ import android.widget.ListView;
 import com.example.android.gamecollector.R;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.FtsVideoGamesEntry;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
-import com.example.android.gamecollector.data.sqlite.CollectableCursorAdaptor;
+import com.example.android.gamecollector.adapters.CollectableCursorAdaptor;
 
 /**
  * Created by shalom on 2017-10-11.

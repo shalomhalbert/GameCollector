@@ -1,4 +1,4 @@
-package com.example.android.gamecollector.data.firebase;
+package com.example.android.gamecollector.adapters;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.VideoGame;
+import com.example.android.gamecollector.data.propertyBags.VideoGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;

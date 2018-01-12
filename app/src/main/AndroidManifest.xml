@@ -17,7 +17,7 @@
 
         <!--SoftInput="adjustPan" ensures keyboard doesn't cover EditText-->
         <activity
-            android:name=".collected.videoGames.CollectionActivity"
+            android:name=".activities.CollectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -30,11 +30,11 @@
 
         <!--SoftInput="adjustPan" ensures keyboard doesn't cover EditText-->
         <activity
-            android:name=".collectable.videoGames.CollectableActivity"
+            android:name=".activities.CollectableActivity"
             android:label="Add to collection"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:parentActivityName=".collected.videoGames.CollectionActivity"
+            android:parentActivityName=".activities.CollectionActivity"
             android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
