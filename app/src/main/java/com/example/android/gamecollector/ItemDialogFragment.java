@@ -25,8 +25,6 @@ import android.widget.TextView;
 import com.example.android.gamecollector.data.propertyBags.VideoGame;
 import com.example.android.gamecollector.utils.VideoGameUtils;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -34,8 +32,6 @@ import java.util.HashMap;
  * A full-screen dialog that allows user to input data about a collectable they are adding
  * to their collection.
  */
-
-//    TODO(1) Fix memory leak: Memory usage grows as collectables are saved to collection
 
 public class ItemDialogFragment extends DialogFragment {
     public static final String LOG_TAG = ItemDialogFragment.class.getSimpleName();
@@ -194,7 +190,6 @@ public class ItemDialogFragment extends DialogFragment {
             case R.id.activity_collectable_dialog_action_save:
                 if (videoGame.getValueUniqueNodeId() == null) {
                     /*Handles saving Add item*/
-//                    TODO(1) Change dates to unix
                     setDate();
                     setNote();
                     VideoGameUtils.CreateNode(videoGame);
@@ -371,8 +366,7 @@ public class ItemDialogFragment extends DialogFragment {
     /*Populates unset VideoGame values*/
     private void setDate() {
         /*Get current date and time*/
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        videoGame.setValueDateAdded(currentDateTimeString);
+        videoGame.setValueDateAdded(VideoGameUtils.GetUnixTime());
     }
 
     /*Saves note written in EditText to VideoGame object*/
