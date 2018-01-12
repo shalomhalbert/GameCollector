@@ -22,6 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.gamecollector.data.propertyBags.VideoGame;
+import com.example.android.gamecollector.utils.VideoGameUtils;
+
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,7 +70,7 @@ public class ItemDialogFragment extends DialogFragment {
                 /*Extract Hashmap containing video game's data*/
                 HashMap<String, String> contentProviderBundle = (HashMap<String, String>) getArguments().getSerializable(SQLITE_DATA);
                 /*Set VideoGame's values*/
-                videoGame = new VideoGame(getContext(), contentProviderBundle.get(VideoGame.KEY_UNIQUE_ID),
+                videoGame = new VideoGame(contentProviderBundle.get(VideoGame.KEY_UNIQUE_ID),
                         contentProviderBundle.get(VideoGame.KEY_CONSOLE),
                         contentProviderBundle.get(VideoGame.KEY_TITLE),
                         contentProviderBundle.get(VideoGame.KEY_LICENSEE),
@@ -191,15 +194,16 @@ public class ItemDialogFragment extends DialogFragment {
             case R.id.activity_collectable_dialog_action_save:
                 if (videoGame.getValueUniqueNodeId() == null) {
                     /*Handles saving Add item*/
+//                    TODO(1) Change dates to unix
                     setDate();
                     setNote();
-                    videoGame.createNode();
+                    VideoGameUtils.CreateNode(videoGame);
                     dismiss();
                     break;
                 } else {
                     /*Handles saving Edit item*/
                     setNote();
-                    videoGame.updateNode();
+                    VideoGameUtils.UpdateNode(videoGame);
                     dismiss();
                     break;
                 }
