@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO(1) Set dimen for dimensions-->
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
 
     <size
-        android:width="60dp"
-        android:height="60dp"/>
+        android:width="@dimen/launcher_icon_activity_authentication_width"
+        android:height="@dimen/launcher_icon_activity_authentication_height"/>
 
     <solid
         android:color="@color/colorActiveIcon"/>
