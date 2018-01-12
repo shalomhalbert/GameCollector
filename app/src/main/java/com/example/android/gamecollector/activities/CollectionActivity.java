@@ -21,15 +21,14 @@ import android.widget.ListView;
 
 import com.example.android.gamecollector.ItemDialogFragment;
 import com.example.android.gamecollector.R;
-import com.example.android.gamecollector.data.propertyBags.VideoGame;
 import com.example.android.gamecollector.adapters.CollectedArrayAdapter;
+import com.example.android.gamecollector.data.propertyBags.VideoGame;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 import com.example.android.gamecollector.utils.VideoGameUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -46,7 +45,6 @@ import java.util.HashMap;
 //    TODO(3) Match list item divider width to Sketch wireframe (after switching to RecyclerView)
 //    TODO(3) When user signs in, Firebase should update SQLite copies owned after checking if table exists. Build it if it doesn't
 //    TODO(2) Add terms of service- give credit where it is due, and list the license
-//    TODO(2) Add sign-in using google credentials
 
 public class CollectionActivity extends AppCompatActivity {
     public static final String LOG_TAG = CollectionActivity.class.getSimpleName();
@@ -57,7 +55,6 @@ public class CollectionActivity extends AppCompatActivity {
     /*Works with adapter to display data from videoGames*/
     private ListView listView;
     /*Instantiation of Realtime Database objects*/
-    private FirebaseDatabase database;
     private DatabaseReference collectionRef;
     /*Manages dialog fragment*/
     private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -96,8 +93,7 @@ public class CollectionActivity extends AppCompatActivity {
     /*Initializes a ChildEventListener and ValueEventListener, and adapts videoGames to adapter,
     * and sets adapter as listView's adapter*/
     private void createDatabaseListeners() {
-        database = FirebaseDatabase.getInstance();
-        collectionRef = database.getReference().child("collectables_owned").child("video_games");
+        collectionRef = VideoGameUtils.GetDatabaseReference();
 
         /*Used to receive events about changes in the child locations of a given DatabaseReference ref.
         Attach the listener to a location using addChildEventListener(ChildEventListener) and the
@@ -113,7 +109,7 @@ public class CollectionActivity extends AppCompatActivity {
                 String title = dataSnapshot.child(VideoGamesEntry.COLUMN_TITLE).getValue(String.class);
                 String licensee = dataSnapshot.child(VideoGamesEntry.COLUMN_LICENSEE).getValue(String.class);
                 String released = dataSnapshot.child(VideoGamesEntry.COLUMN_RELEASED).getValue(String.class);
-                String dateAdded = dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class);
+                long dateAdded = (long) dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class);
                 String regionLock = dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class);
                 HashMap<String, Boolean> componentsOwned = buildComponentsMap(dataSnapshot);
                 String note = dataSnapshot.child(VideoGame.KEY_NOTE).getValue(String.class);
@@ -131,11 +127,11 @@ public class CollectionActivity extends AppCompatActivity {
                 /*Checks whether the changed node's date matches a videogame in the ArrayList
                  *If dates match, they are the same node.*/
                 for (VideoGame game : videoGames) {
-                    if (game.getValueDateAdded() == null) {
-                        /*Arbitrary number used for informing next if statment that no change occurred*/
+                    if (game.getValueDateAdded() == 0) {
+                        /*Arbitrary number used for informing next if statement that no change occurred*/
                         counter = 100;
                         break;
-                    } else if (game.getValueDateAdded().equals(dataSnapshot.child(VideoGame.KEY_DATE_ADDED).getValue(String.class))) {
+                    } else if (game.getValueDateAdded() == dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class)) {
                         break;
                     }
                     counter++;
