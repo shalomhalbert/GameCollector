@@ -26,7 +26,7 @@ public class VideoGame {
     public static final String KEY_RELEASED = CollectableContract.VideoGamesEntry.COLUMN_RELEASED;
     public static final String KEY_TITLE = CollectableContract.VideoGamesEntry.COLUMN_TITLE;
     public static final String KEY_COPIES_OWNED = CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED;
-    public static final String KEY_DATE_ADDED = "Date_Added";
+    public static final String KEY_DATE_ADDED_UNIX = "Date_Added_Unix";
     public static final String KEY_REGION_LOCK = "Region_Lock";
     public static final String KEY_COMPONENTS_OWNED = "Components_Owned";
     public static final String KEY_NOTE = "Note";
@@ -46,7 +46,7 @@ public class VideoGame {
     private String valueTitle = null;
     private String valueLicensee = null;
     private String valueReleased = null;
-    private String valueDateAdded = null;
+    private long valueDateAdded = 0;
     private String valueRegionLock = null;
     private HashMap<String, Boolean> valuesComponentsOwned = new HashMap<>();
     private String valueNote = null;
@@ -65,7 +65,7 @@ public class VideoGame {
     }
 
     public VideoGame(String valueUniqueID, String valueConsole, String valueTitle, String valueLicensee, String valueReleased,
-                     String valueDateAdded, String valueRegionLock, HashMap<String, Boolean> valuesComponentsOwned,
+                     long valueDateAdded, String valueRegionLock, HashMap<String, Boolean> valuesComponentsOwned,
                      String valueNote, String valueUniqueNodeId) {
         this.valueUniqueID = valueUniqueID;
         this.valueConsole = valueConsole;
@@ -128,11 +128,11 @@ public class VideoGame {
         this.valueReleased = valueReleased;
     }
 
-    public String getValueDateAdded() {
+    public long getValueDateAdded() {
         return valueDateAdded;
     }
 
-    public void setValueDateAdded(String valueDateAdded) {
+    public void setValueDateAdded(long valueDateAdded) {
         this.valueDateAdded = valueDateAdded;
     }
 
