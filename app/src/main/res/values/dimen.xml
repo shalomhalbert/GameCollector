@@ -18,4 +18,8 @@
     <dimen name="floating_action_button_width">56dp</dimen>
     <dimen name="floating_action_button_height">56dp</dimen>
 
+    <!--AuthenticationActivity's launcher icon's, and it's background drawables's dimensions-->
+    <dimen name="launcher_icon_activity_authentication_width">60dp</dimen>
+    <dimen name="launcher_icon_activity_authentication_height">@dimen/launcher_icon_activity_authentication_width</dimen>
+
 </resources>
