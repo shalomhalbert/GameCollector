@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO(1) Set Textview typeface-->
-<!--TODO(1) Set ImageView dimensions in dimen.xml-->
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,8 +8,8 @@
 
     <ImageView
         android:id="@+id/launcher_icon_iv"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/launcher_icon_activity_authentication_width"
+        android:layout_height="@dimen/launcher_icon_activity_authentication_height"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="100dp"
