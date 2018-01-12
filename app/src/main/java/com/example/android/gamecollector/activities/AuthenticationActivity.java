@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.gamecollector.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -31,6 +32,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
  * Activity that handles the login/sign-up activity
  */
 
+//TODO(2)  Setup Crashlytics
+//TODO(2) Add emailaddress with implicit intent to email me anything. Put same email in a Contact Us menu item
 public class AuthenticationActivity extends AppCompatActivity {
     public static final String LOG_TAG = AuthenticationActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 100;
@@ -67,7 +70,6 @@ public class AuthenticationActivity extends AppCompatActivity {
         });
 
         /*Configure Google Sign in*/
-//        TODO(1)  Pass server's client ID to the requestIdToken method from credentials page
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.gamecollector_client_id))
                 .requestEmail()
@@ -99,7 +101,6 @@ public class AuthenticationActivity extends AppCompatActivity {
              *The GoogleSignInAccount object contains information about the signed-in user, such as the user's name*/
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
-//            TODO(1) If try is successful, sign in was succseful. Else sign in failed. Update ui accordingly
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
 
@@ -119,16 +120,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-//    TODO(1) If param is a Google account, start CollectionActvity; else if null, ask user to login
-    /**
-     * Handles presence of a googleAccount on UI
-     *
-     * @param currentUser If not null, user has already signed in
-     */
-    public void updateUI(FirebaseUser currentUser) {
-
     }
 
     /**
@@ -157,5 +148,19 @@ public class AuthenticationActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    /**
+     * Handles presence of a googleAccount on UI
+     *
+     * @param currentUser If not null, user has already signed in
+     */
+    public void updateUI(FirebaseUser currentUser) {
+        if (currentUser == null) {
+            Toast.makeText(this, getString(R.string.login_error_msg), Toast.LENGTH_LONG);
+        } else {
+            Intent intent = new Intent(this, CollectionActivity.class);
+            startActivity(intent);
+        }
     }
 }
