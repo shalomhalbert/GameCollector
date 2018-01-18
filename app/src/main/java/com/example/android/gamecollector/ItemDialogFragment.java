@@ -179,6 +179,9 @@ public class ItemDialogFragment extends DialogFragment {
         inflater.inflate(R.menu.activity_collectable_dialog_menu, menu);
         if (menu.findItem(R.id.activity_collectable_search_menu) != null) {
             menu.findItem(R.id.activity_collectable_search_menu).setVisible(false);
+        } else if (menu.findItem(R.id.action_contact_us) != null && menu.findItem(R.id.action_sign_out) != null){
+            menu.findItem(R.id.action_contact_us).setVisible(false);
+            menu.findItem(R.id.action_sign_out).setVisible(false);
         }
     }
 
