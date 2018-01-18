@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO(2) Add sign out, about, and contact us (should take user to a compose email via an
-implicit intent) action buttons-->
+
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -11,4 +10,13 @@ implicit intent) action buttons-->
         android:title="@string/action_save"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_contact_us"
+        android:title="@string/action_contact_us"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sign_out"
+        android:title="@string/action_sign_out"
+        app:showAsAction="never"/>
 </menu>
