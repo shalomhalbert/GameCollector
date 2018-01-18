@@ -45,12 +45,14 @@ dependencies {
     compile 'com.google.firebase:firebase-database:11.8.0'
     compile 'com.google.android.gms:play-services-auth:11.8.0'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-crash:11.8.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     /*LeakCanary: https://github.com/square/leakcanary*/
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
+
 
 
 
