@@ -24,6 +24,7 @@ import com.example.android.gamecollector.R;
 import com.example.android.gamecollector.adapters.CollectedArrayAdapter;
 import com.example.android.gamecollector.data.propertyBags.VideoGame;
 import com.example.android.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+import com.example.android.gamecollector.utils.MenuUtils;
 import com.example.android.gamecollector.utils.VideoGameUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +45,6 @@ import java.util.HashMap;
 
 //    TODO(3) Match list item divider width to Sketch wireframe (after switching to RecyclerView)
 //    TODO(3) When user signs in, Firebase should update SQLite copies owned after checking if table exists. Build it if it doesn't
-//    TODO(2) Add terms of service- give credit where it is due, and list the license
 
 public class CollectionActivity extends AppCompatActivity {
     public static final String LOG_TAG = CollectionActivity.class.getSimpleName();
@@ -73,6 +73,30 @@ public class CollectionActivity extends AppCompatActivity {
         createDatabaseListeners();
 
         floatingActionButtonListner();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_collection, menu);
+        if (menu.findItem(R.id.action_save) != null){
+            /*Makes the SAVE action button invisible*/
+            menu.findItem(R.id.action_save).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemID = item.getItemId();
+
+        switch (itemID) {
+            case R.id.action_contact_us:
+                MenuUtils.ImplicitEmailIntent(getApplicationContext());
+                break;
+            case R.id.action_sign_out:
+                MenuUtils.LogoutUser(getApplicationContext());
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /*Handles tapping the FloatingActionButton by starting CollectableActivity*/
@@ -109,7 +133,12 @@ public class CollectionActivity extends AppCompatActivity {
                 String title = dataSnapshot.child(VideoGamesEntry.COLUMN_TITLE).getValue(String.class);
                 String licensee = dataSnapshot.child(VideoGamesEntry.COLUMN_LICENSEE).getValue(String.class);
                 String released = dataSnapshot.child(VideoGamesEntry.COLUMN_RELEASED).getValue(String.class);
-                long dateAdded = (long) dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class);
+
+                long dateAdded = 0;
+                if (dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class) != null) {
+                    dateAdded = dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class);
+                }
+
                 String regionLock = dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class);
                 HashMap<String, Boolean> componentsOwned = buildComponentsMap(dataSnapshot);
                 String note = dataSnapshot.child(VideoGame.KEY_NOTE).getValue(String.class);
@@ -131,7 +160,8 @@ public class CollectionActivity extends AppCompatActivity {
                         /*Arbitrary number used for informing next if statement that no change occurred*/
                         counter = 100;
                         break;
-                    } else if (game.getValueDateAdded() == dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class)) {
+                    } else if (dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class) != null
+                            && game.getValueDateAdded() == dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class).longValue()) {
                         break;
                     }
                     counter++;
