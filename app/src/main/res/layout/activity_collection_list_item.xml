@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--TODO(3) Fix margin between informational icons and divider when TextView is >= two lines-->
 <!--List item layout activity_collection.xml.xml's ListView-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
