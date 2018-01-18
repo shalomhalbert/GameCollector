@@ -9,10 +9,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.gamecollector.R;
+import com.example.android.gamecollector.utils.MenuUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,13 +34,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
  * Activity that handles the login/sign-up activity
  */
 
-//TODO(2)  Setup Crashlytics
-//TODO(2) Add emailaddress with implicit intent to email me anything. Put same email in a Contact Us menu item
 public class AuthenticationActivity extends AppCompatActivity {
     public static final String LOG_TAG = AuthenticationActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 100;
     /*Google sign in button*/
     private SignInButton googleButton;
+    private ImageView emailIV;
+    private TextView emailTV;
     private TextView welcomeTV;
     private GoogleSignInClient googleSignInClient;
     private GoogleSignInAccount googleAccount;
@@ -50,6 +52,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authentication);
 
         googleButton = (SignInButton) findViewById(R.id.signInButton);
+        emailIV = (ImageView) findViewById(R.id.email_iv);
+        emailTV = (TextView) findViewById(R.id.email_tv);
         welcomeTV = (TextView) findViewById(R.id.welcome_tv);
 
         /*Get the shared instance of the FirebaseAuth object*/
@@ -58,9 +62,24 @@ public class AuthenticationActivity extends AppCompatActivity {
         /*Set Typeface to Roboto Black*/
         Typeface robotoBlack = Typeface.createFromAsset(getAssets(), "roboto_black.ttf");
         welcomeTV.setTypeface(robotoBlack);
+        emailTV.setTypeface(robotoBlack);
+
+        emailIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MenuUtils.ImplicitEmailIntent(getApplicationContext());
+            }
+        });
+        emailTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MenuUtils.ImplicitEmailIntent(getApplicationContext());
+            }
+        });
 
         /*Sets button to the wide size of the Google sign-in button*/
-        googleButton.setSize(SignInButton.SIZE_STANDARD);
+//        TODO(1) Make sure sign-in button matches wireframe (wide + colorAccent)
+        googleButton.setSize(SignInButton.SIZE_WIDE);
         /*Handle button click*/
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +90,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         /*Configure Google Sign in*/
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.gamecollector_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -124,6 +143,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     /**
      * Handles successful sign in by exchanging it for a Firebase credential, and authenticating that with Firebase using the Firebase credential
+     *
      * @param account Account user is signed in with
      */
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
