@@ -18,7 +18,11 @@
     <string name="components_owned">Components owned</string>
     <string name="notes">Notes</string>
     <string name="notes_hint">More information...</string>
+    
+    <!--Menu action buttons-->
     <string name="action_save">SAVE</string>
+    <string name="action_contact_us">Contact us</string>
+    <string name="action_sign_out">Sign out</string>
 
     <!--ItemDialogFragment class valueTitle-->
     <string name="fragment_collectable_title">Add </string>
@@ -34,4 +38,7 @@
 
     <!--Message for when Google Sign In login fails-->
     <string name="login_error_msg">There was an error with logging in.</string>
+
+    <!--Text displayed on activity_authentication.xml which, on click takes user to an email application-->
+    <string name="email_us_text">Email</string>
 </resources>
