@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.gamecollector">
+    package="com.shalbert.hobby.gamecollector">
 
     <!--Theme changed to "NoActionBar" for using Toolbar as ActionBar-->
     <application
@@ -16,7 +16,7 @@
             android:value=".AddCollectableSearchResultsActivity" />
 
         <activity
-            android:name=".activities.AuthenticationActivity"
+            android:name="com.shalbert.hobby.gamecollector.activities.AuthenticationActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -29,7 +29,7 @@
 
         <!--SoftInput="adjustPan" ensures keyboard doesn't cover EditText-->
         <activity
-            android:name=".activities.CollectionActivity"
+            android:name="com.shalbert.hobby.gamecollector.activities.CollectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -38,11 +38,11 @@
 
         <!--SoftInput="adjustPan" ensures keyboard doesn't cover EditText-->
         <activity
-            android:name=".activities.CollectableActivity"
+            android:name="com.shalbert.hobby.gamecollector.activities.CollectableActivity"
             android:label="Add to collection"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activities.CollectionActivity"
+            android:parentActivityName="com.shalbert.hobby.gamecollector.activities.CollectionActivity"
             android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
@@ -55,8 +55,8 @@
         </activity>
 
         <provider
-            android:name=".data.sqlite.CollectableProvider"
-            android:authorities="com.example.android.gamecollector"
+            android:name="com.shalbert.hobby.gamecollector.data.sqlite.CollectableProvider"
+            android:authorities="com.shalbert.hobby.gamecollector"
             android:exported="false"/>
     </application>
 
