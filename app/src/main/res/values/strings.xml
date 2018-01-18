@@ -33,9 +33,6 @@
     <string name="multi_delete_collection_alertdialog_answer_yes">Yes</string>
     <string name="multi_delete_collection_alertdialog_answer_no">No</string>
 
-    <!--Google console's OAuth 2.0 client ID for this Android Application-->
-    <string name="gamecollector_client_id">39237993588-61f2aqigakgmgc8cvu2jco0ptdhihian.apps.googleusercontent.com</string>
-
     <!--Message for when Google Sign In login fails-->
     <string name="login_error_msg">There was an error with logging in.</string>
 
