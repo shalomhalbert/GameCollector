@@ -78,7 +78,6 @@ public class AuthenticationActivity extends AppCompatActivity {
         });
 
         /*Sets button to the wide size of the Google sign-in button*/
-//        TODO(1) Make sure sign-in button matches wireframe (wide + colorAccent)
         googleButton.setSize(SignInButton.SIZE_WIDE);
         /*Handle button click*/
         googleButton.setOnClickListener(new View.OnClickListener() {
