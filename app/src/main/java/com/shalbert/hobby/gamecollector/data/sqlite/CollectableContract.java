@@ -14,7 +14,7 @@ public final class CollectableContract {
     /*Should be empty*/
     private CollectableContract() {}
 
-    public static final String CONTENT_AUTHORITY = "com.example.android.gamecollector";
+    public static final String CONTENT_AUTHORITY = "com.shalbert.hobby.gamecollector";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_VIDEO_GAMES = "video_games";
     public static final String PATH_FTS_VIDEO_GAMES = "fts_video_games";

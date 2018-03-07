@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.shalbert.hobby.gamecollector.R;
 import com.shalbert.hobby.gamecollector.utils.MenuUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

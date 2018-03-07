@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:39237993588:android:9ef2ebcacc78a8ae",
         "android_client_info": {
-          "package_name": "com.example.android.gamecollector"
+          "package_name": "com.shalbert.hobby.gamecollector"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "39237993588-hhqdfa49r53tn2hot0cudpgorv11cr1e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.android.gamecollector",
+            "package_name": "com.shalbert.hobby.gamecollector",
             "certificate_hash": "9aebdc4128c04029b5abe81e9af0e4c2c6a49b3d"
           }
         },

@@ -65,6 +65,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
                 VideoGamesEntry.COLUMN_TITLE, VideoGamesEntry.COLUMN_COPIES_OWNED};
         /*Requests all data in the video_games table and is displayed in an identical order to their row number's*/
         getTable = getContentResolver().query(VideoGamesEntry.CONTENT_URI, projection, null, null, null, null);
+        Log.e(LOG_TAG, "getTable.getCount(): " + getTable.getCount());
 
         /*Sets up ListView and attaches Cursor Adaptor to it, and tells Adaptor which Cursor it'll interpret*/
         ListView listView = (ListView) findViewById(R.id.activity_collectable_listview);

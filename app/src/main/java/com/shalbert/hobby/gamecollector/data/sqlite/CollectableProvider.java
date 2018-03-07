@@ -72,6 +72,8 @@ public class CollectableProvider extends ContentProvider {
         sqLiteDatabase = collectableDbHelper.getReadableDatabase();
         Cursor cursor;
 
+        Log.e(LOG_TAG, "Called query()");
+
         switch (URI_MATCHER.match(uri)) {
             case VIDEO_GAMES:
                 cursor = sqLiteDatabase.query(VideoGamesEntry.TABLE_NAME,
@@ -156,8 +158,6 @@ public class CollectableProvider extends ContentProvider {
         Bundle bundle = new Bundle();
         if (method == "getItemData") {
             bundle.putSerializable(ItemDialogFragment.SQLITE_DATA, getItemData(extras.getString(VideoGamesEntry.COLUMN_ROW_ID)));
-        } else if(method == "tableExists") {
-            bundle.putBoolean(TABLE_EXISTS_BOOLEAN, tableExists());
         } else {
             Log.e(LOG_TAG, "Trouble calling getItemData() via call()");
             return null;

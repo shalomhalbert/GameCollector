@@ -36,18 +36,18 @@ public final class VideoGameUtils {
 
         DatabaseReference dbRef = GetDatabaseReference().child(videoGame.getValueUniqueNodeId());
 
-        dbRef.child(videoGame.KEY_UNIQUE_ID).setValue(videoGame.getValueUniqueID());
-        dbRef.child(videoGame.KEY_CONSOLE).setValue(videoGame.getValueConsole());
-        dbRef.child(videoGame.KEY_TITLE).setValue(videoGame.getValueTitle());
-        dbRef.child(videoGame.KEY_LICENSEE).setValue(videoGame.getValueLicensee());
-        dbRef.child(videoGame.KEY_RELEASED).setValue(videoGame.getValueReleased());
-        dbRef.child(videoGame.KEY_DATE_ADDED_UNIX).setValue(videoGame.getValueDateAdded());
-        dbRef.child(videoGame.KEY_REGION_LOCK).setValue(videoGame.getValueRegionLock());
-        dbRef.child(videoGame.KEY_COMPONENTS_OWNED).child(videoGame.GAME).setValue(videoGame.getValuesComponentsOwned().get(videoGame.GAME));
-        dbRef.child(videoGame.KEY_COMPONENTS_OWNED).child(videoGame.MANUAL).setValue(videoGame.getValuesComponentsOwned().get(videoGame.MANUAL));
-        dbRef.child(videoGame.KEY_COMPONENTS_OWNED).child(videoGame.BOX).setValue(videoGame.getValuesComponentsOwned().get(videoGame.BOX));
-        dbRef.child(videoGame.KEY_NOTE).setValue(videoGame.getValueNote());
-        dbRef.child(videoGame.KEY_UNIQUE_NODE_ID).setValue(videoGame.getValueUniqueNodeId());
+        dbRef.child(VideoGame.KEY_UNIQUE_ID).setValue(videoGame.getValueUniqueID());
+        dbRef.child(VideoGame.KEY_CONSOLE).setValue(videoGame.getValueConsole());
+        dbRef.child(VideoGame.KEY_TITLE).setValue(videoGame.getValueTitle());
+        dbRef.child(VideoGame.KEY_LICENSEE).setValue(videoGame.getValueLicensee());
+        dbRef.child(VideoGame.KEY_RELEASED).setValue(videoGame.getValueReleased());
+        dbRef.child(VideoGame.KEY_DATE_ADDED_UNIX).setValue(videoGame.getValueDateAdded());
+        dbRef.child(VideoGame.KEY_REGION_LOCK).setValue(videoGame.getValueRegionLock());
+        dbRef.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.GAME).setValue(videoGame.getValuesComponentsOwned().get(VideoGame.GAME));
+        dbRef.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.MANUAL).setValue(videoGame.getValuesComponentsOwned().get(VideoGame.MANUAL));
+        dbRef.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.BOX).setValue(videoGame.getValuesComponentsOwned().get(VideoGame.BOX));
+        dbRef.child(VideoGame.KEY_NOTE).setValue(videoGame.getValueNote());
+        dbRef.child(VideoGame.KEY_UNIQUE_NODE_ID).setValue(videoGame.getValueUniqueNodeId());
 
 //        int rowsUpdated = updateCopiesOwned();
 //        Log.i(LOG_TAG, "Rows updated: " + rowsUpdated);
@@ -64,13 +64,13 @@ public final class VideoGameUtils {
 
         DatabaseReference dbRef = GetDatabaseReference().child(videoGame.getValueUniqueNodeId());
         /*Update region lock*/
-        dbRef.child(videoGame.KEY_REGION_LOCK).setValue(videoGame.getValueRegionLock());
+        dbRef.child(VideoGame.KEY_REGION_LOCK).setValue(videoGame.getValueRegionLock());
         /*Update components owned*/
-        dbRef.child(videoGame.KEY_COMPONENTS_OWNED).child(videoGame.GAME).setValue(videoGame.getValueGame());
-        dbRef.child(videoGame.KEY_COMPONENTS_OWNED).child(videoGame.MANUAL).setValue(videoGame.getValueManual());
-        dbRef.child(videoGame.KEY_COMPONENTS_OWNED).child(videoGame.BOX).setValue(videoGame.getValueBox());
+        dbRef.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.GAME).setValue(videoGame.getValueGame());
+        dbRef.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.MANUAL).setValue(videoGame.getValueManual());
+        dbRef.child(VideoGame.KEY_COMPONENTS_OWNED).child(VideoGame.BOX).setValue(videoGame.getValueBox());
         /*Update note*/
-        dbRef.child(videoGame.KEY_NOTE).setValue(videoGame.getValueNote());
+        dbRef.child(VideoGame.KEY_NOTE).setValue(videoGame.getValueNote());
 
     }
 
@@ -91,7 +91,7 @@ public final class VideoGameUtils {
         ContentValues sqliteUpdate = new ContentValues();
         sqliteUpdate.put(CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED, String.valueOf(updatedCopies));
 
-        String selection = videoGame.KEY_UNIQUE_ID + "=?";
+        String selection = VideoGame.KEY_UNIQUE_ID + "=?";
         String[] selectionArgs = {videoGame.getValueUniqueID()};
 
 
