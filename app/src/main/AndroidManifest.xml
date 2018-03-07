@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shalbert.hobby.gamecollector">
-
+    <!--TODO(0) Implement Giant Bomb API https://www.giantbomb.com/forums/api-developers-3017/quick-start-guide-to-using-the-api-1427959/-->
+    <!--TODO(0) Improve UI for enhanced UX-->
     <!--Theme changed to "NoActionBar" for using Toolbar as ActionBar-->
     <application
         android:allowBackup="true"
