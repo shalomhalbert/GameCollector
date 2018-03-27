@@ -43,13 +43,13 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     private ArrayList<ImageView> iconsList;
     /*List supplied to adapter*/
     private ArrayList<VideoGame> videoGames = new ArrayList<>();
-//    /*Array of item IDs for selected items*/
+    /*Array of item IDs for selected items*/
     private SparseBooleanArray mSelectedItemsIds;
 
 
     /**
      * @param context    Activity's context
-     * @param videoGames Arraylist populated with video game data
+     * @param videoGames ArrayList populated with video game data
      */
     public CollectedArrayAdapter(Context context, ArrayList<VideoGame> videoGames) {
         super(context, 0, videoGames);
@@ -255,7 +255,8 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     }
 
     /**
-     * Removes the specified object from the array.
+     * Removes the specified object from the array and notifies this {@code ArrayAdapter} that the
+     * underlying data has changed.
      * @param object The object to remove.
      */
     @Override
@@ -268,6 +269,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
     public ArrayList<VideoGame> getVideoGamesList() {
         return videoGames;
     }
+
 
 
     public void toggleSelection(int position) {
@@ -294,7 +296,7 @@ public class CollectedArrayAdapter extends ArrayAdapter<VideoGame> {
         return mSelectedItemsIds.size();
     }
 
-//    Returns seleted item IDs
+    /*Returns seleted item IDs*/
     public SparseBooleanArray getSelectedIds() {
         return mSelectedItemsIds;
     }

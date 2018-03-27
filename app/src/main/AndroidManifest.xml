@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--Enable the search dialog to send searches to {@code CollectableActivity} -->
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".AddCollectableSearchResultsActivity" />
@@ -37,7 +38,10 @@
 
         </activity>
 
-        <!--SoftInput="adjustPan" ensures keyboard doesn't cover EditText-->
+        <!--SoftInput="adjustPan" ensures keyboard doesn't cover EditText
+            launchMode="singleTask"	If an instance of the activity already exists, the
+            system routes the intent to existing instance through a call to its onNewIntent() method,
+            rather than creating a new one.-->
         <activity
             android:name="com.shalbert.hobby.gamecollector.activities.CollectableActivity"
             android:label="Add to collection"
@@ -46,15 +50,17 @@
             android:parentActivityName="com.shalbert.hobby.gamecollector.activities.CollectionActivity"
             android:windowSoftInputMode="adjustPan">
 
+            <!--Decalares {@code Activity} accepts the search action-->
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
+            <!--Specify the {@code Searchable} configuration-->
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
 
+        <!--exported="false" ContentProvider is not available to other applications-->
         <provider
             android:name="com.shalbert.hobby.gamecollector.data.sqlite.CollectableProvider"
             android:authorities="com.shalbert.hobby.gamecollector"

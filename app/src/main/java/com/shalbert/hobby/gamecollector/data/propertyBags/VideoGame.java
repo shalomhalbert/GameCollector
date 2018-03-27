@@ -18,7 +18,7 @@ public class VideoGame {
     public static final String GAME = "Game";
     public static final String MANUAL = "Manual";
     public static final String BOX = "Box";
-    /*Constants for other Firebase's key values that are not one of table VideoGames's column names*/
+    /*Constants for other Firebase's key values*/
     public static final String KEY_ROW_ID = CollectableContract.VideoGamesEntry.COLUMN_ROW_ID;
     public static final String KEY_UNIQUE_ID = CollectableContract.VideoGamesEntry.COLUMN_UNIQUE_ID;
     public static final String KEY_CONSOLE = CollectableContract.VideoGamesEntry.COLUMN_CONSOLE;
@@ -31,7 +31,7 @@ public class VideoGame {
     public static final String KEY_COMPONENTS_OWNED = "Components_Owned";
     public static final String KEY_NOTE = "Note";
     public static final String KEY_UNIQUE_NODE_ID = "Unique_Node_Id";
-    /*Used when region lock wasn't defined by user*/
+    /*Used when region lock isn't defined by user*/
     public static final String UNDEFINED_TRAIT = "undefined";
     /*Console names*/
     public static final String NINTENDO_ENTERTAINMENT_SYSTEM = "NES";

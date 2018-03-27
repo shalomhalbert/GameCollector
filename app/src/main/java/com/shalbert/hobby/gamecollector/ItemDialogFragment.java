@@ -71,7 +71,8 @@ public class ItemDialogFragment extends DialogFragment {
                         contentProviderBundle.get(VideoGame.KEY_TITLE),
                         contentProviderBundle.get(VideoGame.KEY_LICENSEE),
                         contentProviderBundle.get(VideoGame.KEY_RELEASED),
-                        Integer.valueOf(contentProviderBundle.get(VideoGame.KEY_COPIES_OWNED)));
+                        Integer.valueOf(contentProviderBundle.get(VideoGame.KEY_COPIES_OWNED))
+                );
                 /*Express user has not indicated ownership of any components*/
                 videoGame.setValueGame(false);
                 videoGame.setValueManual(false);
@@ -173,7 +174,7 @@ public class ItemDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    /*Inflates activity_collectable_dialog_menu as the actionbar*/
+    /*Inflates activity_collectable_dialog_menu as the actionbar at sets visibility for action buttons*/
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.activity_collectable_dialog_menu, menu);
@@ -199,7 +200,7 @@ public class ItemDialogFragment extends DialogFragment {
                     dismiss();
                     break;
                 } else {
-                    /*Handles saving Edit item*/
+                    /*Handles saving edited item*/
                     setNote();
                     VideoGameUtils.UpdateNode(videoGame);
                     dismiss();
@@ -224,11 +225,13 @@ public class ItemDialogFragment extends DialogFragment {
         game = (ImageView) view.findViewById(R.id.game_imageview);
         manual = (ImageView) view.findViewById(R.id.manual_imageview);
         box = (ImageView) view.findViewById(R.id.box_imageview);
-        /*Designate*/
+
         setImageResources();
+
         /*Set OnClickListeners for every button*/
         setRegionLockOnClickListeners(usaFlag, japanFlag, euFlag);
         setComponentsOwnedOnClickListeners(game, manual, box);
+
         /*Sets appropriate tints for images*/
         setButtonTint();
     }
@@ -252,10 +255,10 @@ public class ItemDialogFragment extends DialogFragment {
         box.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
         game.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorInactiveIcon), PorterDuff.Mode.SRC_IN);
 
-        Log.e(LOG_TAG, "videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
-        Log.e(LOG_TAG, "videoGame.getValueNote(): " + videoGame.getValueNote());
+        Log.d(LOG_TAG, "videoGame.getValueRegionLock(): " + videoGame.getValueRegionLock());
+        Log.d(LOG_TAG, "videoGame.getValueNote(): " + videoGame.getValueNote());
 
-        /*If user opens dialog in CollectionAvticity, the following translate the item's data to the UI*/
+        /*If user opens dialog in CollectionActivity, the following translate the item's data to the UI*/
         if (getArguments().containsKey(FIREBASE_DATA)) {
             handleRegionLock();
             handleComponentsOwned();
@@ -384,7 +387,7 @@ public class ItemDialogFragment extends DialogFragment {
     }
 
     /**
-     * Uses videoGame.getValueConsole()'s value to determine the approperiate Res ID
+     * Uses videoGame.getValueConsole()'s value to determine the appropriate Res ID
      *
      * @return Res ID of cartridge which should be displayed
      */

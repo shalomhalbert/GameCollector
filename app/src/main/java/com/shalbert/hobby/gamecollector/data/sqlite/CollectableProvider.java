@@ -40,12 +40,13 @@ public class CollectableProvider extends ContentProvider {
     private static final String SQL_QUERY_ADD_COLLECTABLE_SEARCH_RESULTS_ACTIVITY = "SELECT * FROM "
             + VideoGamesEntry.TABLE_NAME + " WHERE "
             + VideoGamesEntry.COLUMN_ROW_ID
-            + " IN (SELECT docid FROM " + CollectableContract.FtsVideoGamesEntry.TABLE_NAME
+            + " IN (SELECT " + CollectableContract.FtsVideoGamesEntry.COLUMN_DOC_ID
+            + " FROM " + CollectableContract.FtsVideoGamesEntry.TABLE_NAME
             + " WHERE " + CollectableContract.FtsVideoGamesEntry.TABLE_NAME
             + " MATCH ?)";
 
-    /*Bundle in call()'s serializable's key*/
-    public static final String TABLE_EXISTS_BOOLEAN = "TableExists";
+//    Will use later: /*Bundle in call()'s serializable's key*/
+//    public static final String TABLE_EXISTS_BOOLEAN = "TableExists";
 
 
     static {

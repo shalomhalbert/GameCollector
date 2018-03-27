@@ -135,6 +135,7 @@ public class CollectionActivity extends AppCompatActivity {
                 String released = dataSnapshot.child(VideoGamesEntry.COLUMN_RELEASED).getValue(String.class);
 
                 long dateAdded = 0;
+                /*Check if {@code KEY_DATE_ADDED_UNIX} is null before changind value of {@code dateAdded}*/
                 if (dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class) != null) {
                     dateAdded = dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class);
                 }
@@ -144,6 +145,7 @@ public class CollectionActivity extends AppCompatActivity {
                 String note = dataSnapshot.child(VideoGame.KEY_NOTE).getValue(String.class);
                 String uniqueNodeId = dataSnapshot.child(VideoGame.KEY_UNIQUE_NODE_ID).getValue(String.class);
 
+                /*Add new child node to {@code ArrayList} used by {@code CollectedArrayAdapter} adapter*/
                 videoGames.add(new VideoGame(uniqueId, console, title, licensee, released, dateAdded,
                         regionLock, componentsOwned, note, uniqueNodeId));
             }
@@ -158,7 +160,7 @@ public class CollectionActivity extends AppCompatActivity {
                 for (VideoGame game : videoGames) {
                     if (game.getValueDateAdded() == 0) {
                         /*Arbitrary number used for informing next if statement that no change occurred*/
-                        counter = 100;
+                        counter = videoGames.size() + 3;
                         break;
                     } else if (dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class) != null
                             && game.getValueDateAdded() == dataSnapshot.child(VideoGame.KEY_DATE_ADDED_UNIX).getValue(Long.class).longValue()) {
@@ -171,11 +173,11 @@ public class CollectionActivity extends AppCompatActivity {
                 if (counter >= videoGames.size()) {
                     return;
                 } else {
-                    /*Update the changed element*/
+                    /*Update the changed element to with updated node values*/
                     videoGames.get(counter).setValueRegionLock(dataSnapshot.child(VideoGame.KEY_REGION_LOCK).getValue(String.class));
                     videoGames.get(counter).setValuesComponentsOwned(buildComponentsMap(dataSnapshot));
                     videoGames.get(counter).setValueNote(dataSnapshot.child(VideoGame.KEY_NOTE).getValue(String.class));
-                    /*Informs ArrayAdapter that its ArraList was updated*/
+                    /*Informs ArrayAdapter that its ArrayList was updated*/
                     runOnUiThread(new Runnable() {
                         public void run() {
                             adapter.notifyDataSetChanged();
@@ -253,7 +255,7 @@ public class CollectionActivity extends AppCompatActivity {
                         final int checkedCount = listView.getCheckedItemCount();
                         /*Sets title*/
                         mode.setTitle(checkedCount + " Selected");
-//                      /**/
+
                         adapter.toggleSelection(position);
                     }
 
@@ -316,9 +318,9 @@ public class CollectionActivity extends AppCompatActivity {
 
                                                 if (selectedIds.valueAt(i)) {
                                                     VideoGame selectedVideoGame = adapter.getItem(selectedIds.keyAt(i));
-                                                            /*Removes node from Firebase database*/
+                                                    /*Removes node from Firebase database*/
                                                     VideoGameUtils.DeleteNode(selectedVideoGame);
-                                                            /*Remove selected item from adapter ArrayList<VideoGame>*/
+                                                    /*Remove selected item from adapter ArrayList<VideoGame>*/
                                                     adapter.remove(selectedVideoGame);
                                                 }
                                             }
@@ -365,7 +367,7 @@ public class CollectionActivity extends AppCompatActivity {
     }
 
     /**
-     * Builds HashMap of componenets owned from Firebase DataSnapshot
+     * Builds HashMap of components owned from Firebase DataSnapshot
      *
      * @param dataSnapshot DataSnapshot object provided by onChildAdded()
      * @return HashMap populated with values representing whether component is owned

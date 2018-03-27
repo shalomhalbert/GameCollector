@@ -30,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 
 public class CollectableCursorAdaptor extends CursorAdapter {
-    /*Used for tracking Log statments*/
+    /*Used for tracking Log statements*/
     public static final String LOG_TAG = CursorAdapter.class.getSimpleName();
 
     /*Instantiations for Firebase Realtime Database*/
@@ -131,7 +131,7 @@ public class CollectableCursorAdaptor extends CursorAdapter {
                 dialogBundle.putString(VideoGamesEntry.COLUMN_ROW_ID, String.valueOf(id));
                 
 
-                /*Get cursor's data as a Bundle which holds a HashMap*/
+                /*Get tapped item's data as a {@code Bundle} which holds a {@code HashMap} from its {@code Cursor}*/
                 Bundle cursorDataBundle = context.getContentResolver()
                         .call(VideoGamesEntry.CONTENT_URI, "getItemData", 
                                 null, dialogBundle);
@@ -150,13 +150,13 @@ public class CollectableCursorAdaptor extends CursorAdapter {
         /*Required for fragmentTransaction.add()*/
         int containerViewId = android.R.id.content;
 
-                /*Initialize ItemDialogFragment*/
+        /*Initialize ItemDialogFragment*/
         ItemDialogFragment dialogFragment = new ItemDialogFragment();
-                /*Supplies arguments to dialogFragment*/
+        /*Supplies arguments to dialogFragment*/
         dialogFragment.setArguments(bundle);
-                /*fragmentManager is taken in constructor and FragmentTransaction makes transactions*/
+        /*fragmentManager is taken in constructor and FragmentTransaction makes transactions*/
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                /*Sets transition effect for when dialog opens*/
+        /*Sets transition effect for when dialog opens*/
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.add(containerViewId, dialogFragment).addToBackStack(null).commit();
     }

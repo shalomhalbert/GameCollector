@@ -65,14 +65,13 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
                 VideoGamesEntry.COLUMN_TITLE, VideoGamesEntry.COLUMN_COPIES_OWNED};
         /*Requests all data in the video_games table and is displayed in an identical order to their row number's*/
         getTable = getContentResolver().query(VideoGamesEntry.CONTENT_URI, projection, null, null, null, null);
-        Log.e(LOG_TAG, "getTable.getCount(): " + getTable.getCount());
+        Log.d(LOG_TAG, "getTable.getCount(): " + getTable.getCount());
 
         /*Sets up ListView and attaches Cursor Adaptor to it, and tells Adaptor which Cursor it'll interpret*/
         ListView listView = (ListView) findViewById(R.id.activity_collectable_listview);
         collectableCursorAdaptor = new CollectableCursorAdaptor(this, getTable, getSupportFragmentManager());
         listView.setAdapter(collectableCursorAdaptor);
-
-
+        /*Creates or reuses a {@code Loader}*/
         getSupportLoaderManager().initLoader(0, null, this);
     }
 
@@ -112,11 +111,15 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
                 return true;
             }
         };
-        /*Connect SeachView and OnQueryTextListener*/
+        /*Connect SearchView and OnQueryTextListener*/
         searchView.setOnQueryTextListener(queryTextListener);
         return true;
     }
 
+    /**
+     * Called by {@code onQueryTextChange()}
+     * @param intent The new intent started for this activity
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -129,6 +132,7 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
 
     /*Handles query using extras supplied by OnQueryTextListener's Intent*/
     private Cursor handleIntent(Intent intent) {
+
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             /*Get String from search widget via ACTION_SEARCH Intent*/
             String[] selectionArgs = {intent.getStringExtra(SEARCH_QUERY)};
@@ -159,17 +163,19 @@ public class CollectableActivity extends AppCompatActivity implements LoaderMana
         }
     }
 
-    /*Unimplemented loader methods*/
+    /*Asynchronously loads {@code Cursor} data*/
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(this, VideoGamesEntry.CONTENT_URI, null, null, null, null);
     }
 
+    /*Swaps {@code Cursor} when load is finished*/
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         collectableCursorAdaptor.swapCursor(data);
     }
 
+    /*Removes reference to formerly loaded {@code Cursor} to prepare for Cursor to close*/
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         collectableCursorAdaptor.swapCursor(null);

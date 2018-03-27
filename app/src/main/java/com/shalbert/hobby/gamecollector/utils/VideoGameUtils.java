@@ -74,34 +74,34 @@ public final class VideoGameUtils {
 
     }
 
-    /**
-     * Will be used later for informing SQLite database that video game was added or deleted from
-     * user's collection
-     * @param context
-     * @param videoGame
-     * @return How many rows were updates. Should only be one (test for this)
-     */
-    private static int UpdateCopiesOwned(Context context, VideoGame videoGame) {
-
-        /*Updated number of copes owned*/
-        int updatedCopies = videoGame.getValueCopiesOwned() + 1;
-        /*Uri with appropriate rowId appended*/
-        Uri uri = Uri.withAppendedPath(CollectableContract.VideoGamesEntry.CONTENT_URI, videoGame.getValueRowID());
-        /*Key value pair used for updating database*/
-        ContentValues sqliteUpdate = new ContentValues();
-        sqliteUpdate.put(CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED, String.valueOf(updatedCopies));
-
-        String selection = VideoGame.KEY_UNIQUE_ID + "=?";
-        String[] selectionArgs = {videoGame.getValueUniqueID()};
-
-
-        /*Update SQLite database*/
-        int rowsUpdated = context.getContentResolver().update(uri, sqliteUpdate, selection, selectionArgs);
-
+//    /**
+//     * Will be used later for informing SQLite database that video game was added or deleted from
+//     * user's collection
+//     * @param context
+//     * @param videoGame
+//     * @return How many rows were updates. Should only be one (test for this)
+//     */
+//    private static int UpdateCopiesOwned(Context context, VideoGame videoGame) {
+//
+//        /*Updated number of copes owned*/
+//        int updatedCopies = videoGame.getValueCopiesOwned() + 1;
+//        /*Uri with appropriate rowId appended*/
+//        Uri uri = Uri.withAppendedPath(CollectableContract.VideoGamesEntry.CONTENT_URI, videoGame.getValueRowID());
+//        /*Key value pair used for updating database*/
+//        ContentValues sqliteUpdate = new ContentValues();
+//        sqliteUpdate.put(CollectableContract.VideoGamesEntry.COLUMN_COPIES_OWNED, String.valueOf(updatedCopies));
+//
+//        String selection = VideoGame.KEY_UNIQUE_ID + "=?";
+//        String[] selectionArgs = {videoGame.getValueUniqueID()};
+//
+//
+//        /*Update SQLite database*/
+//        int rowsUpdated = context.getContentResolver().update(uri, sqliteUpdate, selection, selectionArgs);
+//
 //        if (rowsUpdated != 1) thrown new Exception;
-
-        return rowsUpdated;
-    }
+//
+//        return rowsUpdated;
+//    }
 
     /*Removes the video game's node from Firebase*/
     public static void DeleteNode(VideoGame videoGame) {
