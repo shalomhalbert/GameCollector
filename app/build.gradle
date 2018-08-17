@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.shalbert.hobby.gamecollector"
         minSdkVersion 16
@@ -51,6 +52,9 @@ dependencies {
     /*LeakCanary: https://github.com/square/leakcanary*/
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //Truth
+    testCompile "com.google.truth:truth:0.42"
 }
 
 
@@ -58,3 +62,6 @@ dependencies {
 
 
 apply plugin: 'com.google.gms.google-services'
+repositories {
+    mavenCentral()
+}
