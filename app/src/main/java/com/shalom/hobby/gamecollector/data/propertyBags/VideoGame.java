@@ -1,6 +1,6 @@
-package com.shalbert.hobby.gamecollector.data.propertyBags;
+package com.shalom.hobby.gamecollector.data.propertyBags;
 
-import com.shalbert.hobby.gamecollector.data.sqlite.CollectableContract;
+import com.shalom.hobby.gamecollector.data.sqlite.CollectableContract;
 
 import java.util.HashMap;
 /**

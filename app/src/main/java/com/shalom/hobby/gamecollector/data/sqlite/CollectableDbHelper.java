@@ -1,10 +1,10 @@
-package com.shalbert.hobby.gamecollector.data.sqlite;
+package com.shalom.hobby.gamecollector.data.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.shalbert.hobby.gamecollector.ParseCSV;
+import com.shalom.hobby.gamecollector.ParseCSV;
 
 import java.util.List;
 

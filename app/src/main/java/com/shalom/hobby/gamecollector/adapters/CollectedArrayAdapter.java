@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector.adapters;
+package com.shalom.hobby.gamecollector.adapters;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -13,8 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shalbert.hobby.gamecollector.R;
-import com.shalbert.hobby.gamecollector.data.propertyBags.VideoGame;
+import com.shalom.hobby.gamecollector.R;
+import com.shalom.hobby.gamecollector.data.propertyBags.VideoGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector;
+package com.shalom.hobby.gamecollector;
 
 import android.content.Context;
 import android.util.Log;

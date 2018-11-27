@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector.activities;
+package com.shalom.hobby.gamecollector.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.shalbert.hobby.gamecollector.R;
-import com.shalbert.hobby.gamecollector.utils.MenuUtils;
+import com.shalom.hobby.gamecollector.R;
+import com.shalom.hobby.gamecollector.utils.MenuUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -129,7 +129,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 /*ApiException status code indicates the detailed failure reason.
                  *Refer to GoogleSignInStatusCodes class for more information*/
-                Log.w(LOG_TAG, "signInResult:failed code=" + e.getStatusCode());
+                Log.e(LOG_TAG, "signInResult:failed code=" + e.getStatusCode());
                 updateUI(null);
             }
         }

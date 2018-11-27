@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector;
+package com.shalom.hobby.gamecollector;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -22,8 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shalbert.hobby.gamecollector.data.propertyBags.VideoGame;
-import com.shalbert.hobby.gamecollector.utils.VideoGameUtils;
+import com.shalom.hobby.gamecollector.data.propertyBags.VideoGame;
+import com.shalom.hobby.gamecollector.utils.VideoGameUtils;
 
 import java.util.HashMap;
 

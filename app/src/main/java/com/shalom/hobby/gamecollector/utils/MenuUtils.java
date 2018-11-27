@@ -1,10 +1,10 @@
-package com.shalbert.hobby.gamecollector.utils;
+package com.shalom.hobby.gamecollector.utils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.shalbert.hobby.gamecollector.activities.AuthenticationActivity;
+import com.shalom.hobby.gamecollector.activities.AuthenticationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**

@@ -5,7 +5,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion '27.0.3'
     defaultConfig {
-        applicationId "com.shalbert.hobby.gamecollector"
+        applicationId "com.shalom.hobby.gamecollector"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 2

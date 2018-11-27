@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector.data.sqlite;
+package com.shalom.hobby.gamecollector.data.sqlite;
 
 import android.content.ContentResolver;
 import android.net.Uri;

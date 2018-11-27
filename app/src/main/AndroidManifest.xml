@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shalbert.hobby.gamecollector">
+    package="com.shalom.hobby.gamecollector">
     <!--TODO(0) Implement Giant Bomb API https://www.giantbomb.com/forums/api-developers-3017/quick-start-guide-to-using-the-api-1427959/-->
     <!--TODO(0) Improve UI for enhanced UX-->
     <!--Theme changed to "NoActionBar" for using Toolbar as ActionBar-->
@@ -18,7 +18,7 @@
             android:value=".AddCollectableSearchResultsActivity" />
 
         <activity
-            android:name="com.shalbert.hobby.gamecollector.activities.AuthenticationActivity"
+            android:name="com.shalom.hobby.gamecollector.activities.AuthenticationActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -31,7 +31,7 @@
 
         <!--SoftInput="adjustPan" ensures keyboard doesn't cover EditText-->
         <activity
-            android:name="com.shalbert.hobby.gamecollector.activities.CollectionActivity"
+            android:name="com.shalom.hobby.gamecollector.activities.CollectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -43,11 +43,11 @@
             system routes the intent to existing instance through a call to its onNewIntent() method,
             rather than creating a new one.-->
         <activity
-            android:name="com.shalbert.hobby.gamecollector.activities.CollectableActivity"
+            android:name="com.shalom.hobby.gamecollector.activities.CollectableActivity"
             android:label="Add to collection"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:parentActivityName="com.shalbert.hobby.gamecollector.activities.CollectionActivity"
+            android:parentActivityName="com.shalom.hobby.gamecollector.activities.CollectionActivity"
             android:windowSoftInputMode="adjustPan">
 
             <!--Decalares {@code Activity} accepts the search action-->
@@ -62,8 +62,8 @@
 
         <!--exported="false" ContentProvider is not available to other applications-->
         <provider
-            android:name="com.shalbert.hobby.gamecollector.data.sqlite.CollectableProvider"
-            android:authorities="com.shalbert.hobby.gamecollector"
+            android:name="com.shalom.hobby.gamecollector.data.sqlite.CollectableProvider"
+            android:authorities="com.shalom.hobby.gamecollector"
             android:exported="false"/>
     </application>
 

@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector.activities;
+package com.shalom.hobby.gamecollector.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -17,10 +17,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ListView;
 
-import com.shalbert.hobby.gamecollector.R;
-import com.shalbert.hobby.gamecollector.data.sqlite.CollectableContract.FtsVideoGamesEntry;
-import com.shalbert.hobby.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
-import com.shalbert.hobby.gamecollector.adapters.CollectableCursorAdaptor;
+import com.shalom.hobby.gamecollector.R;
+import com.shalom.hobby.gamecollector.data.sqlite.CollectableContract.FtsVideoGamesEntry;
+import com.shalom.hobby.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+import com.shalom.hobby.gamecollector.adapters.CollectableCursorAdaptor;
 
 /**
  * Created by shalom on 2017-10-11.

@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector.adapters;
+package com.shalom.hobby.gamecollector.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -17,9 +17,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.shalbert.hobby.gamecollector.ItemDialogFragment;
-import com.shalbert.hobby.gamecollector.R;
-import com.shalbert.hobby.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+import com.shalom.hobby.gamecollector.ItemDialogFragment;
+import com.shalom.hobby.gamecollector.R;
+import com.shalom.hobby.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

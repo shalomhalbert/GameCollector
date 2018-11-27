@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector.activities;
+package com.shalom.hobby.gamecollector.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,13 +19,13 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.shalbert.hobby.gamecollector.ItemDialogFragment;
-import com.shalbert.hobby.gamecollector.R;
-import com.shalbert.hobby.gamecollector.adapters.CollectedArrayAdapter;
-import com.shalbert.hobby.gamecollector.data.propertyBags.VideoGame;
-import com.shalbert.hobby.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
-import com.shalbert.hobby.gamecollector.utils.MenuUtils;
-import com.shalbert.hobby.gamecollector.utils.VideoGameUtils;
+import com.shalom.hobby.gamecollector.ItemDialogFragment;
+import com.shalom.hobby.gamecollector.R;
+import com.shalom.hobby.gamecollector.adapters.CollectedArrayAdapter;
+import com.shalom.hobby.gamecollector.data.propertyBags.VideoGame;
+import com.shalom.hobby.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+import com.shalom.hobby.gamecollector.utils.MenuUtils;
+import com.shalom.hobby.gamecollector.utils.VideoGameUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

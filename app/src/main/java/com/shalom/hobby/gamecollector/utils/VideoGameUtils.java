@@ -1,12 +1,12 @@
-package com.shalbert.hobby.gamecollector.utils;
+package com.shalom.hobby.gamecollector.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.shalbert.hobby.gamecollector.data.propertyBags.VideoGame;
-import com.shalbert.hobby.gamecollector.data.sqlite.CollectableContract;
+import com.shalom.hobby.gamecollector.data.propertyBags.VideoGame;
+import com.shalom.hobby.gamecollector.data.sqlite.CollectableContract;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;

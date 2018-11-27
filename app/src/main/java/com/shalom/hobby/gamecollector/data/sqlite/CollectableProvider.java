@@ -1,4 +1,4 @@
-package com.shalbert.hobby.gamecollector.data.sqlite;
+package com.shalom.hobby.gamecollector.data.sqlite;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -10,8 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.shalbert.hobby.gamecollector.ItemDialogFragment;
-import com.shalbert.hobby.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
+import com.shalom.hobby.gamecollector.ItemDialogFragment;
+import com.shalom.hobby.gamecollector.data.sqlite.CollectableContract.VideoGamesEntry;
 
 import java.util.HashMap;
 

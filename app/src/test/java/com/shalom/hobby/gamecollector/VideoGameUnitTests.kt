@@ -1,7 +1,7 @@
-package com.shalbert.hobby.gamecollector
+package com.shalom.hobby.gamecollector
 
 import com.google.common.truth.Truth.assertThat
-import com.shalbert.hobby.gamecollector.data.propertyBags.VideoGame
+import com.shalom.hobby.gamecollector.data.propertyBags.VideoGame
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized

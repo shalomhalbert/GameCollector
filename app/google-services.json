@@ -10,16 +10,40 @@
       "client_info": {
         "mobilesdk_app_id": "1:39237993588:android:9ef2ebcacc78a8ae",
         "android_client_info": {
-          "package_name": "com.shalbert.hobby.gamecollector"
+          "package_name": "com.example.android.gamecollector"
         }
       },
       "oauth_client": [
         {
-          "client_id": "39237993588-hhqdfa49r53tn2hot0cudpgorv11cr1e.apps.googleusercontent.com",
+          "client_id": "39237993588-i5j1n18pkvj4hq2pn4csj1eusm9dnlf9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.shalbert.hobby.gamecollector",
+            "package_name": "com.example.android.gamecollector",
+            "certificate_hash": "4c46b24648fcce7460590f5e7604efaec058d068"
+          }
+        },
+        {
+          "client_id": "39237993588-oeupca7op9amsh9lpjbs33bapcgqsh6a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.gamecollector",
             "certificate_hash": "9aebdc4128c04029b5abe81e9af0e4c2c6a49b3d"
+          }
+        },
+        {
+          "client_id": "39237993588-988hlr00999f8gapnnc9e977pg336e48.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.gamecollector",
+            "certificate_hash": "73445cc45a372d84f8a432aa10136970e1b1eccb"
+          }
+        },
+        {
+          "client_id": "39237993588-f9krkb5qganrs1423ud4voqn79vage6e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.gamecollector",
+            "certificate_hash": "b2926de57309c33fb3ef9dc9e3ecd29c0c2688ae"
           }
         },
         {
@@ -59,11 +83,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "39237993588-cp298d8gsqt5i1n0d50ri54t3rm4p9n8.apps.googleusercontent.com",
+          "client_id": "39237993588-5l9fnrppohalf3dk38mr5fa45sd7alv3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.shalbert.hobby.gamecollector",
             "certificate_hash": "9aebdc4128c04029b5abe81e9af0e4c2c6a49b3d"
+          }
+        },
+        {
+          "client_id": "39237993588-cp298d8gsqt5i1n0d50ri54t3rm4p9n8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shalbert.hobby.gamecollector",
+            "certificate_hash": "4c46b24648fcce7460590f5e7604efaec058d068"
+          }
+        },
+        {
+          "client_id": "39237993588-siek681b4jmht5dlj0ppovikeh8cl5l0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shalbert.hobby.gamecollector",
+            "certificate_hash": "73445cc45a372d84f8a432aa10136970e1b1eccb"
           }
         },
         {
@@ -88,6 +128,37 @@
               "client_type": 3
             }
           ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39237993588:android:4e0f03a474f7c80f",
+        "android_client_info": {
+          "package_name": "com.shalom.hobby.gamecollector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39237993588-fcveshntmcqo6q185m2f1pm3f2c6b5ap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPt-rgE644oQ_5__Cq2LuVY_es_EiVXgs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
